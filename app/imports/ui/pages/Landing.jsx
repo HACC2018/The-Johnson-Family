@@ -1,7 +1,7 @@
 import React from 'react';
 import Middle from '../components/Middle';
 
-export default class LandingMiddle extends React.Component {
+export default class Landing extends React.Component {
 
   render() {
     return (
