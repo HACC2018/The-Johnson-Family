@@ -3,7 +3,6 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.1.2",
-    "chart.js": "^2.7.3",
     "classnames": "^2.2.5",
     "core-js": "^2.5.7",
     "graphql": "^0.8.2",
@@ -11,13 +10,12 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-addons-pure-render-mixin": "^15.6.2",
-    "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.4.0",
     "semantic-ui-react": "^0.82.5",
-    "simpl-schema": "^1.4.2",
+    "simpl-schema": "^1.5.3",
     "uniforms": "^1.25.0",
     "uniforms-semantic": "^1.25.0"
   },
