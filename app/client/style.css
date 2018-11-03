@@ -1,6 +1,12 @@
 .user.icon {
-  margin: 0px;
+  margin: 0;
 }
 .footer {
   color: white;
+}
+.landing-background {
+  background: url('https://www.rtmassociates.com/wp-content/uploads/2016/04/studio-background.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 2000px;
+  color: palegreen;
 }
