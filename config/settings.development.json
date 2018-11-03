@@ -5,9 +5,7 @@
   ],
 
   "defaultData": [
-    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
-    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
-    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
-    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
+    { "id": "123", "type": "plastic bottle", "owner": "john@foo.com", "weight": 1, "volume": 2 },
+    { "id": "789", "type": "plastic bottle", "owner": "admin@foo.com", "weight": 7, "volume": 6 }
   ]
 }
