@@ -2,5 +2,12 @@ extern
 node_modules
 tmp
 vendor
-.idea/workspace.xml
-.idea/misc.xml
+*.iml
+.idea
+.DS_Store
+node_modules
+settings.production.json
+.meteor/local
+settings.json
+*.tar.gz
+
