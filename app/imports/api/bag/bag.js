@@ -11,6 +11,7 @@ const BagSchema = new SimpleSchema({
   type: {
     type: String,
     allowedValues: ['plastic bottle', 'option2', 'option3', 'option4'],
+    defaultValue: 'plastic bottle',
   },
   weight: Number,
   volume: Number,
