@@ -8,7 +8,7 @@ export default class Middle extends React.Component {
         <div className="landing-background">
           <Grid container textAlign="center" verticalAlign="middle" style={gridStyle} row={7}>
             <Grid.Row>
-              <Image src="/images/LandingLogo.png" size="huge"/>
+              <Image src="/images/LandingLogo.png" size="massive"/>
             </Grid.Row>
             <Grid.Row>
               <Header as="h2">
