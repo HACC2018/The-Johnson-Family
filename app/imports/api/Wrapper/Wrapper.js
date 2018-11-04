@@ -1,10 +1,39 @@
-/* Document all functions. To create a JSDoc, place a cursor on top of the function.
-  Type /** and then press Enter.
-*/
 import * as _ from 'meteor/underscore';
+import { Events }  from '/imports/api/Events/Events';
+/*
+  We need to fetch data for three types of charts: Composition, Comparison, and Transition.
+  We will assume that Composition charts are Bar charts, Comparison chart
+*/
 
-export function getTransitionData(event_ids, location_ids, building_ids, category_ids) {
-  _.each(event_ids)
+export function getTransitionData(study_id, location, building, startDate, endDate) {
+  let events = {};
+
+
+  const eventsByDate = getEventsByDate(startDate, endDate);
+  const eventsByLocation = getEventsByLocation(eventsByDate);
+
+  if (building === true) {
+    events = getEventsByBuilding(eventsByDate);
+  }
+  return data;
 }
 
-console.log(getTransitionData());
+/**
+ * Returns Events within the range of startDate and endDate, inclusive.
+ * If the study is ongoing (i.e. 2017 - current), endDate is handled by just fetching all events from startDate.
+ */
+function getEventsByDate(startDate, endDate) {
+  if (endDate === undefined) {
+    return _.find();
+  }
+  return Events.find();
+}
+
+function getEventsByLocation(events) {
+  return
+}
+
+function getEventsByBuilding(events) {
+
+}
+
