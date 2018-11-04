@@ -19,9 +19,9 @@ function createAdmin(email, password, role) {
 
 /** When running app for first time, pass a settings file to set up our default admin accounts. */
 if (Meteor.users.find().count() === 0) {
-  if (Meteor.settings.defaultAdmins) {
+  if (Meteor.settings.defaultData) {
     console.log('Creating the default admins');
-    Meteor.settings.defaultAdmins.map(({ email, password, role }) => createAdmin(email, password, role));
+    Meteor.settings.defaultData.map(({ email, password, role }) => createAdmin(email, password, role));
   } else {
     console.log('Cannot initialize the database!  Please invoke meteor with a settings file.');
   }
