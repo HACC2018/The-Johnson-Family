@@ -10,3 +10,14 @@
   height: 2000px;
   color: palegreen;
 }
+.continue-background {
+  background:url('https://www.sosj.org.au/wp-content/uploads/2018/08/bloom-blossom-flora-60006.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 2000px;
+}
+
+.third-background {
+  background: url('http://arapahoe.extension.colostate.edu/wp-content/uploads/sites/10/2016/02/Sustainability.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 2000px;
+}
