@@ -8,3 +8,4 @@ import './Events.js';
 import './Forms.js';
 import './Studies.js';
 import './TrashBags.js';
+import './Admin.js';

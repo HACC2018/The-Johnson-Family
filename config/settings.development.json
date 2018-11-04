@@ -3,6 +3,13 @@
     { "id": "123", "type": "plastic bottle", "owner": "john@foo.com", "weight": 1, "volume": 2 },
     { "id": "789", "type": "plastic bottle", "owner": "admin@foo.com", "weight": 7, "volume": 6 }
   ],
+  "defaultAdmins": [
+    {
+      "email": "admin@gather.com",
+      "password": "changeme",
+      "role": "admin"
+    }
+  ],
   "galaxy.meteor.com": {
     "env": {
       "MONGO_URL": "mongodb://superadmin:superadmin1@ds048537.mlab.com:48537/hacc2018"

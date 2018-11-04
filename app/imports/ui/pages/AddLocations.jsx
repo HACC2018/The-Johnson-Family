@@ -44,6 +44,7 @@ class AddLocations extends React.Component {
             <Header as="h2" textAlign="center">Add Locations</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={LocationsSchema} onSubmit={this.submit}>
               <Segment>
+                /* TODO: Change the AutoFields to its appropriate fields for proper validation. */
                 <AutoField name='name'/>
                 <AutoField name='street'/>
                 <AutoField name='city'/>
