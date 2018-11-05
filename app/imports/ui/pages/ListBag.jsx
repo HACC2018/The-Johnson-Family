@@ -1,12 +1,13 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Card } from 'semantic-ui-react';
+import { Container, Header, Loader, Table, Button } from 'semantic-ui-react';
 import { Bags } from '/imports/api/bag/bag';
-import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker, Link } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import Bag from '/imports/ui/components/Bag';
+import BagItem from '/imports/ui/components/BagItem';
 
-/** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
+
+/** Renders a table containing all of the Bag documents. Use <BagItem> to render each row. */
 class ListBags extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -18,16 +19,28 @@ class ListBags extends React.Component {
   renderPage() {
     return (
         <Container>
-          <Header as="h2" textAlign="center" inverted>List Bags</Header>
-          <Card.Group>
-            {this.props.bags.map((bag, index) => <Bag key={index} bag={bag} />)}
-          </Card.Group>
+          <Header as="h2" textAlign="center">List Bags</Header>
+          <Table celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>ID</Table.HeaderCell>
+                <Table.HeaderCell>Type</Table.HeaderCell>
+                <Table.HeaderCell>Weight</Table.HeaderCell>
+                <Table.HeaderCell>Volume</Table.HeaderCell>
+                <Table.HeaderCell>Edit</Table.HeaderCell>
+                <Table.HeaderCell>Delete</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {this.props.bags.map((bag) => <BagItem key={bag._id} bag={bag} />)}
+            </Table.Body>
+          </Table>
         </Container>
     );
   }
 }
 
-/** Require an array of Stuff documents in the props. */
+/** Require an array of Bag documents in the props. */
 ListBags.propTypes = {
   bags: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
@@ -35,7 +48,7 @@ ListBags.propTypes = {
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
-  // Get access to Stuff documents.
+  // Get access to Bag documents.
   const subscription = Meteor.subscribe('Bags');
   return {
     bags: Bags.find({}).fetch(),

@@ -10,7 +10,7 @@ import SubmitField from 'uniforms-semantic/SubmitField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker, Link } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 
 /** Renders the Page for editing a single document. */
@@ -21,6 +21,7 @@ class EditBag extends React.Component {
     const { id, type, weight, volume, _id } = data;
     Bags.update(_id, { $set: { id, type, weight, volume } }, (error) => (error ?
         Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
+        window.location = '/list#/list',
         Bert.alert({ type: 'success', message: 'Update succeeded' })));
   }
 
@@ -34,7 +35,7 @@ class EditBag extends React.Component {
     return (
         <Grid container centered>
           <Grid.Column>
-            <Header as="h2" textAlign="center" inverted>Edit Bag</Header>
+            <Header as="h2" textAlign="center">Edit Bag</Header>
             <AutoForm schema={BagSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
                 <TextField name='id'/>

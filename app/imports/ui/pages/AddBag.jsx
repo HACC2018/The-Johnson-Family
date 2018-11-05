@@ -10,6 +10,7 @@ import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
 
 /** Renders the Page for adding a document. */
 class AddBag extends React.Component {
@@ -37,6 +38,8 @@ class AddBag extends React.Component {
     const { id, type, weight, volume } = data;
     const owner = Meteor.user().username;
     Bags.insert({ id, type, weight, volume, owner }, this.insertCallback);
+    window.location = '/list#/list';
+
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
