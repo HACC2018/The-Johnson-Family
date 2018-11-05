@@ -17,9 +17,17 @@ class StatSegment extends React.Component {
       padding: '0px',
     };
 
+    const iconStyle = {
+      color: '#d5d5d5',
+    };
+
+    const iconStyle2 = {
+      color: '#ace1af',
+    };
+
     return (
         <Segment>
-          <Grid columns={2} stackable textAlign='center'>
+          <Grid columns={3} stackable textAlign='center'>
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
                 <p style={styles}>
@@ -29,9 +37,16 @@ class StatSegment extends React.Component {
                   1,324
                 </Header>
               </Grid.Column>
+
+
+              <Grid.Column>
+                <Icon name='up arrow' size='small' style={iconStyle2}/>
+              </Grid.Column>
+
+
               <Grid.Column>
                 <Header>
-                  <Icon name='users' size='large' color='grey'/>
+                  <Icon name='users' size='large' style={iconStyle}/>
                 </Header>
               </Grid.Column>
             </Grid.Row>
