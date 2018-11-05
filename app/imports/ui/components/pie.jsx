@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Dropdown } from 'semantic-ui-react';
+import { Grid, Dropdown, Button, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 class PieGraph extends React.Component {
@@ -8,6 +8,11 @@ class PieGraph extends React.Component {
 
     const styles = {
       textAlign: 'center',
+      textDecoration: 'underline',
+    };
+
+    const styles2 = {
+      padding: '5px',
     };
 
     const data = {
@@ -19,14 +24,14 @@ class PieGraph extends React.Component {
       datasets: [{
         data: [300, 50, 100],
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
+          '#ace1af',
+          '#3fba5a',
+          '#026245',
         ],
         hoverBackgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
+          '#ace1af',
+          '#3fba5a',
+          '#026245',
         ],
       }],
     };
@@ -42,11 +47,31 @@ class PieGraph extends React.Component {
       },
     ];
 
+    const buildingOptions = [
+      {
+        text: 'Sinclair Library',
+        value: 'Sinclair Library',
+      },
+      {
+        text: 'Hamilton Library',
+        value: 'Hamilton Library',
+      },
+    ];
+
     return (
         <div>
           <h3 style={styles}>Pie Example</h3>
-          <Dropdown placeholder='Select Campus' fluid selection options={campusOptions} />
+          <Grid>
+            <Grid.Row centered>
+              <Button basic color='green'><Dropdown text='Select Campus'
+                                                    options={campusOptions}/></Button>
+              <Icon color='green' name='long arrow alternate right' style={styles2}/>
+              &nbsp;<Button disabled basic color='green'><Dropdown text='Select Building'
+                                                                   options={buildingOptions}/></Button>
+            </Grid.Row>
+          </Grid>
           <Pie data={data}/>
+
         </div>
     );
   }

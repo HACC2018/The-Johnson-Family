@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Dropdown, Header, Image } from 'semantic-ui-react';
+import { Menu, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -28,21 +28,24 @@ class NavBar extends React.Component {
     };
     const noImgPadding = {
       padding: '0px',
-    }
+    };
     return (
         <Menu style={menuStyle} attached="top" borderless inverted>
           {/* LOGO ITEM */}
           <Menu.Item style={noImgPadding} as={NavLink} activeClassName="" exact to="/">
-            <Image src='https://media.discordapp.net/attachments/506038349052641302/507754069998436352/1.png' size='small'/>
+            <Image src='https://media.discordapp.net/attachments/506038349052641302/507754069998436352/1.png'
+                   size='small'/>
           </Menu.Item>
           {/* Additional menu when signed in as admin */}
           {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
-              <Menu.Item as={NavLink} activeClassName="active" exact to="/admin" key='admin'>Input Audit</Menu.Item>
-          ) : ''}
+              <Menu.Item as={NavLink} activeClassName="active" exact to="/admin" key='admin'>Input Audit</Menu.Item>,
+              <Menu.Item as={NavLink} activeClassName="active" exact to="/addlocations" key='add'>Add Locations</Menu.Item>,
+              <Menu.Item as={NavLink} activeClassName="active" exact to="/listlocations" key='list'>List Locations</Menu.Item>
+            ) : ''}
           {/* Top right not signed in */}
           <Menu.Item style={itemStyle} position="right">
             {this.props.currentUser === '' ? (
-                <Dropdown  text="Login" pointing="top right" icon={'user'}>
+                <Dropdown text="Login" pointing="top right" icon={'user'}>
                   <Dropdown.Menu>
                     <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to="/signin"/>
                     <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup"/>
@@ -54,12 +57,12 @@ class NavBar extends React.Component {
                              exact to="/Home" key='Home'>Home
                   </Menu.Item>
                   <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
-                             exact to="/list" key='list'>Add Bag(s)
+                             exact to="/list" key='list'>Submit Data
                   </Menu.Item>
                   <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
                              exact to="/dash" key='dash'>Dashboard
                   </Menu.Item>
-                  <Menu.Item style={ leftItemStyle }>
+                  <Menu.Item style={leftItemStyle}>
                     <Dropdown pointing="top right" icon={'user'}>
                       <Dropdown.Menu>
                         <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to="/signout"/>
