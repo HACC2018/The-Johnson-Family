@@ -20,6 +20,7 @@ class EditBag extends React.Component {
     const { category_id, weight, volume, count, event_id, location_id, building_id, accepted } = data;
     TrashBags.update(_id, { $set: { id, type, weight, volume } }, (error) => (error ?
         Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
+        window.location = '/list#/list',
         Bert.alert({ type: 'success', message: 'Update succeeded' })));
   }
 

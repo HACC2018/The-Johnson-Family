@@ -31,6 +31,9 @@ class TrashBag extends React.Component {
               {this.props.bag.building_id}
             </Card.Description>
           </Card.Content>
+          <Card.Content extra>
+            <Link to={`/edit/${this.props.bag}`}>Edit</Link>
+          </Card.Content>
         </Card>
     );
   }

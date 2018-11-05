@@ -2,7 +2,8 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 import { Studies } from '/imports/api/Studies/Studies'
-
+// import { withTracker } from 'meteor/react-meteor-data';
+// import { Meteor } from "meteor/meteor";
 /** Create a Meteor collection. */
 const TrashBags = new Mongo.Collection('TrashBags');
 
@@ -23,7 +24,7 @@ const TrashBagsSchema = new SimpleSchema({
   },
   location_id: {
     type: String,
-    allowedValues: ['plastic bottle', 'option2', 'option3', 'option4'],
+    allowedValues: ['test'],
     defaultValue: 'plastic bottle',
   },
   building_id: {
@@ -38,6 +39,6 @@ const TrashBagsSchema = new SimpleSchema({
 /** Attach this schema to the collection. */
 TrashBags.attachSchema(TrashBagsSchema);
 
-
 /** Make the collection and schema available to other code. */
 export { TrashBags, TrashBagsSchema };
+

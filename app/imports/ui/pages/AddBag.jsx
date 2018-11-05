@@ -9,7 +9,8 @@ import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Meteor } from 'meteor/meteor';
 import SubmitField from 'uniforms-semantic/SubmitField';
-import { withTracker } from 'meteor/react-meteor-data';
+// import { withTracker } from 'meteor/react-meteor-data';
+import Locations from '/imports/api/Locations/Locations';
 
 /** Renders the Page for adding a document. */
 class AddBag extends React.Component {
@@ -52,7 +53,7 @@ class AddBag extends React.Component {
                 <NumField name="volume"/>
                 <NumField name="count"/>
                 <SelectField name="event_id"/>
-                <SelectField name="location_id"/>
+                <SelectField name="location_id" />
                 <SelectField name="building_id"/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
