@@ -11,10 +11,10 @@ class NavBar extends React.Component {
   render() {
     const menuStyle = {
       marginBottom: '10px',
-      backgroundColor: '#ace1af',
+      backgroundColor: 'black',
       padding: '0px',
       fontSize: '20px',
-      fontFamily: 'Roboto',
+      fontFamily: 'Helvetica',
     };
     const itemStyle = {
       padding: '5px',
@@ -24,7 +24,7 @@ class NavBar extends React.Component {
       padding: '5px',
       marginLeft: '20px',
       marginRight: '20px',
-      backgroundColor: '#9ed8a1',
+      backgroundColor: 'black',
     };
     const noImgPadding = {
       padding: '0px',
@@ -32,10 +32,7 @@ class NavBar extends React.Component {
     return (
         <Menu style={menuStyle} attached="top" borderless inverted>
           {/* LOGO ITEM */}
-          <Menu.Item style={noImgPadding} as={NavLink} activeClassName="" exact to="/">
-            <Image src='https://media.discordapp.net/attachments/506038349052641302/507754069998436352/1.png'
-                   size='small'/>
-          </Menu.Item>
+
           {/* Additional menu when signed in as admin */}
           {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
               <Menu.Item as={NavLink} activeClassName="active" exact to="/admin" key='admin'>Input Audit</Menu.Item>,

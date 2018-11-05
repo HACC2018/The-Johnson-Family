@@ -2,24 +2,18 @@ import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 
 export default class ThirdBackground extends React.Component {
-  render () {
-    const gridStyle = { height: "1000px" };
+  render() {
+    const headerStyle = {
+      fontSize: '40px',
+      color: 'white',
+      paddingTop: '80px',
+    };
     return (
         <div className="third-background">
-          <Grid container textAlign="center" verticalAlign="middle" style={gridStyle} row={3}>
+          <Grid container textAlign="center" verticalAlign="middle">
             <Grid.Row>
-              <Header as="h2">
-                Fighting to reduce greenhouse gas emissions at all of UH campuses.
-              </Header>
-            </Grid.Row>
-            <Grid.Row>
-              <Header as="h2">
-                Information about the waste audit
-              </Header>
-            </Grid.Row>
-            <Grid.Row>
-              <Header as="h2">
-                Pictures from 2017 Waste Audit
+              <Header as="h1" style={headerStyle}>
+                JOIN US.
               </Header>
             </Grid.Row>
           </Grid>
@@ -27,4 +21,3 @@ export default class ThirdBackground extends React.Component {
     );
   }
 }
-
