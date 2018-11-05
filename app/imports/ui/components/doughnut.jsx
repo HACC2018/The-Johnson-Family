@@ -14,14 +14,14 @@ class DoughnutGraph extends React.Component {
       datasets: [{
         data: [300, 50, 100],
         backgroundColor: [
-          '#3fba5a',
-          '#026245',
-          '#ace1af',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
         ],
         hoverBackgroundColor: [
-          '#3fba5a',
-          '#026245',
-          '#ace1af',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
         ],
       }],
     };
