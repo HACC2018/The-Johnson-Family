@@ -5,9 +5,23 @@
   color: white;
 }
 .landing-background {
-  background: url('https://www.rtmassociates.com/wp-content/uploads/2016/04/studio-background.png') no-repeat center center fixed;
+  background: url('https://cdn.discordapp.com/attachments/504503414257090570/508813834039984128/bulb.png') no-repeat center center fixed;
   background-size: cover;
   height: 2000px;
-  color: palegreen;
+}
+.continue-background {
+  background:url('https://www.sosj.org.au/wp-content/uploads/2018/08/bloom-blossom-flora-60006.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 2000px;
+}
+.third-background {
+  background: url('http://arapahoe.extension.colostate.edu/wp-content/uploads/sites/10/2016/02/Sustainability.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 2000px;
+}
+.background-bar {
+  background-size: cover;
+  background: #82C67F no-repeat center center fixed;
+  height: 500px;
 }
 
