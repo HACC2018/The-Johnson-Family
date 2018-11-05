@@ -1,10 +1,10 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, Card } from 'semantic-ui-react';
-import { Bags } from '/imports/api/bag/bag';
-import { withTracker } from 'meteor/react-meteor-data';
+import { TrashBags } from '/imports/api/TrashBags/TrashBags';
+import { withTracker, Link } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import Bag from '/imports/ui/components/Bag';
+import TrashBag from '/imports/ui/components/TrashBag';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ListBags extends React.Component {
@@ -18,9 +18,10 @@ class ListBags extends React.Component {
   renderPage() {
     return (
         <Container>
-          <Header as="h2" textAlign="center" inverted>List Bags</Header>
+          <Header as="h2" textAlign="center">List Bags</Header>
+
           <Card.Group>
-            {this.props.bags.map((bag, index) => <Bag key={index} bag={bag} />)}
+            {this.props.bags.map((bag, index) => <TrashBag key={index} bag={bag} />)}
           </Card.Group>
         </Container>
     );
@@ -36,9 +37,9 @@ ListBags.propTypes = {
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Stuff documents.
-  const subscription = Meteor.subscribe('Bags');
+  const subscription = Meteor.subscribe('TrashBags');
   return {
-    bags: Bags.find({}).fetch(),
+    bags: TrashBags.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(ListBags);

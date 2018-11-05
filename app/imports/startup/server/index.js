@@ -1,5 +1,4 @@
 import './stuff.js';
-import './bag.js';
 import './Locations.js';
 import './Buildings.js';
 import './Categories.js';

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
-import { Bags, BagSchema } from '/imports/api/bag/bag';
+import { TrashBags, TrashBagsSchema } from '/imports/api/TrashBags/TrashBags';
 import { Bert } from 'meteor/themeteorchef:bert';
 import AutoForm from 'uniforms-semantic/AutoForm';
-import TextField from 'uniforms-semantic/TextField';
 import NumField from 'uniforms-semantic/NumField';
 import SelectField from 'uniforms-semantic/SelectField';
 import SubmitField from 'uniforms-semantic/SubmitField';
@@ -18,8 +17,8 @@ class EditBag extends React.Component {
 
   /** On successful submit, insert the data. */
   submit(data) {
-    const { id, type, weight, volume, _id } = data;
-    Bags.update(_id, { $set: { id, type, weight, volume } }, (error) => (error ?
+    const { category_id, weight, volume, count, event_id, location_id, building_id, accepted } = data;
+    TrashBags.update(_id, { $set: { id, type, weight, volume } }, (error) => (error ?
         Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
         Bert.alert({ type: 'success', message: 'Update succeeded' })));
   }
@@ -35,15 +34,19 @@ class EditBag extends React.Component {
         <Grid container centered>
           <Grid.Column>
             <Header as="h2" textAlign="center" inverted>Edit Bag</Header>
-            <AutoForm schema={BagSchema} onSubmit={this.submit} model={this.props.doc}>
+            <AutoForm schema={TrashBagsSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
-                <TextField name='id'/>
-                <SelectField name='type'/>
-                <NumField name='weight' decimal={false}/>
-                <NumField name='volume' decimal={false}/>
+                <SelectField name="category_id"/>
+                <NumField name="weight"/>
+                <NumField name="volume"/>
+                <NumField name="count"/>
+                <SelectField name="event_id"/>
+                <SelectField name="location_id"/>
+                <SelectField name="building_id"/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
-                <HiddenField name='owner' />
+                <HiddenField name="owner" value="fake@foo.com"/>
+                <HiddenField name="accepted" value="false"/>
               </Segment>
             </AutoForm>
           </Grid.Column>
@@ -64,9 +67,9 @@ export default withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
   // Get access to Bag documents.
-  const subscription = Meteor.subscribe('Bags');
+  const subscription = Meteor.subscribe('TrashBags');
   return {
-    doc: Bags.findOne(documentId),
+    doc: TrashBags.findOne(documentId),
     ready: subscription.ready(),
   };
 })(EditBag);

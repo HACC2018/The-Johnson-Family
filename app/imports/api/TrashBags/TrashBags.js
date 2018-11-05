@@ -8,16 +8,31 @@ const TrashBags = new Mongo.Collection('TrashBags');
 
 /** Create a schema to constrain the structure of documents associated with this collection. */
 const TrashBagsSchema = new SimpleSchema({
-  event: String,
-  study_id: String,
-  event_id: String,
-  building_id: String,
-  category_id: String,
-  form_id: String,
-  accepted: Boolean,
+  category_id: {
+    type: String,
+    allowedValues: ['plastic bottle', 'option2', 'option3', 'option4'],
+    defaultValue: 'plastic bottle',
+  },
   weight: Number,
   volume: Number,
   count: SimpleSchema.Integer,
+  event_id: {
+    type: String,
+    allowedValues: ['plastic bottle', 'option2', 'option3', 'option4'],
+    defaultValue: 'plastic bottle',
+  },
+  location_id: {
+    type: String,
+    allowedValues: ['plastic bottle', 'option2', 'option3', 'option4'],
+    defaultValue: 'plastic bottle',
+  },
+  building_id: {
+    type: String,
+    allowedValues: ['plastic bottle', 'option2', 'option3', 'option4'],
+    defaultValue: 'plastic bottle',
+  },
+  accepted: Boolean,
+  owner: String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Bags, BagSchema } from '/imports/api/bag/bag';
+import { TrashBags, TrashBagsSchema } from '/imports/api/TrashBags/TrashBags';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import AutoForm from 'uniforms-semantic/AutoForm';
-import TextField from 'uniforms-semantic/TextField';
-import NumField from 'uniforms-semantic/NumField';
+import NumField from 'uniforms-semantic/TextField';
 import SelectField from 'uniforms-semantic/SelectField';
-import SubmitField from 'uniforms-semantic/SubmitField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Meteor } from 'meteor/meteor';
+import SubmitField from 'uniforms-semantic/SubmitField';
+import { withTracker } from 'meteor/react-meteor-data';
 
 /** Renders the Page for adding a document. */
 class AddBag extends React.Component {
@@ -34,9 +34,9 @@ class AddBag extends React.Component {
 
   /** On submit, insert the data. */
   submit(data) {
-    const { id, type, weight, volume } = data;
+    const { category_id, weight, volume, count, event_id, location_id, building_id, accepted } = data;
     const owner = Meteor.user().username;
-    Bags.insert({ id, type, weight, volume, owner }, this.insertCallback);
+    TrashBags.insert({ category_id, weight, volume, count, event_id, location_id, building_id, accepted, owner }, this.insertCallback);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -45,15 +45,19 @@ class AddBag extends React.Component {
         <Grid container centered>
           <Grid.Column>
             <Header as="h2" textAlign="center">Add Bag</Header>
-            <AutoForm ref={(ref) => { this.formRef = ref; }} schema={BagSchema} onSubmit={this.submit}>
+            <AutoForm ref={(ref) => { this.formRef = ref; }} schema={TrashBagsSchema} onSubmit={this.submit}>
               <Segment>
-                <TextField name='id'/>
-                <SelectField name='type'/>
-                <NumField name='weight' decimal={false}/>
-                <NumField name='volume' decimal={false}/>
+                <SelectField name="category_id"/>
+                <NumField name="weight"/>
+                <NumField name="volume"/>
+                <NumField name="count"/>
+                <SelectField name="event_id"/>
+                <SelectField name="location_id"/>
+                <SelectField name="building_id"/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
-                <HiddenField name='owner' value='fakeuser@foo.com'/>
+                <HiddenField name="owner" value="fake@foo.com"/>
+                <HiddenField name="accepted" value={false}/>
               </Segment>
             </AutoForm>
           </Grid.Column>
@@ -63,3 +67,4 @@ class AddBag extends React.Component {
 }
 
 export default AddBag;
+
