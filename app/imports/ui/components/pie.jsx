@@ -2,10 +2,10 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Grid, Dropdown, Button, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import { GPalette } from './GPalette.js';
 
 class PieGraph extends React.Component {
   render() {
-
     const styles = {
       textAlign: 'center',
       textDecoration: 'underline',
@@ -16,25 +16,35 @@ class PieGraph extends React.Component {
     };
 
     const data = {
-      labels: [
-        'Red',
-        'Green',
-        'Yellow',
-      ],
-      datasets: [{
-        data: [300, 50, 100],
-        backgroundColor: [
-          '#ace1af',
-          '#3fba5a',
-          '#026245',
-        ],
-        hoverBackgroundColor: [
-          '#ace1af',
-          '#3fba5a',
-          '#026245',
-        ],
-      }],
-    };
+          labels: [
+            'Red',
+            'Orange',
+            'Yellow',
+            'Green',
+            'Blue',
+            'Violet',
+          ],
+          datasets: [{
+            data: [300, 50, 100],
+            backgroundColor: [
+              '#d50000',
+              '#F57C00',
+              '#FBC02D',
+              '#388e3c',
+              '#1976d2',
+              '#7b1fa2',
+            ],
+            hoverBackgroundColor: [
+              '#d50000',
+              '#F57C00',
+              '#FBC02D',
+              '#388e3c',
+              '#1976d2',
+              '#7b1fa2',
+            ],
+          }],
+        }
+    ;
 
     const campusOptions = [
       {

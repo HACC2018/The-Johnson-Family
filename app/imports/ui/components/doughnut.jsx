@@ -8,20 +8,29 @@ class DoughnutGraph extends React.Component {
     const data = {
       labels: [
         'Red',
-        'Green',
+        'Orange',
         'Yellow',
+        'Green',
+        'Blue',
+        'Violet',
       ],
       datasets: [{
         data: [300, 50, 100],
         backgroundColor: [
-          '#3fba5a',
-          '#026245',
-          '#ace1af',
+          '#d50000',
+          '#F57C00',
+          '#FBC02D',
+          '#388e3c',
+          '#1976d2',
+          '#7b1fa2',
         ],
         hoverBackgroundColor: [
-          '#3fba5a',
-          '#026245',
-          '#ace1af',
+          '#d50000',
+          '#F57C00',
+          '#FBC02D',
+          '#388e3c',
+          '#1976d2',
+          '#7b1fa2',
         ],
       }],
     };
