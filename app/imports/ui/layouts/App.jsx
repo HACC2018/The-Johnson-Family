@@ -16,8 +16,9 @@ import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
-import AddLocations from '../pages/AddLocations';
-import ListLocations from '../pages/ListLocations';
+import Dashboard from '../pages/Dashboard';
+// import AddLocations from '../pages/AddLocations';
+// import ListLocations from '../pages/ListLocations';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -35,8 +36,8 @@ class App extends React.Component {
               <ProtectedRoute path="/dash" component={Dashboard}/>
               <ProtectedRoute path="/edit/:_id" component={EditBag}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-              <AdminProtectedRoute path="/listlocations" component={ListLocations}/>
-              <AdminProtectedRoute path="/addlocations" component={AddLocations}/>
+              {/*<AdminProtectedRoute path="/listlocations" component={ListLocations}/>*/}
+              {/*<AdminProtectedRoute path="/addlocations" component={AddLocations}/>*/}
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
