@@ -8,7 +8,7 @@ export default class BackgroundBar extends React.Component {
         <div className="background-bar">
           <Grid container textAlign="center" verticalAlign="middle" style={gridStyle} row={3}>
             <Grid.Row>
-              <Header as="h2" inverted>
+              <Header as="h2">
                 Pictures from 2017 Waste Audit
               </Header>
             </Grid.Row>
