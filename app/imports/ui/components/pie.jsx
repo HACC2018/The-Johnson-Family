@@ -60,7 +60,7 @@ class PieGraph extends React.Component {
 
     return (
         <div>
-          <h3 style={styles}>Pie Example</h3>
+          <h3 style={styles}>Campus Data</h3>
           <Grid>
             <Grid.Row centered>
               <Button basic color='green'><Dropdown text='Select Campus'

@@ -1,33 +1,32 @@
 import React from 'react';
-import { Image, Grid, Header } from 'semantic-ui-react';
+import { Image, Grid } from 'semantic-ui-react';
 
 export default class Middle extends React.Component {
-  render () {
-    const gridStyle = { height: "1000px" };
+  render() {
+
+    const imgStyle = {
+      width: '100%',
+      height: '100%',
+    };
+
     return (
-        <div className="landing-background">
-          <Grid container textAlign="center" verticalAlign="middle" style={gridStyle} row={6}>
+        <div className='landing-background'>
+          <Grid container textAlign="center" verticalAlign="middle">
             <Grid.Row>
-              <Image src="https://cdn.discordapp.com/attachments/504618847668535306/508782922325819404/gatherLogo.png" size="massive"/>
             </Grid.Row>
             <Grid.Row>
-              <Header as="h2">
-                Fighting to reduce greenhouse gas emissions at all of UH campuses.
-              </Header>
-              </Grid.Row>
-            <Grid.Row>
-              <Header as="h2">
-                Information about the waste audit
-              </Header>
             </Grid.Row>
             <Grid.Row>
-              <Header as="h2">
-                Pictures from 2017 Waste Audit
-              </Header>
+            </Grid.Row>
+            <Grid.Row>
+            </Grid.Row>
+            <Grid.Row>
+              <Image
+                  src="https://cdn.discordapp.com/attachments/508521520109453314/508834015080349706/gatherwhite.png"
+                  style={imgStyle}/>
             </Grid.Row>
           </Grid>
         </div>
     );
   }
 }
-

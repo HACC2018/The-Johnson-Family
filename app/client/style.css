@@ -4,24 +4,28 @@
 .footer {
   color: white;
 }
+
 .landing-background {
-  background: url('https://cdn.discordapp.com/attachments/504503414257090570/508813834039984128/bulb.png') no-repeat center center fixed;
+  background:url('https://cdn.discordapp.com/attachments/508521520109453314/508842811018182657/bottlebg.jpg') no-repeat center center fixed;
   background-size: cover;
-  height: 2000px;
+  height: 1000px;
 }
+
 .continue-background {
-  background:url('https://www.sosj.org.au/wp-content/uploads/2018/08/bloom-blossom-flora-60006.jpg') no-repeat center center fixed;
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508851118722252810/trashbin.jpg') no-repeat center center fixed;
   background-size: cover;
-  height: 2000px;
+  height: 1000px;
 }
+
 .third-background {
-  background: url('http://arapahoe.extension.colostate.edu/wp-content/uploads/sites/10/2016/02/Sustainability.jpg') no-repeat center center fixed;
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508885973283897354/minitree.jpg') no-repeat center center fixed;
   background-size: cover;
-  height: 2000px;
+  height: 1000px;
 }
+
 .background-bar {
   background-size: cover;
-  background: #82C67F no-repeat center center fixed;
-  height: 500px;
+  background: #000000 no-repeat center center fixed;
+  height: 1000px;
 }
 
