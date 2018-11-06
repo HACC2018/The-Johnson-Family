@@ -1,8 +1,7 @@
 import * as _ from 'meteor/underscore';
 import { Events } from '/imports/api/Events/Events';
 import { Locations } from '/imports/api/Locations/Locations';
-import { Locations } from '/imports/api/Locations/Locations';
-import { Locations } from '/imports/api/Locations/Locations';
+import { Buildings } from '/imports/api/Buildings/Buildings';
 
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
@@ -34,9 +33,40 @@ export function getLocationNames(index = -1) {
   return result[index];
 }
 
-export function addNewLocation(name, street, city, state, zip_code) {
-  if ()
-      }
+/**
+ * Returns the Building names.
+ * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getBuildingNames() without any parameters supplied.
+ * @returns {*} either ALL Building names or the Building name at index position.
+ */
+export function getBuildingNames(index = -1) {
+  let result = [];
+  const cursor = getCollection(Buildings);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.name));
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+/**
+ * Returns the Events names.
+ * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getEventsNames() without any parameters supplied.
+ * @returns {*} either ALL Event names or the Event name at index position.
+ */
+export function getEventNames(index = -1) {
+  let result = [];
+  const cursor = getCollection(Events);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.name));
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+ //export function addNewLocation(name, street, city, state, zip_code) {
+
 
 /**
  *

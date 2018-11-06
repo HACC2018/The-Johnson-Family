@@ -2,6 +2,9 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button, Container, Loader } from 'semantic-ui-react';
 import { Locations } from '/imports/api/Locations/Locations';
+import { Buildings } from '/imports/api/Buildings/Buildings';
+import { Events } from '/imports/api/Events/Events';
+
 // import Location from '/imports/ui/components/Location';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -35,25 +38,25 @@ class samtestpage extends React.Component {
   }
   /* When the delete button is clicked, remove the corresponding item from the collection. */
   onClick() {
-    Locations.insert({ name: "TestName", street: "TestStreet", city: "TestCity", state: "TestState", zip_code: "96797" }, this.insertCallback);
+    Events.insert({ name: "TestEvent", date: "1" }, this.insertCallback);
   }
 
   onClick2() {
-    Locations.insert({ name: "TestName2", street: "TestStreet2", city: "TestCity2", state: "TestState2", zip_code: "96797" }, this.insertCallback);
+    Events.insert({ name: "TestEvent2", date: "2" }, this.insertCallback);
   }
 
   deleteClick() {
-    const id = this.props.location[0]._id;
-    Locations.remove(id, this.deleteCallback);
+    const id = this.props.event[0]._id;
+    Events.remove(id, this.deleteCallback);
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    const getLocations = getLocationNames(1);
-    console.log({getLocations});
+    const getEvents = db.getEventNames();
+    console.log({getEvents});
     // console.log(aLoc[name]);
     // TODO - implement: console.log(db.getLocationsCollection()[0]);
-    console.log('hi me gian');
+    console.log('events working');
     // console.log(this.props.location[0]);
     // console.log(this.props.location[1]);
     // console.log(this.props.location);
@@ -62,15 +65,15 @@ class samtestpage extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    const getLocations = getLocationNames();
+    const getEvents = db.getEventNames();
     return (
         <Container>
           {/*{this.props.location.map((location) => <Location key={location._id} location={location} />)}*/}
           {/*{this.props.location.name}*/}
           {/*<div>{getLocations}</div>*/}
-          <Button basic onClick={this.onClick}>Add TestLocation</Button>
-          <Button basic onClick={this.onClick2}>Add TestLocation</Button>
-          <Button basic onClick={this.deleteClick}>Delete TestLocation</Button>
+          <Button basic onClick={this.onClick}>Add TestEvent</Button>
+          <Button basic onClick={this.onClick2}>Add TestEvent</Button>
+          <Button basic onClick={this.deleteClick}>Delete TestEvent</Button>
         </Container>
     );
   }
@@ -78,16 +81,16 @@ class samtestpage extends React.Component {
 
 /** Require an array of Stuff documents in the props. */
 samtestpage.propTypes = {
-  location: PropTypes.array.isRequired,
+  event: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Stuff documents.
-  const subscription = Meteor.subscribe('Locations');
+  const subscription = Meteor.subscribe('Events');
   return {
-    location: Locations.find({}).fetch(),
+    event: Events.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(samtestpage);
