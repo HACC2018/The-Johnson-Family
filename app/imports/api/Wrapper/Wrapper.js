@@ -18,7 +18,7 @@ import { Events } from '/imports/api/Events/Events';
  */
 export function getTransitionDataByWeight(study_id, location, buildings, startDate, endDate, weight, trashType) {
   const eventsByDate = getEventsByDate(startDate, endDate);
-  const eventsByLocation = getEventsByLocation(eventsByDate);
+  const eventsByLocation = getEventsByLocation(location);
   const eventsByBuilding = getEventsByBuilding(eventsByLocation, buildings);
   const data = getData();
   return data;
@@ -35,16 +35,16 @@ function getEventsByDate(startDate, endDate) {
   return Events.find();
 }
 
-function getEventsByLocation(events) {
-  console.log("getEventsByLocations Not yet implemented")
+function getEventsByLocation(location) {
+  return _.filter(Events.find(), function(event) {return event.contains(location)})
 }
 
 /**
  *  Returns Events by building.
  *  If buildings is undefined, it means that we will sum the value of ALL buildings
  */
-function getEventsByBuilding(events, buildings) {
-  return _.filter(events, (event) => event);
+function getEventsByBuilding(buildings) {
+  return _.filter(Events.find(), function(event) {return event.contains(buildings)});
 }
 
 function getData(events, trashType, weight) {
