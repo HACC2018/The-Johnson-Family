@@ -18,6 +18,7 @@ function getCollection(collection) {
   return collection.find({});
 }
 
+
 /**
  * Returns the Location names.
  * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getLocationNames() without any parameters supplied.
@@ -33,6 +34,7 @@ export function getLocationNames(index = -1) {
   }
   return result[index];
 }
+
 
 /**
  *
