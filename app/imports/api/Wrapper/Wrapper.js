@@ -1,7 +1,7 @@
 import * as _ from 'meteor/underscore';
 import { Events } from '/imports/api/Events/Events';
 import { Locations } from '/imports/api/Locations/Locations';
-import { Buidings } from '/imports/api/Buildings/Buildings';
+import { Buildings } from '/imports/api/Buildings/Buildings';
 import { Events } from '/imports/api/Events/Events';
 
 /*
