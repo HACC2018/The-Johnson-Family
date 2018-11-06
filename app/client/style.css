@@ -1,9 +1,6 @@
 .user.icon {
   margin: 0;
 }
-.footer {
-  color: white;
-}
 
 .landing-background {
   background:url('https://cdn.discordapp.com/attachments/508521520109453314/508842811018182657/bottlebg.jpg') no-repeat center center fixed;
@@ -29,3 +26,10 @@
   height: 1000px;
 }
 
+.footer-background {
+  background-color: #000000;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 300px;
+}
