@@ -6,7 +6,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import giantestpage from '../pages/giantestpage';
+import Landing from '../pages/Landing';
 import ListBag from '../pages/ListBag';
 import AddBag from '../pages/AddBag';
 import EditBag from '../pages/EditBag';
@@ -28,7 +28,7 @@ class App extends React.Component {
           <div>
             <NavBar/>
             <Switch>
-              <Route exact path="/" component={giantestpage}/>
+              <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/list" component={ListBag}/>
