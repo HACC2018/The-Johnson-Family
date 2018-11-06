@@ -6,6 +6,7 @@ import { Locations } from '/imports/api/Locations/Locations';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper.js';
+import { Buildings } from '../../api/Buildings/Buildings';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
@@ -35,11 +36,11 @@ class giantestpage extends React.Component {
   }
   /* When the delete button is clicked, remove the corresponding item from the collection. */
   onClick() {
-    Locations.insert({ name: "TestName", street: "TestStreet", city: "TestCity", state: "TestState", zip_code: "96797" }, this.insertCallback);
+    Buildings.insert({ name: "TestName", location_id: "123123" }, this.insertCallback);
   }
 
   onClick2() {
-    Locations.insert({ name: "TestName2", street: "TestStreet2", city: "TestCity2", state: "TestState2", zip_code: "96797" }, this.insertCallback);
+    Buildings.insert({ name: "TestName2", location_id: "222222" }, this.insertCallback);
   }
 
   deleteClick() {
@@ -63,15 +64,15 @@ class giantestpage extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    const getLocations = getLocationNames();
+    const getBuildings = db.getBuildingNames();
     return (
         <Container>
               {/*{this.props.location.map((location) => <Location key={location._id} location={location} />)}*/}
           {/*{this.props.location.name}*/}
           {/*<div>{getLocations}</div>*/}
-          <Button basic onClick={this.onClick}>Add TestLocation</Button>
-          <Button basic onClick={this.onClick2}>Add TestLocation</Button>
-          <Button basic onClick={this.deleteClick}>Delete TestLocation</Button>
+          <Button basic onClick={this.onClick}>Add TestBuilding</Button>
+          <Button basic onClick={this.onClick2}>Add TestBuilding</Button>
+          <Button basic onClick={this.deleteClick}>Delete TestBuilding</Button>
         </Container>
     );
   }
