@@ -17,7 +17,7 @@ import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import Dashboard from '../pages/Dashboard';
-import giantestpage from '../pages/giantestpage';
+import giantestpage from '../pages/samtestpage';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';

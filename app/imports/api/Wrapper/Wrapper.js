@@ -1,10 +1,42 @@
 import * as _ from 'meteor/underscore';
 import { Events } from '/imports/api/Events/Events';
+import { Locations } from '/imports/api/Locations/Locations';
+import { Locations } from '/imports/api/Locations/Locations';
+import { Locations } from '/imports/api/Locations/Locations';
 
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
   We will assume that Composition charts are Bar charts, Comparison chart
 */
+
+/**
+ * Returns a Cursor pointer to the specified collection.
+ * @param collection the collection to retrieve a Cursor pointer from.
+ * @returns {*} a Cursor pointer to the specified collection.
+ */
+function getCollection(collection) {
+  return collection.find({});
+}
+
+/**
+ * Returns the Location names.
+ * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getLocationNames() without any parameters supplied.
+ * @returns {*} either ALL Location names or the Location name at index position.
+ */
+export function getLocationNames(index = -1) {
+  let result = [];
+  const cursor = getCollection(Locations);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.name));
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+export function addNewLocation(name, street, city, state, zip_code) {
+  if ()
+      }
 
 /**
  *
