@@ -13,6 +13,7 @@ const TrashBagsSchema = new SimpleSchema({
   event_id: String,
   building_id: String,
   category_id: String,
+  location_id: String,
   form_id: String,
   accepted: Boolean,
   weight: Number,

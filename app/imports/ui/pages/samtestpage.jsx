@@ -4,18 +4,18 @@ import { Button, Container, Loader } from 'semantic-ui-react';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
 import { Events } from '/imports/api/Events/Events';
-
-// import Location from '/imports/ui/components/Location';
+import { Wrapper } from '/imports/api/Wrapper/Wrapper';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import * as db from '../../api/Wrapper/Wrapper.js';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class samtestpage extends React.Component {
 
-  constructor(props) {
+  constructor(props, Wrapper = new Wrapper()) {
     super(props);
+    this.Wrapper = Wrapper;
+    const samtestpage = new samtestpage();
     this.onClick = this.onClick.bind(this);
     this.onClick2 = this.onClick2.bind(this);
     this.deleteClick = this.deleteClick.bind(this);
@@ -52,7 +52,8 @@ class samtestpage extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    const getEvents = db.getEventNames();
+    const getEvents = samtestpage.getEventNames();
+
     console.log({getEvents});
     // console.log(aLoc[name]);
     // TODO - implement: console.log(db.getLocationsCollection()[0]);
@@ -65,7 +66,7 @@ class samtestpage extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    const getEvents = db.getEventNames();
+    const getEvents = samtestpage.getEventNames();
     return (
         <Container>
           {/*{this.props.location.map((location) => <Location key={location._id} location={location} />)}*/}
