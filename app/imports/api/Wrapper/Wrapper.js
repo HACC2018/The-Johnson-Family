@@ -2,6 +2,7 @@ import * as _ from 'meteor/underscore';
 import { Events } from '/imports/api/Events/Events';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
+import { Events } from '/imports/api/Events/Events';
 
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
@@ -32,7 +33,7 @@ export function getLocationNames(index = -1) {
   }
   return result[index];
 }
-git 
+
 /**
  *
  * @param study_id

@@ -50,6 +50,7 @@ class giantestpage extends React.Component {
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
     const getLocations = getLocationNames(1);
+    //console.log is used here to show if anything is being outputted
     console.log({getLocations});
     // console.log(aLoc[name]);
     // TODO - implement: console.log(db.getLocationsCollection()[0]);
