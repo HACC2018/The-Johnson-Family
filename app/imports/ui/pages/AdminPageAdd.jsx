@@ -9,9 +9,10 @@ import DateField from 'uniforms-semantic/DateField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Locations, LocationsSchema } from '../../api/Locations/Locations';
 import { Buildings, BuildingsSchema } from '../../api/Buildings/Buildings';
-import { AutoField, HiddenField } from 'uniforms-semantic';
+import { AutoField } from 'uniforms-semantic';
 import { Events, EventsSchema } from '../../api/Events/Events';
 import SelectField from 'uniforms-semantic/SelectField';
+import { Categories, CategoriesSchema } from '../../api/Categories/Categories';
 
 
 /** A simple static component to render some text for the landing page. */
@@ -53,9 +54,13 @@ class AdminPageAdd extends React.Component {
     Events.insert({ name, date }, this.insertCallback);
   }
 
+  submitCategory(data) {
+    const { name, date } = data;
+    Categories.insert({ name, date }, this.insertCallback);
+  }
+
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
-    const options = ["Hawaii", "Arkansas"];
     return (
         <Grid container centered>
           <Grid.Column>
@@ -75,7 +80,6 @@ class AdminPageAdd extends React.Component {
             <Header as="h2" textAlign="center">Add Buildings</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={BuildingsSchema} onSubmit={this.submitBuilding}>
               <Segment>
-                /* TODO: Change the AutoFields to its appropriate fields for proper validation. */
                 <TextField name='name'/>
                 <AutoField name='location_id'/>
                 <SubmitField value='Submit'/>
@@ -83,7 +87,7 @@ class AdminPageAdd extends React.Component {
               </Segment>
             </AutoForm>
 
-            <Header as="h2" textAlign="center">Events</Header>
+            <Header as="h2" textAlign="center">Add Events</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={EventsSchema} onSubmit={this.submitEvent}>
               <Segment>
                 <TextField name='name'/>
@@ -92,6 +96,31 @@ class AdminPageAdd extends React.Component {
                 <ErrorsField/>
               </Segment>
             </AutoForm>
+
+            <Header as="h2" textAlign="center">Add Category</Header>
+            <AutoForm ref={(ref) => { this.formRef = ref; }} schema={CategoriesSchema} onSubmit={this.submitCategory}>
+              <Segment>
+                <TextField name="name"/>
+                <SubmitField value='Submit'/>
+                <ErrorsField/>
+              </Segment>
+            </AutoForm>
+
+            {/*<Header as="h2" textAlign="center">Add Subcategory</Header>*/}
+            {/*<AutoForm ref={(ref) => { this.formRef = ref; }} schema={CategoriesSchema} onSubmit={this.submitCategory}>*/}
+            {/*<Segment>*/}
+            {/*<SelectField name="name"/>*/}
+            {/*/!*<Dropdown item text = "parent_id(subcategory)">*!/*/}
+            {/*/!*<Dropdown.menu>*!/*/}
+            {/*/!*<Dropdown.Item>Cups</Dropdown.Item>*!/*/}
+            {/*/!*<Dropdown.Item>Shirts</Dropdown.Item>*!/*/}
+            {/*/!*</Dropdown.menu>*!/*/}
+            {/*<TextField name="subcategory"/>*/}
+            {/*<SubmitField value='Submit'/>*/}
+            {/*<ErrorsField/>*/}
+            {/*</Segment>*/}
+            {/*</AutoForm>*/}
+
           </Grid.Column>
         </Grid>
     );

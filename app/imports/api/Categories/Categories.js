@@ -8,6 +8,10 @@ const Categories = new Mongo.Collection('Categories');
 /** Create a schema to constrain the structure of documents associated with this collection. */
 const CategoriesSchema = new SimpleSchema({
   name: String,
+  subcategory: {
+    type: String,
+    optional: true,
+  },
   parent_id: String,
   level: SimpleSchema.Integer,
 }, { tracker: Tracker });

@@ -40,7 +40,6 @@ class NavBar extends React.Component {
           {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
               <Menu.Item as={NavLink} activeClassName="active" exact to="/admin" key='admin'>Input Audit</Menu.Item>,
               <Menu.Item as={NavLink} activeClassName="active" exact to="/adminpageadd" key='admin'>Admin Add</Menu.Item>
-
             ) : ''}
           {/* Top right not signed in */}
           <Menu.Item style={itemStyle} position="right">
@@ -57,7 +56,7 @@ class NavBar extends React.Component {
                              exact to="/Home" key='Home'>Home
                   </Menu.Item>
                   <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
-                             exact to="/list" key='list'>Submit Data
+                             exact to="/add" key='add'>Submit Data
                   </Menu.Item>
                   <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
                              exact to="/dash" key='dash'>Dashboard
