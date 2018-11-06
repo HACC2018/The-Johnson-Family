@@ -30,7 +30,7 @@ export default class Background extends React.Component {
                   efficiently.</b></p>
               </Grid.Column>
               <Grid.Column fluid>
-                <Image src='https://cdn.discordapp.com/attachments/508521520109453314/508909069512474624/iphone.png'/>
+                <Image src="/images/iphone.png"/>
 
               </Grid.Column>
             </Grid.Row>
