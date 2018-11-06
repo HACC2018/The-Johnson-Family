@@ -2,6 +2,7 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Grid, Dropdown, Button, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import * as Palette from './PaletteConstants';
 
 class PieGraph extends React.Component {
   render() {
@@ -24,9 +25,9 @@ class PieGraph extends React.Component {
       datasets: [{
         data: [300, 50, 100],
         backgroundColor: [
-          '#ace1af',
-          '#3fba5a',
-          '#026245',
+          Palette.graph.main1,
+          Palette.graph.main2,
+          Palette.graph.main3,
         ],
         hoverBackgroundColor: [
           '#ace1af',
