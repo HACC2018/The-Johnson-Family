@@ -1,12 +1,11 @@
 import React from 'react';
-import Test from '../components/Test';
 
-export default class GianTest extends React.Component {
+export default class giantestpage extends React.Component {
 
   render() {
+    console.log('Helllo from Pauline');
     return (
         <div>
-          <Test/>
         </div>
     );
   }
