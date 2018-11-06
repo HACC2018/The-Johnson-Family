@@ -17,7 +17,7 @@ import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import Dashboard from '../pages/Dashboard';
-import giantestpage from '../pages/giantestpage';
+import samtestpage from '../pages/samtestpage';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';
@@ -33,7 +33,7 @@ class App extends React.Component {
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
-              <Route path="/giantestpage" component={giantestpage}/>
+              <Route path="/samtestpage" component={samtestpage}/>
               <ProtectedRoute path="/list" component={ListBag}/>
               <ProtectedRoute path="/add" component={AddBag}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>
