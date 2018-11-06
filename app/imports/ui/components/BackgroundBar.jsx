@@ -33,7 +33,7 @@ export default class BackgroundBar extends React.Component {
               </Header>
             </Grid.Row>
             <Image
-                src='https://cdn.discordapp.com/attachments/504615584571326464/508888460602638347/avatar.png'
+                src="/images/avatar.png"
                 style={imgStyle}/>
             <Grid.Row>
               <p style={pStyle}>Gather is an app that helps bring together waste, people, and data. These are important

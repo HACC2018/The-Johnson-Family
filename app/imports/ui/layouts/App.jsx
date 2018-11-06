@@ -37,7 +37,7 @@ class App extends React.Component {
               <ProtectedRoute path="/list" component={ListBag}/>
               <ProtectedRoute path="/add" component={AddBag}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>
-
+              <ProtectedRoute path="/Home" component={Landing}/>
               <ProtectedRoute path="/edit/:_id" component={EditBag}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               {/* <AdminProtectedRoute path="/listlocations" component={ListLocations}/> */}

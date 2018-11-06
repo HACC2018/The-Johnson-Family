@@ -2,8 +2,12 @@
   margin: 0;
 }
 
+.footer {
+  color: white;
+}
+
 .landing-background {
-  background:url('https://cdn.discordapp.com/attachments/508521520109453314/508842811018182657/bottlebg.jpg') no-repeat center center fixed;
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508885973283897354/minitree.jpg') no-repeat center center fixed;
   background-size: cover;
   height: 1000px;
 }
@@ -15,7 +19,7 @@
 }
 
 .third-background {
-  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508885973283897354/minitree.jpg') no-repeat center center fixed;
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508842811018182657/bottlebg.jpg') no-repeat center center fixed;
   background-size: cover;
   height: 1000px;
 }

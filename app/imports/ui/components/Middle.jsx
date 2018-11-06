@@ -22,7 +22,7 @@ export default class Middle extends React.Component {
             </Grid.Row>
             <Grid.Row>
               <Image
-                  src="https://cdn.discordapp.com/attachments/508521520109453314/508834015080349706/gatherwhite.png"
+                  src="/images/gatherwhite.png"
                   style={imgStyle}/>
             </Grid.Row>
           </Grid>

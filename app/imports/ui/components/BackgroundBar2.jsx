@@ -25,6 +25,7 @@ export default class BackgroundBar extends React.Component {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
+          label: 'Trash Audit',
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(2,98,69,0.4)',
@@ -51,6 +52,7 @@ export default class BackgroundBar extends React.Component {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
+          label: 'Trash Audit',
           backgroundColor: 'rgba(63,186,90,0.2)',
           borderColor: 'rgba(63,186,90,1)',
           borderWidth: 1,

@@ -16,4 +16,5 @@ export const graph = {
 };
 export const background = {
   main: '#000000',
+
 };
