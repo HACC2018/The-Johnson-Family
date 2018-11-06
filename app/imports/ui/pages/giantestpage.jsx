@@ -1,15 +1,12 @@
 import React from 'react';
-// import Test from '../components/Test';
-import Locations from '/imports/api/Locations/Locations';
+import Test from '../components/Test';
 
-const locations = Locations.find({}).fetch();
-console.log(locations);
 export default class GianTest extends React.Component {
-  render() {
 
+  render() {
     return (
         <div>
-          {locations}
+          <Test/>
         </div>
     );
   }
