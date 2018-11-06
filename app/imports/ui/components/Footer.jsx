@@ -7,39 +7,41 @@ import * as Palette from './PaletteConstants';
 class Footer extends React.Component {
   render() {
     const imgStyle = {
-      width: '200px',
-      height: '60px',
-      position: 'center',
+      width: '15%',
+      height: '15%',
     };
 
-    const divStyle = { paddingTop: '15px', backgroundColor: Palette.background.main, margin: '0px' };
+    const divStyle = {
+      paddingTop: '0px',
+      backgroundColor: Palette.background.main,
+      margin: '0px',
+    };
+
     return (
-        <footer style={divStyle} verticalAlign="middle" centered>
-          <div className='footer-background'>
+        <footer style={divStyle} className='footer-background'>
+          <Grid textAlign="center" verticalAlign="middle" centered>
+            <Grid.Row>
+            </Grid.Row>
+            <Grid.Row>
+            </Grid.Row>
+            <Grid.Row centered>
+              <a href="https://www.facebook.com/uhsustainability/">
+                <Button circular icon='facebook' size='large' color='facebook'/>
+              </a>
+              <a href="https://twitter.com/uhsustain">
+                <Button circular icon='twitter' size='large' color='twitter' margin-right='15px'/>
+              </a>
+              <a href="https://www.instagram.com/uhsustain/">
+                <Button circular icon='instagram' size='large' color='instagram'/>
+              </a>
+            </Grid.Row>
+            <Grid.Row>
+            </Grid.Row>
             <Image
-            src="https://cdn.discordapp.com/attachments/508521520109453314/508834015080349706/gatherwhite.png"
-            style={imgStyle} centered/>
-            <Grid centered>
-              <Grid.Row>
-              </Grid.Row>
-              <Grid.Row>
-              </Grid.Row>
-              <Grid.Row>
-              </Grid.Row>
-              <Grid.Row centered>
-                  <a href="https://www.facebook.com/uhsustainability/">
-                    <Button circular icon='facebook' size='small' color='facebook'/>
-                  </a>
-                  <a href="https://twitter.com/uhsustain">
-                    <Button circular icon='twitter' size='small' color='twitter' margin-right='15px'/>
-                  </a>
-                  <a href="https://www.instagram.com/uhsustain/">
-                    <Button circular icon=' instagram' size='small' color='instagram'/>
-                  </a>
-              </Grid.Row>
-            </Grid>
-          </div>
-    </footer>
+                src="/images/LogoWhite.png"
+                style={imgStyle}/>
+          </Grid>
+        </footer>
     );
   }
 }
