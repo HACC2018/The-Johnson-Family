@@ -14,3 +14,6 @@ export const graph = {
   alt2: '#ff0002',
   alt3: '#ff0002',
 };
+export const background = {
+  main: '#000000',
+};
