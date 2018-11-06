@@ -5,8 +5,7 @@ import { Locations } from '/imports/api/Locations/Locations';
 // import Location from '/imports/ui/components/Location';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { getLocationNames } from '../../api/Wrapper/Wrapper.js';
-import { getBuildingNames } from '../../api/Wrapper/Wrapper';
+import * as db from '../../api/Wrapper/Wrapper.js';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
@@ -50,7 +49,7 @@ class giantestpage extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    const getBuildings = getBuildingNames(1);
+    const getBuildings = db.getBuildingNames(1);
     //console.log is used here to show if anything is being outputted
     console.log({getBuildings});
     // console.log(aLoc[name]);
