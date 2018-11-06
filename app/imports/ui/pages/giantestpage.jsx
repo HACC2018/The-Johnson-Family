@@ -50,9 +50,14 @@ class giantestpage extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
+<<<<<<< HEAD
     const getBuildings = db.getBuildingNames(1);
     //console.log is used here to show if anything is being outputted
     console.log({getBuildings});
+=======
+    const getLocations = getLocationNames(1);
+    console.log({getLocations});
+>>>>>>> parent of 8997b4a... created getBuildingNames and getEventNames
     // console.log(aLoc[name]);
     // TODO - implement: console.log(db.getLocationsCollection()[0]);
     console.log('hi me gian');
