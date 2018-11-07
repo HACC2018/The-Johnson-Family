@@ -16,6 +16,7 @@ import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import Dashboard from '../pages/Dashboard';
 import AdminPage from '../pages/AdminPage';
+import PendingAudits from '../pages/PendingAudits';
 import samtestpage from '../pages/samtestpage';
 
 // import AddLocations from '../pages/AddLocations';
@@ -34,6 +35,7 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <Route path="/samtestpage" component={samtestpage}/>
               <ProtectedRoute path="/list" component={ListBag}/>
+              <ProtectedRoute path="/pending" component={PendingAudits}/>
               <ProtectedRoute path="/add" component={AddBag}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>

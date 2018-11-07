@@ -3,7 +3,7 @@ import { Grid, Header } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
 
 /** A simple static component to render some text for the landing page. */
-class AdminPage extends React.Component {
+class PendingAudits extends React.Component {
   render() {
 
     const style = {
@@ -23,7 +23,7 @@ class AdminPage extends React.Component {
 
           <Grid.Row>
             <Header as="h1" style={style}>
-              Some Content Here - Recently Addded Bags ?
+              PENDING AUDITS PAGE
             </Header>
           </Grid.Row>
         </Grid>
@@ -31,4 +31,4 @@ class AdminPage extends React.Component {
   }
 }
 
-export default AdminPage;
+export default PendingAudits;
