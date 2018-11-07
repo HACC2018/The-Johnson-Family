@@ -5,11 +5,16 @@ import { withRouter } from 'react-router-dom';
 class LineGraph extends React.Component {
   render() {
 
+    const styles = {
+      textAlign: 'center',
+      textDecoration: 'underline',
+    };
+
     const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['Spring 17', 'Fall 17', 'Spring 18', 'Fall 18'],
       datasets: [
         {
-          label: 'My First dataset',
+          label: 'By Semester',
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(2,98,69,0.4)',
@@ -34,7 +39,7 @@ class LineGraph extends React.Component {
 
     return (
         <div>
-          <h3>Line Example</h3>
+          <h3 style={styles}>Semester Data</h3>
           <Line data={data} />
         </div>
     );

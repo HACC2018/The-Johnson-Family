@@ -5,11 +5,16 @@ import { withRouter } from 'react-router-dom';
 class DoughnutGraph extends React.Component {
   render() {
 
+    const styles = {
+      textAlign: 'center',
+      textDecoration: 'underline',
+    };
+
     const data = {
       labels: [
-        'Red',
-        'Green',
-        'Yellow',
+        'Manoa',
+        'West Oahu',
+        'Kapiolani',
       ],
       datasets: [{
         data: [300, 50, 100],
@@ -28,7 +33,7 @@ class DoughnutGraph extends React.Component {
 
     return (
         <div>
-          <h3>Doughnut Example</h3>
+          <h3 style={styles}>Campus Data</h3>
           <Doughnut data={data} />
         </div>
     );
