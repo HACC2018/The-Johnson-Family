@@ -33,6 +33,7 @@ class giantestpage extends React.Component {
       Bert.alert({ type: 'success', message: 'Delete succeeded' });
     }
   }
+
   /* When the delete button is clicked, remove the corresponding item from the collection. */
   onClick() {
     if (db.addNewLocation("TestName1", "TestStreet1", "TestCity1", "HI", 96797)) {
