@@ -5,11 +5,16 @@ import { withRouter } from 'react-router-dom';
 class BarGraph extends React.Component {
   render() {
 
+    const styles = {
+      textAlign: 'center',
+      textDecoration: 'underline',
+    };
+
     const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['Items of Interest', 'Paper', 'Plastic', 'Glass', 'Metals', 'Organics', 'Misc.'],
       datasets: [
         {
-          label: 'My First dataset',
+          label: 'Categories',
           backgroundColor: 'rgba(63,186,90,0.2)',
           borderColor: 'rgba(63,186,90,1)',
           borderWidth: 1,
@@ -22,7 +27,7 @@ class BarGraph extends React.Component {
 
     return (
         <div>
-          <h3>Horizontal Bar Example</h3>
+          <h3 style={styles}>Waste Categories</h3>
           <HorizontalBar data={data} />
         </div>
     );
