@@ -13,7 +13,7 @@ import { Events } from '/imports/api/Events/Events';
  * @param collection the collection to retrieve a Cursor pointer from.
  * @returns {*} a Cursor pointer to the specified collection.
  */
-export function getCollection(collection) {
+function getCollection(collection) {
   return collection.find({});
 }
 
@@ -28,6 +28,54 @@ export function getLocationNames(index = -1) {
   const cursor = getCollection(Locations);
   /* Iterate over the Cursor and get the document's 'name' values. */
   cursor.forEach((doc) => result.push(doc.name));
+  if (result.length === 0) { return "Locations Collection is empty" }
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+export function getLocationStreets(index = -1) {
+  let result = [];
+  const cursor = getCollection(Locations);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.street));
+  if (result.length === 0) { return "Locations Collection is empty" }
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+export function getLocationCities(index = -1) {
+  let result = [];
+  const cursor = getCollection(Locations);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.city));
+  if (result.length === 0) { return "Locations Collection is empty" }
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+export function getLocationStates(index = -1) {
+  let result = [];
+  const cursor = getCollection(Locations);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.state));
+  if (result.length === 0) { return "Locations Collection is empty" }
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+export function getLocationZipCode(index = -1) {
+  let result = [];
+  const cursor = getCollection(Locations);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.zip_code));
   if (result.length === 0) { return "Locations Collection is empty" }
   if (index === -1) {
     return result;
@@ -66,7 +114,23 @@ export function addNewLocation(name, street, city, state, zip_code) {
   }
 }
 
-export function addNewBuilding(name, location_id) {
+/**
+ * Returns the Building names.
+ * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getBuildingNames() without any parameters supplied.
+ * @returns {*} either ALL Building names or the Building name at index position.
+ */
+export function getBuildingNames(index = -1) {
+  let result = [];
+  const cursor = getCollection(Buildings);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.name));
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
+}
+
+export function addNewBuilding(name, location_id, fields) {
   const cursor = getCollection(Locations);
   let uniqueNames = [];
   cursor.forEach((doc) => uniqueNames.push(doc.name));
@@ -78,6 +142,22 @@ export function addNewBuilding(name, location_id) {
     Buildings.insert({ name: name, location_id: location_id });
     return true;
   }
+}
+
+/**
+ * Returns the Events names.
+ * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getEventsNames() without any parameters supplied.
+ * @returns {*} either ALL Event names or the Event name at index position.
+ */
+export function getEventNames(index = -1) {
+  let result = [];
+  const cursor = getCollection(Events);
+  /* Iterate over the Cursor and get the document's 'name' values. */
+  cursor.forEach((doc) => result.push(doc.name));
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
 }
 
 export function addNewEvent(name, date) {
@@ -94,7 +174,18 @@ export function addNewEvent(name, date) {
   }
 }
 
-
+// export function getCollectionValues(collection) {
+//   const cursor = getCollection(collection);
+//   let collectionObject = {};
+//   for (document in cursor) {
+//     collectionObject.name = document.name;
+//     collectionObject.street = document.street;
+//     collectionObject.city = document.city;
+//     collectionObject.state = document.state;
+//     collectionObject.zip_code = document.zip_code;
+//   }
+//   return collectionObject;
+// }
 
 // /**
 //  *
