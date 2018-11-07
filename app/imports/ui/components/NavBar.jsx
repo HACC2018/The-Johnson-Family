@@ -53,7 +53,7 @@ class NavBar extends React.Component {
                          exact to="/Home" key='Home'>Home
               </Menu.Item>
               <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
-                         exact to="/list" key='list'>Submit Data
+                         exact to="/addlist" key='addlist'>Submit Data
               </Menu.Item>
               <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
                          exact to="/dash" key='dash'>Dashboard

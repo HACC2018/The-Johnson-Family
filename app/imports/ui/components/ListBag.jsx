@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Header, Loader, Card } from 'semantic-ui-react';
+import { Container, Header, Loader, List } from 'semantic-ui-react';
 import { Bags } from '/imports/api/bag/bag';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -18,10 +18,12 @@ class ListBags extends React.Component {
   renderPage() {
     return (
         <Container>
-          <Header as="h2" textAlign="center" inverted>List Bags</Header>
-          <Card.Group>
-            {this.props.bags.map((bag, index) => <Bag key={index} bag={bag} />)}
-          </Card.Group>
+          <Header as="h2" textAlign="center">List Bags</Header>
+          <List divided verticalAlign='middle'>
+            <List.Item>
+              {this.props.bags.map((bag, index) => <Bag key={index} bag={bag} />)}
+            </List.Item>
+          </List>
         </Container>
     );
   }
