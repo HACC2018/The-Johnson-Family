@@ -54,7 +54,7 @@ export function getCollectionValues(collectionKey, field = undefined, index = -1
  * @param zip_code field value
  */
 export function addNewLocation(name, street, city, state, zip_code) {
-  const cursor = getCollection(Locations);
+  const cursor = getCollection(1);
   let uniqueStreets = [];
   cursor.forEach((doc) => uniqueStreets.push(doc.street));
   uniqueStreets = _.uniq(uniqueStreets);
@@ -92,7 +92,7 @@ export function addNewLocation(name, street, city, state, zip_code) {
  * @param location_id field value, referencing the selected location id.
  */
 export function addNewBuilding(name, location_id) {
-  const cursor = getCollection(Locations);
+  const cursor = getCollection(1);
   let uniqueNames = [];
   cursor.forEach((doc) => uniqueNames.push(doc.name));
   uniqueNames = _.uniq(uniqueNames);
@@ -112,7 +112,7 @@ export function addNewBuilding(name, location_id) {
  * @param date field value
  */
 export function addNewEvent(name, date) {
-  const cursor = getCollection(Locations);
+  const cursor = getCollection(1);
   let uniqueNames = [];
   cursor.forEach((doc) => uniqueNames.push(doc.name));
   uniqueNames = _.uniq(uniqueNames);
@@ -123,6 +123,28 @@ export function addNewEvent(name, date) {
     Events.insert({ name: name, date: date });
     return true;
   }
+}
+
+/**
+ * Deletes a Location, first looping through the TrashBag and Building collections to see if this location actively exists within any of these.  If so, the delete will not go through.
+ * @param id The id of the location to be deleted.
+ * @returns boolean set of locations after said id has been deleted.
+ */
+export function deleteBuilding(id) {
+  const building_ids = []; //Stores all building ids associated with a trash bag
+  const trashbag_cursor = getCollection(4);
+  trashbag_cursor.forEach((doc) => building_ids.push(doc.building_id));
+
+  if (building_ids.includes(id)) {
+    return false; //There is a trash bag that is associated with the building we're trying to delete.
+  } else {}
+  Buildings.remove({ id: id });
+  return true;
+}
+
+
+function getCompositionData() {
+
 }
 
 

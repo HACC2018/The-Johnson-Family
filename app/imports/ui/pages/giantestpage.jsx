@@ -33,8 +33,11 @@ class giantestpage extends React.Component {
   }
 
   deleteClick() {
-    const id = this.props.location[0]._id;
-    Locations.remove(id, this.deleteCallback);
+    if (db.deleteBuilding("TestName1", "TestStreet1", "TestCity1", "HI", 96797)) {
+      Bert.alert({ type: 'success', message: 'Insert succeeded'});
+    } else {
+      Bert.alert({ type: 'danger', message: 'Insert failed'});
+    }
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
