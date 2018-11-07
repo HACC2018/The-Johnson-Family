@@ -36,7 +36,7 @@ class NavBar extends React.Component {
               <Menu.Item
                   as={NavLink} activeClassName="active" exact to="/addlocations" key='add'>Add Locations</Menu.Item>,
               <Menu.Item
-                  as={NavLink} activeClassName="active" exact to="/listlocations" key='list'>List Locations</Menu.Item>
+                  as={NavLink} activeClassName="active" exact to="/admin" key='admin'>Admin</Menu.Item>
       ) : ''}
       {/* Top right not signed in */}
       <Menu.Item style={itemStyle} position="right">
