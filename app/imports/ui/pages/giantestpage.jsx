@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Container, Dropdown, Loader } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 // import PropTypes from 'prop-types';
-import * as db from '../../api/Wrapper/Wrapper.jsx';
+import * as db from '../../api/Wrapper/Wrapper';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
