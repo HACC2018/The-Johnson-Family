@@ -7,7 +7,7 @@ import { Menu, Dropdown } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
-class NavBar extends React.Component {
+class NavBarLanding extends React.Component {
   render() {
     const menuStyle = {
       marginBottom: '10px',
