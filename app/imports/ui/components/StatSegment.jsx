@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Header, Icon, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
-/** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
+/** Renders a single row in the StatSegment table. */
 class StatSegment extends React.Component {
   render() {
 

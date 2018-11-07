@@ -10,8 +10,6 @@ import Landing from '../pages/Landing';
 import ListBag from '../pages/ListBag';
 import AddBag from '../pages/AddBag';
 import EditBag from '../pages/EditBag';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
@@ -39,10 +37,10 @@ class App extends React.Component {
               <ProtectedRoute path="/dash" component={Dashboard}/>
               <ProtectedRoute path="/Home" component={Landing}/>
               <ProtectedRoute path="/edit/:_id" component={EditBag}/>
-              <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
+              {/* <ProtectedRoute path="/edit/:_id" component={EditStuff}/> */}
               {/* <AdminProtectedRoute path="/listlocations" component={ListLocations}/> */}
               {/* <AdminProtectedRoute path="/addlocations" component={AddLocations}/> */}
-              <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
+              {/* <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/> */}
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
