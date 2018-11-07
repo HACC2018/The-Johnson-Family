@@ -248,33 +248,9 @@ export function addNewTrashBag(study_id, event_id, building_id, category_id, for
   cursor.forEach((doc) => uniqueCount.push(doc.name));
   uniqueCount = _.uniq(uniqueCount);
 
-    if (uniqueStudy_id.includes(study_id)) {
-      return false;
-    } else
-      if (uniqueEvent_id.includes(event_id)) {
-        return false;
-      } else
-        if (uniqueBuilding_id.includes(building_id)) {
-          return false;
-        } else
-          if (uniqueCategory_id.includes(category_id)) {
-            return false;
-          } else
-            if (uniqueForm_id.includes(form_id)) {
-              return false;
-            } else
-              if (uniqueAccepted.includes(accepted)) {
-                return false;
-              } else
-                if (uniqueWeight.includes(weight)) {
-                  return false;
-                } else
-                  if (uniqueVolume.includes(volume)) {
-                    return false;
-                  } else
-                    if (uniqueCount.includes(count)) {
-                      return false;
-                    } else {
+    if (uniqueStudy_id.includes(study_id) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
+      return false;}
+      else {
                       Categories.insert({
                         event: event,
                         study_id: study_id,
@@ -288,7 +264,6 @@ export function addNewTrashBag(study_id, event_id, building_id, category_id, for
                         count: count
                       })
                       return true;
-
                     }
 }
 
