@@ -2,87 +2,58 @@ import { _ } from 'meteor/underscore';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
 import { Events } from '/imports/api/Events/Events';
+import { TrashBags} from '/imports/api/TrashBags/TrashBags';
 
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
   We will assume that Composition charts are Bar charts, Comparison chart
 */
 
+function getCollection(collectionKey) {
+  switch(collectionKey) {
+    case 1:
+      return Locations.find();
+    case 2:
+     return Buildings.find();
+    case 3:
+      return Events.find();
+    case 4:
+      return TrashBags.find();
+    default:
+      throw new SyntaxError();
+  }
+}
+
+
 /**
- * Returns a Cursor pointer to the specified collection.
- * @param collection the collection to retrieve a Cursor pointer from.
- * @returns {*} a Cursor pointer to the specified collection.
+ * Returns the values of the specified collection.
+ * @param collectionKey the key indicating which collection to retrieve data from. See #information channel on Discord.
+ * @param field if specified, it will return all the values for that field ONLY. If left blank, it will return the entire Collection with all the values.
+ * @param index if specified, it will only return the document at that index position. If left blank, it will return all documents fro the collection.
  */
-function getCollection(collection) {
-  return collection.find({});
+export function getCollectionValues(collectionKey, field = undefined, index = -1 ) {
+  const cursor = getCollection(collectionKey);
+  let result = [];
+  if (field !== undefined) {
+    cursor.forEach((doc) => result.push(doc[field]));
+  } else {
+    cursor.forEach((doc) => result.push(doc));
+  }
+  if (index === -1) {
+    return result;
+  }
+  return result[index];
 }
-
 
 /**
- * Returns the Location names.
- * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getLocationNames() without any parameters supplied.
- * @returns {*} either ALL Location names or the Location name at index position.
+ * Returns true if the document was added to the Location collection successfully. False, otherwise.
+ * This function guarantees that the Admin cannot add duplicate Locations. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
+ * @param name field value
+ * @param street field value
+ * @param city field value
+ * @param state field value
+ * @param zip_code field value
  */
-export function getLocationNames(index = -1) {
-  let result = [];
-  const cursor = getCollection(Locations);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.name));
-  if (result.length === 0) { return "Locations Collection is empty" }
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
-export function getLocationStreets(index = -1) {
-  let result = [];
-  const cursor = getCollection(Locations);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.street));
-  if (result.length === 0) { return "Locations Collection is empty" }
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
-export function getLocationCities(index = -1) {
-  let result = [];
-  const cursor = getCollection(Locations);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.city));
-  if (result.length === 0) { return "Locations Collection is empty" }
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
-export function getLocationStates(index = -1) {
-  let result = [];
-  const cursor = getCollection(Locations);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.state));
-  if (result.length === 0) { return "Locations Collection is empty" }
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
-export function getLocationZipCode(index = -1) {
-  let result = [];
-  const cursor = getCollection(Locations);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.zip_code));
-  if (result.length === 0) { return "Locations Collection is empty" }
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
 export function addNewLocation(name, street, city, state, zip_code) {
   const cursor = getCollection(Locations);
   let uniqueStreets = [];
@@ -114,23 +85,14 @@ export function addNewLocation(name, street, city, state, zip_code) {
   }
 }
 
-/**
- * Returns the Building names.
- * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getBuildingNames() without any parameters supplied.
- * @returns {*} either ALL Building names or the Building name at index position.
- */
-export function getBuildingNames(index = -1) {
-  let result = [];
-  const cursor = getCollection(Buildings);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.name));
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
 
-export function addNewBuilding(name, location_id, fields) {
+/**
+ * Returns true if the document was added to the Buildings collection successfully. False, otherwise.
+ * This function guarantees that the Admin cannot add duplicate Buildings. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
+ * @param name field value
+ * @param location_id field value, referencing the selected location id.
+ */
+export function addNewBuilding(name, location_id) {
   const cursor = getCollection(Locations);
   let uniqueNames = [];
   cursor.forEach((doc) => uniqueNames.push(doc.name));
@@ -145,21 +107,11 @@ export function addNewBuilding(name, location_id, fields) {
 }
 
 /**
- * Returns the Events names.
- * @param index By default, index is -1. This indicates that we want to return ALL Location names. This default value can be invoked in the Front-End side, by simply doing getEventsNames() without any parameters supplied.
- * @returns {*} either ALL Event names or the Event name at index position.
+ * Returns true if the document was added to the Events collection successfully. False, otherwise.
+ * This function guarantees that the Admin cannot add duplicate Events. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
+ * @param name field value
+ * @param date field value
  */
-export function getEventNames(index = -1) {
-  let result = [];
-  const cursor = getCollection(Events);
-  /* Iterate over the Cursor and get the document's 'name' values. */
-  cursor.forEach((doc) => result.push(doc.name));
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
 export function addNewEvent(name, date) {
   const cursor = getCollection(Locations);
   let uniqueNames = [];
@@ -174,18 +126,6 @@ export function addNewEvent(name, date) {
   }
 }
 
-// export function getCollectionValues(collection) {
-//   const cursor = getCollection(collection);
-//   let collectionObject = {};
-//   for (document in cursor) {
-//     collectionObject.name = document.name;
-//     collectionObject.street = document.street;
-//     collectionObject.city = document.city;
-//     collectionObject.state = document.state;
-//     collectionObject.zip_code = document.zip_code;
-//   }
-//   return collectionObject;
-// }
 
 // /**
 //  *
