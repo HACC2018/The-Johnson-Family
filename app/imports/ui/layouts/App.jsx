@@ -34,9 +34,7 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <Route path="/samtestpage" component={samtestpage}/>
 
-              <ProtectedRoute path="/list" component={ListBag}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
-              <ProtectedRoute path="/add" component={AddBag}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
               <ProtectedRoute path="/addlist" component={AddListBag}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>
