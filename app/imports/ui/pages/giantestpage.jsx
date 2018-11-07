@@ -5,8 +5,7 @@ import { Locations } from '/imports/api/Locations/Locations';
 // import Location from '/imports/ui/components/Location';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import * as db from '../../api/Wrapper/Wrapper.js';
-import { Buildings } from '../../api/Buildings/Buildings';
+import * as db from '../../api/Wrapper/Wrapper.jsx';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
@@ -36,11 +35,15 @@ class giantestpage extends React.Component {
   }
   /* When the delete button is clicked, remove the corresponding item from the collection. */
   onClick() {
-    Buildings.insert({ name: "TestName", location_id: "123123" }, this.insertCallback);
+    if (db.addNewLocation("TestName1", "TestStreet1", "TestCity1", "HI", 96797)) {
+      Bert.alert({ type: 'success', message: 'Insert succeeded'});
+    } else {
+      Bert.alert({ type: 'danger', message: 'Insert failed'});
+    }
   }
 
   onClick2() {
-    Buildings.insert({ name: "TestName2", location_id: "222222" }, this.insertCallback);
+    Locations.insert({ name: "TestName2", street: "TestStreet2", city: "TestCity2", state: "TestState2", zip_code: "96797" }, this.insertCallback);
   }
 
   deleteClick() {
@@ -51,9 +54,7 @@ class giantestpage extends React.Component {
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
     // console.log(aLoc[name]);
-    // TODO - implement: console.log(db.getLocationsCollection()[0]);
-    console.log('hi me gian');
-    // console.log(this.props.location[0]);
+    // console.log(this.props.location);
     // console.log(this.props.location[1]);
     // console.log(this.props.location);
     return (this.props.ready) ? this.renderPage() : <Loader>Getting data</Loader>;
@@ -61,15 +62,14 @@ class giantestpage extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    const getBuildings = db.getBuildingNames();
     return (
         <Container>
-              {/*{this.props.location.map((location) => <Location key={location._id} location={location} />)}*/}
+          {/*{this.props.location.map((location) => <Location key={location._id} location={location} />)}*/}
           {/*{this.props.location.name}*/}
           {/*<div>{getLocations}</div>*/}
-          <Button basic onClick={this.onClick}>Add TestBuilding</Button>
-          <Button basic onClick={this.onClick2}>Add TestBuilding</Button>
-          <Button basic onClick={this.deleteClick}>Delete TestBuilding</Button>
+          <Button basic onClick={this.onClick}>Add TestLocation</Button>
+          <Button basic onClick={this.onClick2}>Add TestLocation</Button>
+          <Button basic onClick={this.deleteClick}>Delete TestLocation</Button>
         </Container>
     );
   }
