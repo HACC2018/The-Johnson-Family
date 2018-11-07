@@ -8,22 +8,23 @@ class AdminPage extends React.Component {
 
     const style = {
       margin: '0px',
-      paddingTop: '30px',
-      paddingBottom: '500px',
+      paddingTop: '40px',
+      paddingBottom: '40px',
+      textDecoration: 'underline',
     };
 
     const bodyStyle = {
       paddingTop: '30px',
-      paddingBottom: '30px',
+      paddingBottom: '500px',
     };
 
     return (
-        <Grid container style={bodyStyle} divided='vertically'>
+        <Grid container style={bodyStyle} divided='vertically' textAlign='center' verticalAlign='middle'>
           <AdminOptions/>
 
           <Grid.Row>
             <Header as="h1" style={style}>
-              Some Content Here - Recently Addded Bags ?
+              RECENTLY VERIFIED AUDITS
             </Header>
           </Grid.Row>
         </Grid>
