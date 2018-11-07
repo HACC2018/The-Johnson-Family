@@ -24,7 +24,6 @@ function getCollection(collectionKey) {
   }
 }
 
-
 /**
  * Returns the values of the specified collection.
  * @param collectionKey the key indicating which collection to retrieve data from. See #information channel on Discord.
