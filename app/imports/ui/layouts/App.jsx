@@ -15,6 +15,7 @@ import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import Dashboard from '../pages/Dashboard';
+import AdminPage from '../pages/AdminPage';
 import samtestpage from '../pages/samtestpage';
 
 // import AddLocations from '../pages/AddLocations';
@@ -34,6 +35,7 @@ class App extends React.Component {
               <Route path="/samtestpage" component={samtestpage}/>
               <ProtectedRoute path="/list" component={ListBag}/>
               <ProtectedRoute path="/add" component={AddBag}/>
+              <ProtectedRoute path="/admin" component={AdminPage}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>
               <ProtectedRoute path="/Home" component={Landing}/>
               <ProtectedRoute path="/edit/:_id" component={EditBag}/>
