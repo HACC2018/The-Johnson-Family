@@ -105,17 +105,11 @@ export function addNewCategory(name, parent_id, level) {
   uniqueParent_id = _.uniq(uniqueParent_id);
 
   let uniqueLevel = [];
-  cursor.forEach((doc) => uniqueLevel.push(doc.city));
+  cursor.forEach((doc) => uniqueLevel.push(doc.level));
   uniqueLevel = _.uniq(uniqueLevel);
 
-  if (uniqueNames.includes(name)) {
+  if (uniqueNames.includes(name) && uniqueParent_id.includes(parent_id) && uniqueLevel.includes(level)) {
     return false;
-  } else
-    if (uniqueParent_id.includes(parent_id)) {
-      return false;
-    } else
-      if (uniqueLevel.includes(level)) {
-        return false;
       }
       else {
         Categories.insert({ name: name, parent_id: parent_id, level: level })
@@ -127,27 +121,24 @@ export function addNewCategory(name, parent_id, level) {
 /**
  * Returns true if the document was added to the Forms collection successfully. False, otherwise.
  * This function guarantees that the Admin cannot add duplicate Forms. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param name field value
+ * @param date field value
  * @param form_id field value, referencing the selected form id.
  */
-export function addNewForm(name, form_id) {
+export function addNewForm(date, form_id) {
   const cursor = getCollection(6);
-  let uniqueNames = [];
-  cursor.forEach((doc) => uniqueNames.push(doc.name));
-  uniqueNames = _.uniq(uniqueNames);
+  let uniqueDates = [];
+  cursor.forEach((doc) => uniqueDates.push(doc.name));
+  uniqueDates = _.uniq(uniqueDates);
 
   let uniqueForm_id = [];
-  cursor.forEach((doc) => uniqueForm_id.push(doc.uniqueForm_id));
+  cursor.forEach((doc) => uniqueForm_id.push(doc.form_id));
   uniqueForm_id = _.uniq(uniqueForm_id);
 
-  if (uniqueNames.includes(name)) {
+  if (uniqueDates.includes(name) && uniqueForm_id.includes(form_id)) {
     return false;
-  } else
-    if (uniqueForm_id.includes(form_id)) {
-      return false;
-    }
+  }
     else {
-      Categories.insert({ name: name, form_id: form_id })
+      Forms.insert({ date: date, form_id: form_id })
       return true;
 
     }
@@ -194,47 +185,14 @@ export function addNewEvent(name, date) {
 }
 
 /**
- * Returns true if the document was added to the Study collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate Study. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
+ * Always adds a new study, as there can be identical studies.
  * @param name field value
  * @param form_id field value, referencing the selected form id.
  */
 export function addNewStudy(name, category_id, start_date, end_date) {
-  const cursor = getCollection(7);
-  let uniqueNames = [];
-  cursor.forEach((doc) => uniqueNames.push(doc.name));
-  uniqueNames = _.uniq(uniqueNames);
 
-  let uniqueCategory_id = [];
-  cursor.forEach((doc) => uniqueCategory_id.push(doc.uniqueCategory_id));
-  uniqueCategory_id = _.uniq(uniqueCategory_id);
+  Categories.insert({ name: name, category_id: category_id, start_date: start_date, end_date: end_date })
 
-  let uniqueStart_date = [];
-  cursor.forEach((doc) => uniqueStart_date.push(doc.name));
-  uniqueStart_date = _.uniq(uniqueStart_date);
-
-  let uniqueEnd_date = [];
-  cursor.forEach((doc) => uniqueEnd_date.push(doc.name));
-  uniqueEnd_date = _.uniq(uniqueEnd_date);
-
-  if (uniqueNames.includes(name)) {
-    return false;
-  } else
-    if (uniqueCategory_id.includes(category_id)) {
-      return false;
-    } else
-      if (uniqueStart_date.includes(start_date)) {
-        return false;
-      } else
-        if (uniqueEnd_date.includes(end_date)) {
-          return false;
-        }
-
-        else {
-          Categories.insert({ name: name, category_id: category_id, start_date: start_date, end_date: end_date })
-          return true;
-
-        }
 }
 
 /**
