@@ -1,11 +1,6 @@
-import * as _ from 'meteor/underscore';
+import { _ } from 'meteor/underscore';
 import { Events } from '/imports/api/Events/Events';
 import { Locations } from '/imports/api/Locations/Locations';
-<<<<<<< HEAD
-import { Buildings } from '/imports/api/Buildings/Buildings';
-import { Events } from '/imports/api/Events/Events';
-=======
->>>>>>> parent of 8997b4a... created getBuildingNames and getEventNames
 
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
@@ -17,7 +12,7 @@ import { Events } from '/imports/api/Events/Events';
  * @param collection the collection to retrieve a Cursor pointer from.
  * @returns {*} a Cursor pointer to the specified collection.
  */
-function getCollection(collection) {
+export function getCollection(collection) {
   return collection.find({});
 }
 
@@ -31,6 +26,7 @@ export function getLocationNames(index = -1) {
   const cursor = getCollection(Locations);
   /* Iterate over the Cursor and get the document's 'name' values. */
   cursor.forEach((doc) => result.push(doc.name));
+  if (result.length === 0) { return "Locations Collection is empty" }
   if (index === -1) {
     return result;
   }
@@ -38,7 +34,34 @@ export function getLocationNames(index = -1) {
 }
 
 export function addNewLocation(name, street, city, state, zip_code) {
-  if ()
+  const cursor = getCollection(Locations);
+  let uniqueStreets = [];
+  cursor.forEach((doc) => uniqueStreets.push(doc.street));
+  uniqueStreets = _.uniq(uniqueStreets);
+
+  let uniqueCities = [];
+  cursor.forEach((doc) => uniqueCities.push(doc.city));
+  uniqueCities = _.uniq(uniqueCities);
+
+  let uniqueStates = [];
+  cursor.forEach((doc) => uniqueStates.push(doc.state));
+  uniqueStates = _.uniq(uniqueStates);
+
+  let uniqueZipCodes = [];
+  cursor.forEach((doc) => uniqueZipCodes.push(doc.state));
+  uniqueZipCodes = _.uniq(uniqueZipCodes);
+  if (uniqueStreets.includes(street)) {
+    return false;
+  } else if (uniqueCities.includes(city)) {
+    return false;
+  } else if (uniqueStates.includes(state)) {
+    return false;
+  }  else if (uniqueZipCodes.includes(zip_code)) {
+    return false;
+  } else {
+    Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
+    return true;
+  }
 }
 
 /**
@@ -88,4 +111,3 @@ function getData(events, trashType, weight) {
       .reduce((memo, num) => memo + num)
       .value();
 }
-
