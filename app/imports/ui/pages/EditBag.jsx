@@ -12,6 +12,7 @@ import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import ListBag from '../components/ListBag';
 
 /** Renders the Page for editing a single document. */
 class EditBag extends React.Component {
@@ -21,6 +22,7 @@ class EditBag extends React.Component {
     const { id, type, weight, volume, _id } = data;
     Bags.update(_id, { $set: { id, type, weight, volume } }, (error) => (error ?
         Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
+        window.location = '/addlist#/addlist',
         Bert.alert({ type: 'success', message: 'Update succeeded' })));
   }
 
@@ -32,21 +34,26 @@ class EditBag extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
     return (
-        <Grid container centered>
-          <Grid.Column>
-            <Header as="h2" textAlign="center" inverted>Edit Bag</Header>
-            <AutoForm schema={BagSchema} onSubmit={this.submit} model={this.props.doc}>
-              <Segment>
-                <TextField name='id'/>
-                <SelectField name='type'/>
-                <NumField name='weight' decimal={false}/>
-                <NumField name='volume' decimal={false}/>
-                <SubmitField value='Submit'/>
-                <ErrorsField/>
-                <HiddenField name='owner' />
-              </Segment>
-            </AutoForm>
-          </Grid.Column>
+        <Grid container divided='vertically'>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Header as="h2" textAlign="center">Edit Bag</Header>
+              <AutoForm schema={BagSchema} onSubmit={this.submit} model={this.props.doc}>
+                <Segment>
+                  <TextField name='id'/>
+                  <SelectField name='type'/>
+                  <NumField name='weight' decimal={false}/>
+                  <NumField name='volume' decimal={false}/>
+                  <SubmitField value='Submit'/>
+                  <ErrorsField/>
+                  <HiddenField name='owner'/>
+                </Segment>
+              </AutoForm>
+            </Grid.Column>
+            <Grid.Column>
+              <ListBag/>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
     );
   }
