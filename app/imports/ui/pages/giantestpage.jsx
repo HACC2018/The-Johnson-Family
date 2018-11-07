@@ -1,7 +1,6 @@
 import React from 'react';
 // import { Meteor } from 'meteor/meteor';
-import { Button, Container, Loader } from 'semantic-ui-react';
-import { Locations } from '/imports/api/Locations/Locations';
+import { Button, Container, Dropdown, Loader } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 // import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper.jsx';
@@ -40,10 +39,9 @@ class giantestpage extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    const test = db.getCollectionValues(Locations);
-    console.log(test);
     return (this.props.ready) ? this.renderPage() : <Loader>Getting data</Loader>;
   }
+
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
@@ -61,7 +59,6 @@ export default withTracker(() => {
   // Get access to Stuff documents.
   const subscription = Meteor.subscribe('Locations');
   return {
-    location: Locations.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(giantestpage);
