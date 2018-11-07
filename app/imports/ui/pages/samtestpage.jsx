@@ -8,7 +8,7 @@ import { Events } from '/imports/api/Events/Events';
 // import Location from '/imports/ui/components/Location';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import * as db from '../../api/Wrapper/Wrapper.js';
+import * as db from '../../api/Wrapper/Wrapper';
 
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
