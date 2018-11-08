@@ -13,20 +13,12 @@ import * as db from '../../api/Wrapper/Wrapper';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class samtestpage extends React.Component {
-
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
     this.onClick2 = this.onClick2.bind(this);
+    this.onClick3 = this.onClick2.bind(this);
     this.deleteClick = this.deleteClick.bind(this);
-  }
-  /** Notify the user of the results of the submit. If successful, clear the form. */
-  insertCallback(error) {
-    if (error) {
-      Bert.alert({ type: 'danger', message: `Insert failed: ${error.message}` });
-    } else {
-      Bert.alert({ type: 'success', message: 'Insert succeeded' });
-    }
   }
 
   deleteCallback(error) {
@@ -36,44 +28,52 @@ class samtestpage extends React.Component {
       Bert.alert({ type: 'success', message: 'Delete succeeded' });
     }
   }
-  /* When the delete button is clicked, remove the corresponding item from the collection. */
+
   onClick() {
-    Events.insert({ name: "TestEvent", date: "1" }, this.insertCallback);
+    if (db.addNewLocation('uh', 'paper', 'ha', 'ha')) {
+      console.log(db.getCompositionOfLocations())
+      Bert.alert({ type: 'success', message: 'Insert succeeded'});
+    } else {
+      Bert.alert({ type: 'danger', message: 'Insert failed'});
+    }
   }
 
-  onClick2() {
-    Events.insert({ name: "TestEvent2", date: "2" }, this.insertCallback);
+  onClick2(){
+    if(db.addNewForm("2", 1)){
+      Bert.alert({type: 'success', message: 'Insert succeeded'});
+    } else {
+      Bert.alert({type: 'danger', message: 'Insert failed'});
+    }
+  }
+
+  onClick3() {
+    if (db.addNewForm("TestName1", 1)) {
+      Bert.alert({ type: 'success', message: 'Insert succeeded'});
+    } else {
+      Bert.alert({ type: 'danger', message: 'Insert failed'});
+    }
   }
 
   deleteClick() {
-    const id = this.props.event[0]._id;
-    Events.remove(id, this.deleteCallback);
+    const id = this.props.building[0]._id;
+    Buildings.remove(id, this.deleteCallback);
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    const getEvents = db.getEventNames();
-    console.log({getEvents});
-    // console.log(aLoc[name]);
-    // TODO - implement: console.log(db.getLocationsCollection()[0]);
-    console.log('events working');
-    // console.log(this.props.location[0]);
-    // console.log(this.props.location[1]);
-    // console.log(this.props.location);
     return (this.props.ready) ? this.renderPage() : <Loader>Getting data</Loader>;
   }
 
+
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    const getEvents = db.getEventNames();
+    console.log(db.getCompositionOfLocations())
     return (
         <Container>
-          {/*{this.props.location.map((location) => <Location key={location._id} location={location} />)}*/}
-          {/*{this.props.location.name}*/}
-          {/*<div>{getLocations}</div>*/}
-          <Button basic onClick={this.onClick}>Add TestEvent</Button>
-          <Button basic onClick={this.onClick2}>Add TestEvent</Button>
-          <Button basic onClick={this.deleteClick}>Delete TestEvent</Button>
+          <Button basic onClick={this.onClick}>Add TestForm</Button>
+          <Button basic onClick={this.onClick2}>Add TestForm</Button>
+          {/*<Button basic onClick={this.onClick3}>Add TestLocation3</Button>*/}
+          <Button basic onClick={this.deleteClick}>Delete TestForm</Button>
         </Container>
     );
   }
@@ -82,6 +82,7 @@ class samtestpage extends React.Component {
 /** Require an array of Stuff documents in the props. */
 samtestpage.propTypes = {
   event: PropTypes.array.isRequired,
+  location: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
@@ -89,8 +90,10 @@ samtestpage.propTypes = {
 export default withTracker(() => {
   // Get access to Stuff documents.
   const subscription = Meteor.subscribe('Events');
+  const subscription2 = Meteor.subscribe('Categories');
   return {
     event: Events.find({}).fetch(),
-    ready: subscription.ready(),
+    location: Events.find({}).fetch(),
+    ready: subscription.ready() && subscription2.ready(),
   };
 })(samtestpage);
