@@ -233,7 +233,6 @@ export function addNewCategory(name, parent_id, level) {
   else {
 
     Categories.insert({ name: name, parent_id: parent_id, level: level });
-
     return true;
 
   }
@@ -248,9 +247,7 @@ export function addNewCategory(name, parent_id, level) {
 export function addNewForm(date) {
     Forms.insert({ date: date });
     return true;
-
 }
-
 /**
  * Returns true if the document was added to the Buildings collection successfully. False, otherwise.
  * This function guarantees that the Admin cannot add duplicate Buildings. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
