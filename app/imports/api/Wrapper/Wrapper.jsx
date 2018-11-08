@@ -43,22 +43,33 @@ export function getCompositionOfLocations(){
   let final = [];
   cursor.forEach((doc) => result.push(doc.name));
 
-  const KCC  = _.filter(result, function(entry) {return entry[name].toLowerCase().contains('kcc')});
+  const KCC  = _.filter(result, function(entry) {return entry.name.toLowerCase().contains('kcc')});
   const KCCs = KCC.length;
   final.push(KCCs);
 
-  const UH  = _.filter(result, function(entry) {return entry[name].toLowerCase().contains('uh')});
+  const UH  = _.filter(result, function(entry) {return entry.name.toLowerCase().contains('uh')});
   const UHs = UH.length;
   final.push(UHs);
 
-  const WestOahu = _.filter(result, function(entry) {return entry[name].toLowerCase().contains('westoahu')});
+  const WestOahu = _.filter(result, function(entry) {return entry.name.toLowerCase().contains('westoahu')});
   const WestOahus = WestOahu.length;
   final.push(WestOahus);
 
   return final;
 }
 
+/**
+ *
+ */
 export function getCategoryValues(){
+  const cursor = getCollection(4);
+  let all = [];
+  let final = [];
+  cursor.forEach((doc) => all.push(doc.category_id));
+
+  const paper  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('paper')});
+  const papers = paper.length;
+  final.push(papers);
 
 }
 /**
