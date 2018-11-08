@@ -8,8 +8,8 @@ const TrashBags = new Mongo.Collection('TrashBags');
 
 /** Create a schema to constrain the structure of documents associated with this collection. */
 const TrashBagsSchema = new SimpleSchema({
-  study_id: String,
   event_id: String,
+  location_id: String,
   building_id: String,
   category_id: String,
   form_id: String,

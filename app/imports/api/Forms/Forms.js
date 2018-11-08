@@ -7,8 +7,7 @@ const Forms = new Mongo.Collection('Forms');
 
 /** Create a schema to constrain the structure of documents associated with this collection. */
 const FormsSchema = new SimpleSchema({
-  date: Date,
-  form_id: Number,
+  date: String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

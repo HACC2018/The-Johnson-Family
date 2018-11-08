@@ -3,9 +3,9 @@ import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
 import { Events } from '/imports/api/Events/Events';
 import { TrashBags } from '/imports/api/TrashBags/TrashBags';
-import { Categories } from '../Categories/Categories';
-import { Forms } from '../Forms/Forms';
-import { Studies } from '../Studies/Studies';
+import { Categories } from '/imports/api/Categories/Categories';
+import { Forms } from '/imports/api/Forms/Forms';
+import { Studies } from '/imports/api/Studies/Studies';
 
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
@@ -124,24 +124,9 @@ export function addNewCategory(name, parent_id, level) {
  * @param date field value
  * @param form_id field value, referencing the selected form id.
  */
-export function addNewForm(date, form_id) {
-  const cursor = getCollection(6);
-  let uniqueDates = [];
-  cursor.forEach((doc) => uniqueDates.push(doc.name));
-  uniqueDates = _.uniq(uniqueDates);
-
-  let uniqueForm_id = [];
-  cursor.forEach((doc) => uniqueForm_id.push(doc.form_id));
-  uniqueForm_id = _.uniq(uniqueForm_id);
-
-  if (uniqueDates.includes(name) && uniqueForm_id.includes(form_id)) {
-    return false;
-  }
-  else {
-    Forms.insert({ date: date, form_id: form_id })
-    return true;
-
-  }
+export function addNewForm(date) {
+  Forms.insert({ date: date });
+  return true;
 }
 
 /**
@@ -249,11 +234,9 @@ export function addNewTrashBag(study_id, event_id, building_id, category_id, for
   uniqueCount = _.uniq(uniqueCount);
 
   if (uniqueStudy_id.includes(study_id) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
-    return false;
   }
   else {
     TrashBags.insert({
-      event: event,
       study_id: study_id,
       event_id: event_id,
       building_id: building_id,
@@ -267,7 +250,6 @@ export function addNewTrashBag(study_id, event_id, building_id, category_id, for
     return true;
   }
 }
-
 
 export function getBuildingNamesByLocation(location_key) {
   const location_ids_of_buildings = getCollectionValues(2, "location_id");
@@ -301,15 +283,54 @@ export function getBuildingIdsByLocation(location_key) {
   return result;
 }
 
-function addNewSmartBinEvent(location_id, building_id, category_id, weight, volume, count) {
-  //create a new event
+export function addSmartBinData(data) {
+  //create a new event for the trash bag to associate with
   const date = new Date();
   const stripped_date = date.toLocaleString('en-US');
   Events.insert({ name: `SmartBin-${stripped_date}`, date: date });
 
-  //insert trashbag
-  //Find the Event ID of the Event document we just inserted
-  // const events_cursor =
+  const events_cursor = getCollection(3);
+  let eventId = undefined;
+  //Find the Event ID of the Event document we just created
+  events_cursor.forEach((doc) => {
+    if (doc.name === `SmartBin-${stripped_date}`) {
+      eventId = doc._id;
+    }
+  });
+
+  //Parse data input object
+  const object = Object.values(data);
+  const location_id = object[0];
+  const building_id = object[1];
+  const category_id = object[2];
+  const weight = object[3];
+  const volume = object[4];
+  const count = object[5];
+
+  //Create a new form
+  addNewForm(stripped_date);
+  const forms_cursor = getCollection(6);
+  let formId = undefined;
+  //Find the Form ID of the Form document we just created
+  forms_cursor.forEach((doc) => {
+    if (doc.date === stripped_date) {
+      formId = doc._id;
+    }
+  });
+
+  TrashBags.insert({
+    event_id: eventId,
+    location_id: location_id,
+    building_id: building_id,
+    category_id: category_id,
+    form_id: formId,
+    accepted: false,
+    weight: weight,
+    volume: volume,
+    count: count
+  });
+  return true;
+
 }
 
 // /**

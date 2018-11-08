@@ -47,7 +47,23 @@ class giantestpage extends React.Component {
   }
 
   onClick3() {
-    if (db.addNewForm("TestName1", 1)) {
+    if (db.addNewTrashBag("studyid", "eventid", "buildingid", "categoryid", "formid", false, 0, 1, 2)) {
+      Bert.alert({ type: 'success', message: 'Insert succeeded'});
+    } else {
+      Bert.alert({ type: 'danger', message: 'Insert failed'});
+    }
+  }
+
+  onClick4() {
+    const object = {
+      "location_id" : "LOCATION_ID",
+      "building_id" : "BUILDING_ID",
+      "category_id" : "CATEGORY_ID",
+      "weight" : 12,
+      "volume" : 2,
+      "count" : 1
+    };
+    if (db.addSmartBinData(object)){
       Bert.alert({ type: 'success', message: 'Insert succeeded'});
     } else {
       Bert.alert({ type: 'danger', message: 'Insert failed'});
@@ -61,8 +77,6 @@ class giantestpage extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    const test = db.getBuildingIdsByLocation("Hym4RKYQzPFhaWhQq");
-    console.log(test);
     return (this.props.ready) ? this.renderPage() : <Loader>Getting data</Loader>;
   }
 
@@ -71,8 +85,8 @@ class giantestpage extends React.Component {
   renderPage() {
     return (
         <Container>
-          <Button basic onClick={this.onClick}>Add TestForm</Button>
-          <Button basic onClick={this.onClick2}>Add TestForm</Button>
+          <Button basic onClick={this.onClick3}>Add TestForm</Button>
+          <Button basic onClick={this.onClick4}>Add Dummy</Button>
           {/*<Button basic onClick={this.onClick3}>Add TestLocation3</Button>*/}
           <Button basic onClick={this.deleteClick}>Delete TestForm</Button>
         </Container>
