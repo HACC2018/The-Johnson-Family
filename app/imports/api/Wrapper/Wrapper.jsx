@@ -44,22 +44,23 @@ export function getCompositionOfLocations(){
   cursor.forEach((doc) => result.push(doc.name));
 
   const KCC  = _.filter(result, function(entry) {return entry.name.toLowerCase().contains('kcc')});
-  const KCCs = KCC.length;
-  final.push(KCCs);
+  const KCCAmount = KCC.length;
+  final.push(KCCAmount);
 
   const UH  = _.filter(result, function(entry) {return entry.name.toLowerCase().contains('uh')});
-  const UHs = UH.length;
-  final.push(UHs);
+  const UHAmount = UH.length;
+  final.push(UHAmount);
 
   const WestOahu = _.filter(result, function(entry) {return entry.name.toLowerCase().contains('westoahu')});
-  const WestOahus = WestOahu.length;
-  final.push(WestOahus);
+  const westOahuAmount = WestOahu.length;
+  final.push(westOahuAmount);
 
   return final;
 }
 
 /**
- *
+ * Returns an array similar to getCompositionOfLocations, except it filters through all the trash bags and returns the amount of each per category type.
+ * @return {Array} An array containing a list of numbers referencing the amount of trash bags listed under certain trash types.
  */
 export function getCategoryValues(){
   const cursor = getCollection(4);
@@ -68,16 +69,16 @@ export function getCategoryValues(){
   cursor.forEach((doc) => all.push(doc.category_id));
 
   const paper  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('paper')});
-  const papers = paper.length;
-  final.push(papers);
+  const paperAmount = paper.length;
+  final.push(paperAmount);
 
   const plastic  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('plastic')});
-  const plastics = plastic.length;
-  final.push(plastics);
+  const plasticAmount = plastic.length;
+  final.push(plasticAmount);
 
   const glass  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('glass')});
-  const glasss = glass.length;
-  final.push(glasss);
+  const glassAmount = glass.length;
+  final.push(glassAmount);
 
   const metal  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('metal')});
   const metalAmount = metal.length;
