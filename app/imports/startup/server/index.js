@@ -8,3 +8,4 @@ import './Forms.js';
 import './Studies.js';
 import './TrashBags.js';
 import './Admin.js';
+import './mqtt-init';
