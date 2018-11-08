@@ -11,7 +11,7 @@ const LocationsSchema = new SimpleSchema({
   street: String,
   city: String,
   state: String,
-  zip_code: SimpleSchema.Integer,
+  zip_code: Number,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
