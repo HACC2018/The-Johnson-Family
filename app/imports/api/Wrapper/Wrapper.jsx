@@ -251,7 +251,7 @@ export function addNewTrashBag(study, event_id, building_id, category_id, form_i
     if (uniqueStudy.includes(study) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
       return false;}
       else {
-                      Categories.insert({
+                      TrashBags.insert({
                         event: event,
                         study: study,
                         event_id: event_id,
