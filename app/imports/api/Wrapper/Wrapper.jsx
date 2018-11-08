@@ -12,7 +12,7 @@ import { Studies } from '../Studies/Studies';
   We will assume that Composition charts are Bar charts, Comparison chart
 */
 
-export function getCollection(collectionKey) {
+function getCollection(collectionKey) {
   switch (collectionKey) {
     case 1:
       return Locations.find();
