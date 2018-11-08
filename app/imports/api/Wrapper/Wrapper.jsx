@@ -71,6 +71,24 @@ export function getCategoryValues(){
   const papers = paper.length;
   final.push(papers);
 
+  const plastic  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('plastic')});
+  const plastics = plastic.length;
+  final.push(plastics);
+
+  const glass  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('glass')});
+  const glasss = glass.length;
+  final.push(glasss);
+
+  const metal  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('metal')});
+  const metalAmount = metal.length;
+  final.push(metalAmount);
+
+  const organics  = _.filter(all, function(entry) {return entry.category_id.toLowerCase().contains('organics')});
+  const organicsAmount = organics.length;
+  final.push(organicsAmount);
+
+  return final;
+
 }
 /**
  * Returns the values of the specified collection.
