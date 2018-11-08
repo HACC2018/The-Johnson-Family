@@ -31,7 +31,6 @@ class samtestpage extends React.Component {
 
   onClick() {
     if (db.addNewLocation('uh', 'paper', 'ha', 'ha')) {
-      console.log(db.getCompositionOfLocations())
       Bert.alert({ type: 'success', message: 'Insert succeeded'});
     } else {
       Bert.alert({ type: 'danger', message: 'Insert failed'});
@@ -40,6 +39,7 @@ class samtestpage extends React.Component {
 
   onClick2(){
     if(db.addNewForm("2", 1)){
+      console.log(db.getTotalCollectionCount(6));
       Bert.alert({type: 'success', message: 'Insert succeeded'});
     } else {
       Bert.alert({type: 'danger', message: 'Insert failed'});
@@ -67,7 +67,6 @@ class samtestpage extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    console.log(db.getCompositionOfLocations())
     return (
         <Container>
           <Button basic onClick={this.onClick}>Add TestForm</Button>
