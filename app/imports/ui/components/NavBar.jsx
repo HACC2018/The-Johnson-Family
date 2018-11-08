@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Dropdown, Image } from 'semantic-ui-react';
+import { Menu, Dropdown } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -46,9 +46,6 @@ class NavBar extends React.Component {
             </Dropdown>
         ) : (
             <Menu.Item style={menuStyle}>
-              <Menu.Item verticalalign='center' className='logo'>
-                <Image src="/images/LogoWhite.png" size='small'/>
-              </Menu.Item>
               <Menu.Item position='right' as={NavLink} activeClassName="active" style={itemStyle}
                          exact to="/Home" key='Home'>Home
               </Menu.Item>

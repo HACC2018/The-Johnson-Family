@@ -1,6 +1,8 @@
 import React from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
 import { withRouter } from 'react-router-dom';
+import * as db from '../../api/Wrapper/Wrapper';
+
 
 class BarGraph extends React.Component {
   render() {
@@ -11,7 +13,7 @@ class BarGraph extends React.Component {
     };
 
     const data = {
-      labels: ['Items of Interest', 'Paper', 'Plastic', 'Glass', 'Metals', 'Organics', 'Misc.'],
+      labels: ['Paper', 'Plastic', 'Glass', 'Metals', 'Organics'],
       datasets: [
         {
           label: 'Categories',
@@ -20,7 +22,7 @@ class BarGraph extends React.Component {
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(63,186,90,0.4)',
           hoverBorderColor: 'rgba(63,186,90,1)',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: db.getCategoryValues(),
         },
       ],
     };

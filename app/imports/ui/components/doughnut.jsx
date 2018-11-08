@@ -1,7 +1,7 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { withRouter } from 'react-router-dom';
-import * as db from '../../api/Wrapper/Wrapper'
+import * as db from '../../api/Wrapper/Wrapper';
 
 class DoughnutGraph extends React.Component {
   render() {
