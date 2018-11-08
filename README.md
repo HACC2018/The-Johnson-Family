@@ -33,7 +33,7 @@ First, install Meteor.
  
  The app/ directory has this top-level structure:
  
- <img src="app-directory.png">
+ <img src="app/directory.png">
  
  ## Import conventions
  
@@ -43,7 +43,7 @@ First, install Meteor.
  
  Then, client/main.js and server/main.js are responsible for importing all the directories containing code they need. For example, here is the contents of client/main.js:
  
- <img src"docs/main-js.png">
+ <img src="docs/main-js.png">
  
  Apart from the last line that imports style.css directly, the other lines all invoke the index.js file in the specified directory.
  
@@ -113,4 +113,3 @@ First, install Meteor.
  
  The development process for Gather conformed to Issue Driven Project Management practices. In a nutshell, development consists of a sequence of Milestones. Milestones consist of issues corresponding to 2-3 day tasks. GitHub projects are used to manage the processing of tasks during a milestone.
  
- The following sections document the development history of Gather.
