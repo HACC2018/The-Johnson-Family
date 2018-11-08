@@ -233,6 +233,7 @@ export function addNewCategory(name, parent_id, level) {
   else {
 
     Categories.insert({ name: name, parent_id: parent_id, level: level });
+
     return true;
 
   }
@@ -247,6 +248,7 @@ export function addNewCategory(name, parent_id, level) {
 export function addNewForm(date) {
     Forms.insert({ date: date });
     return true;
+
 }
 
 /**
@@ -400,6 +402,24 @@ export function getBuildingNamesByLocation(location_key) {
   return result;
 }
 
+
+
+export function getBuildingNamesByLocation(location_key) {
+  const location_ids_of_buildings = getCollectionValues(2, "location_id");
+  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+    return id === location_key;
+  });
+
+  let buildings_cursor = getCollection(2);
+  let result = [];
+  buildings_cursor.forEach((doc) => {
+    if (linked_building_ids.includes(doc.location_id)) {
+      result.push(doc.name);
+    }
+  });
+  return result;
+}
+
 export function getBuildingIdsByLocation(location_key) {
   const location_ids_of_buildings = getCollectionValues(2, "location_id");
   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
@@ -416,7 +436,6 @@ export function getBuildingIdsByLocation(location_key) {
   return result;
 }
 
- 
 
 // /**
 //  *
