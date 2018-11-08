@@ -79,12 +79,12 @@ export function addNewLocation(name, street, city, state, zip_code) {
   let uniqueZipCodes = [];
   cursor.forEach((doc) => uniqueZipCodes.push(doc.zip_code));
   uniqueZipCodes = _.uniq(uniqueZipCodes);
-  if (uniqueStreets.includes(street) && uniqueCities.includes(city) && uniqueStates.includes(state) && uniqueZipCodes.includes(zip_code)){
+  if (uniqueStreets.includes(street) && uniqueCities.includes(city) && uniqueStates.includes(state) && uniqueZipCodes.includes(zip_code)) {
     return false;
   } else {
-          Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
-          return true;
-        }
+    Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
+    return true;
+  }
 }
 
 /**
@@ -110,12 +110,12 @@ export function addNewCategory(name, parent_id, level) {
 
   if (uniqueNames.includes(name) && uniqueParent_id.includes(parent_id) && uniqueLevel.includes(level)) {
     return false;
-      }
-      else {
-        Categories.insert({ name: name, parent_id: parent_id, level: level })
-        return true;
+  }
+  else {
+    Categories.insert({ name: name, parent_id: parent_id, level: level })
+    return true;
 
-      }
+  }
 }
 
 /**
@@ -137,11 +137,11 @@ export function addNewForm(date, form_id) {
   if (uniqueDates.includes(name) && uniqueForm_id.includes(form_id)) {
     return false;
   }
-    else {
-      Forms.insert({ date: date, form_id: form_id })
-      return true;
+  else {
+    Forms.insert({ date: date, form_id: form_id })
+    return true;
 
-    }
+  }
 }
 
 /**
@@ -248,23 +248,68 @@ export function addNewTrashBag(study_id, event_id, building_id, category_id, for
   cursor.forEach((doc) => uniqueCount.push(doc.name));
   uniqueCount = _.uniq(uniqueCount);
 
-    if (uniqueStudy_id.includes(study_id) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
-      return false;}
-      else {
-                      Categories.insert({
-                        event: event,
-                        study_id: study_id,
-                        event_id: event_id,
-                        building_id: building_id,
-                        category_id: category_id,
-                        form_id: form_id,
-                        accepted: accepted,
-                        weight: weight,
-                        volume: volume,
-                        count: count
-                      })
-                      return true;
-                    }
+  if (uniqueStudy_id.includes(study_id) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
+    return false;
+  }
+  else {
+    TrashBags.insert({
+      event: event,
+      study_id: study_id,
+      event_id: event_id,
+      building_id: building_id,
+      category_id: category_id,
+      form_id: form_id,
+      accepted: accepted,
+      weight: weight,
+      volume: volume,
+      count: count
+    });
+    return true;
+  }
+}
+
+
+export function getBuildingNamesByLocation(location_key) {
+  const location_ids_of_buildings = getCollectionValues(2, "location_id");
+  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+    return id === location_key;
+  });
+
+  let buildings_cursor = getCollection(2);
+  let result = [];
+  buildings_cursor.forEach((doc) => {
+    if (linked_building_ids.includes(doc.location_id)) {
+      result.push(doc.name);
+    }
+  });
+  return result;
+}
+
+export function getBuildingIdsByLocation(location_key) {
+  const location_ids_of_buildings = getCollectionValues(2, "location_id");
+  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+    return id === location_key;
+  });
+
+  let buildings_cursor = getCollection(2);
+  let result = [];
+  buildings_cursor.forEach((doc) => {
+    if (linked_building_ids.includes(doc.location_id)) {
+      result.push(doc._id);
+    }
+  });
+  return result;
+}
+
+function addNewSmartBinEvent(location_id, building_id, category_id, weight, volume, count) {
+  //create a new event
+  const date = new Date();
+  const stripped_date = date.toLocaleString('en-US');
+  Events.insert({ name: `SmartBin-${stripped_date}`, date: date });
+
+  //insert trashbag
+  //Find the Event ID of the Event document we just inserted
+  // const events_cursor =
 }
 
 // /**
