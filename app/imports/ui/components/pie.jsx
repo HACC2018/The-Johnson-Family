@@ -3,8 +3,20 @@ import { Pie } from 'react-chartjs-2';
 import { Grid, Dropdown, Button, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import * as Palette from './PaletteConstants';
+import * as db from '../../api/Wrapper/Wrapper';
 
 class PieGraph extends React.Component {
+  constructor(){
+    super(props);
+    this.getCampusId(this) = this.getCampusId(this);
+  }
+
+
+  getCampusId = (event, {value}) => {
+    console.log(value)
+    let id_name = e.target.textContent;
+    console.log(id_name);
+  }
   render() {
 
     const styles = {
@@ -37,35 +49,17 @@ class PieGraph extends React.Component {
       }],
     };
 
-    const campusOptions = [
-      {
-        text: 'UH Manoa',
-        value: 'UH Manoa',
-      },
-      {
-        text: 'UH West Oahu',
-        value: 'UH West Oahu',
-      },
-    ];
+    const campusOptions = db.getCollection(1);
 
-    const buildingOptions = [
-      {
-        text: 'Sinclair Library',
-        value: 'Sinclair Library',
-      },
-      {
-        text: 'Hamilton Library',
-        value: 'Hamilton Library',
-      },
-    ];
+    const buildingOptions = db.getBuildingNamesByLocation();
 
     return (
         <div>
           <h3 style={styles}>Building Data</h3>
           <Grid>
             <Grid.Row centered>
-              <Button basic color='green'><Dropdown text='Select Campus'
-                                                    options={campusOptions}/></Button>
+              <Button basic color='green' onClick={this.db.getBuildingIdsByLocation()} ><Dropdown text='Select Campus'
+                                                    options={campusOptions} /></Button>
               <Icon color='green' name='long arrow alternate right' style={styles2}/>
               &nbsp;<Button disabled basic color='green'><Dropdown text='Select Building'
                                                                    options={buildingOptions}/></Button>
