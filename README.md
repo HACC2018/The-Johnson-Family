@@ -5,6 +5,7 @@ Gather is an application that allows users to:
 - Add events of waste audit.
 - Input the data of different kinds of trash audited.
 - View data of all the audit events.
+- **OUR WEBSITE IS LIVE AT:** [GATHER](http://gather.meteorapp.com/#/)
 
 # Installation
 
@@ -31,9 +32,6 @@ First, install Meteor.
  
  This structure separates configuration files (such as the settings files) in the config/ directory from the actual Meteor application in the app/ directory.
  
- The app/ directory has this top-level structure:
- 
- <img src="app/directory.png">
  
  ## Import conventions
  
