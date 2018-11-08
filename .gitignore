@@ -1,0 +1,13 @@
+*.iml
+.idea
+.DS_Store
+node_modules
+settings.production.json
+.meteor/local
+settings.json
+*.tar.gz
+extern
+node_modules
+tmp
+vendor
+

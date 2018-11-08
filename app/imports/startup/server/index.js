@@ -1,0 +1,11 @@
+import './stuff.js';
+import './bag.js';
+import './Locations.js';
+import './Buildings.js';
+import './Categories.js';
+import './Events.js';
+import './Forms.js';
+import './Studies.js';
+import './TrashBags.js';
+import './Admin.js';
+import './mqtt-init';

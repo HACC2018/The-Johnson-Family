@@ -1,0 +1,42 @@
+.user.icon {
+  margin: 0;
+}
+
+.footer {
+  color: white;
+}
+
+.landing-background {
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508885973283897354/minitree.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 1000px;
+}
+
+.continue-background {
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508851118722252810/trashbin.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 1000px;
+}
+
+.third-background {
+  background: url('https://cdn.discordapp.com/attachments/508521520109453314/508842811018182657/bottlebg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 1000px;
+}
+
+.background-bar {
+  background-size: cover;
+  background: #000000 no-repeat center center fixed;
+  height: 1000px;
+}
+
+.footer-background {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 150px;
+}
+
+.logo {
+  margin-left: -40%;
+  margin-right: 0%;
+}
