@@ -22,8 +22,6 @@ class Footer extends React.Component {
           <Grid textAlign="center" verticalAlign="middle" centered>
             <Grid.Row>
             </Grid.Row>
-            <Grid.Row>
-            </Grid.Row>
             <Grid.Row centered>
               <a href="https://www.facebook.com/uhsustainability/">
                 <Button circular icon='facebook' size='large' color='facebook'/>
@@ -35,11 +33,6 @@ class Footer extends React.Component {
                 <Button circular icon='instagram' size='large' color='instagram'/>
               </a>
             </Grid.Row>
-            <Grid.Row>
-            </Grid.Row>
-            <Image
-                src="/images/LogoWhite.png"
-                style={imgStyle}/>
           </Grid>
         </footer>
     );
