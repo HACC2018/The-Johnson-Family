@@ -54,7 +54,7 @@ class AdminOptions extends React.Component {
             </Grid.Column>
 
             <Grid.Column>
-              <Link to={'#'}><Segment>
+              <Link to={'/submitdata'}><Segment>
                 <Grid columns={2} stackable textAlign='center'>
                   <Grid.Row verticalAlign='middle'>
                     <Grid.Column>
@@ -72,7 +72,7 @@ class AdminOptions extends React.Component {
             </Grid.Column>
 
             <Grid.Column>
-              <Link to={'#'}><Segment>
+              <Link to={'/editlocations'}><Segment>
                 <Grid columns={2} stackable textAlign='center'>
                   <Grid.Row verticalAlign='middle'>
                     <Grid.Column>

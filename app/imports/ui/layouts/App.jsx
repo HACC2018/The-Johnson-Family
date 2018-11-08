@@ -16,6 +16,8 @@ import Signout from '../pages/Signout';
 import Dashboard from '../pages/Dashboard';
 import AdminPage from '../pages/AdminPage';
 import PendingAudits from '../pages/PendingAudits';
+import SubmitData from '../pages/SubmitData';
+import EditLocations from '../pages/EditLocations';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
 
@@ -36,6 +38,8 @@ class App extends React.Component {
               <Route path="/giantestpage" component={giantestpage}/>
               <Route path="/samtestpage" component={samtestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
+              <ProtectedRoute path="/submitdata" component={SubmitData}/>
+              <ProtectedRoute path="/editlocations" component={EditLocations}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
               <ProtectedRoute path="/addlist" component={AddListBag}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>

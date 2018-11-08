@@ -36,7 +36,8 @@ class AddBag extends React.Component {
   submit(data) {
     const { id, type, weight, volume } = data;
     const owner = Meteor.user().username;
-    Bags.insert({ id, type, weight, volume, owner }, this.insertCallback);
+
+    addNewEvent(name, date);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
