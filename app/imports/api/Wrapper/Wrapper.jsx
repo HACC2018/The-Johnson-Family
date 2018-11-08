@@ -375,8 +375,6 @@ export function addNewTrashBag(event_id, building_id, location_id, category_id, 
   }
   else {
     TrashBags.insert({
-      event: event,
-
       event_id: event_id,
       building_id: building_id,
       location_id: location_id,
