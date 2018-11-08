@@ -5,6 +5,12 @@ import { withRouter } from 'react-router-dom';
 import * as Palette from './PaletteConstants';
 
 class PieGraph extends React.Component {
+
+  options(collection){
+    let option = collection.map(info, index) =>
+
+
+
   render() {
 
     const styles = {
