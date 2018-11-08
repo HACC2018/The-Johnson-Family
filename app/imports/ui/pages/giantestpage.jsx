@@ -39,7 +39,7 @@ class giantestpage extends React.Component {
   }
 
   onClick2(){
-    if(db.addNewForm("2", 1)){
+    if(db.addNewBuilding("Architecture", "Hym4RKYQzPFhaWhQq")){
       Bert.alert({type: 'success', message: 'Insert succeeded'});
     } else {
       Bert.alert({type: 'danger', message: 'Insert failed'});
@@ -61,6 +61,8 @@ class giantestpage extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
+    const test = db.getBuildingIdsByLocation("Hym4RKYQzPFhaWhQq");
+    console.log(test);
     return (this.props.ready) ? this.renderPage() : <Loader>Getting data</Loader>;
   }
 

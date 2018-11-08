@@ -232,6 +232,7 @@ export function addNewCategory(name, parent_id, level) {
   }
   else {
     Categories.insert({ name: name, parent_id: parent_id, level: level });
+
     return true;
 
   }
@@ -245,6 +246,7 @@ export function addNewCategory(name, parent_id, level) {
 export function addNewForm(date) {
     Forms.insert({ date: date });
     return true;
+
 }
 
 /**
@@ -378,6 +380,50 @@ export function addNewTrashBag(event_id, building_id, location_id, category_id, 
     return true;
   }
 
+}
+
+
+export function getBuildingNamesByLocation(location_key) {
+  const location_ids_of_buildings = getCollectionValues(2, "location_id");
+  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+    return id === location_key;
+  });
+
+  let buildings_cursor = getCollection(2);
+  let result = [];
+  buildings_cursor.forEach((doc) => {
+    if (linked_building_ids.includes(doc.location_id)) {
+      result.push(doc.name);
+    }
+  });
+  return result;
+}
+
+export function getBuildingIdsByLocation(location_key) {
+  const location_ids_of_buildings = getCollectionValues(2, "location_id");
+  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+    return id === location_key;
+  });
+
+  let buildings_cursor = getCollection(2);
+  let result = [];
+  buildings_cursor.forEach((doc) => {
+    if (linked_building_ids.includes(doc.location_id)) {
+      result.push(doc._id);
+    }
+  });
+  return result;
+}
+
+function addNewSmartBinEvent(location_id, building_id, category_id, weight, volume, count) {
+  //create a new event
+  const date = new Date();
+  const stripped_date = date.toLocaleString('en-US');
+  Events.insert({ name: `SmartBin-${stripped_date}`, date: date });
+
+  //insert trashbag
+  //Find the Event ID of the Event document we just inserted
+  // const events_cursor =
 }
 
 // /**
