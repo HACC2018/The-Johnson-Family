@@ -34,6 +34,30 @@ function getCollection(collectionKey) {
 }
 
 /**
+ * Returns an array that holds within it the amount of campuses that match the three tested names.
+ * @return {Array} An array of how many campuses of each exist.
+ */
+export function getCompositionOfLocations(){
+  const cursor = getCollection(Locations);
+  let result = [];
+  let final = [];
+  cursor.forEach((doc) => result.push(doc.name));
+
+  const KCC  = _.filter(result, function(entry) {return entry[name].toLowerCase().contains('kcc')});
+  const KCCs = KCC.length;
+  final.push(KCCs);
+
+  const UH  = _.filter(result, function(entry) {return entry[name].toLowerCase().contains('uh')});
+  const UHs = UH.length;
+  final.push(UHs);
+
+  const WestOahu = _.filter(result, function(entry) {return entry[name].toLowerCase().contains('westoahu')});
+  const WestOahus = WestOahu.length;
+  final.push(WestOahus);
+
+  return final;
+}
+/**
  * Returns the values of the specified collection.
  * @param collectionKey the key indicating which collection to retrieve data from. See #information channel on Discord.
  * @param field if specified, it will return all the values for that field ONLY. If left blank, it will return the entire Collection with all the values.
