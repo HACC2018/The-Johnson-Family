@@ -38,7 +38,7 @@ function getCollection(collectionKey) {
  * @return {Array} An array of how many campuses of each exist.
  */
 export function getCompositionOfLocations(){
-  const cursor = getCollection(Locations);
+  const cursor = getCollection(1);
   let result = [];
   let final = [];
   cursor.forEach((doc) => result.push(doc.name));
@@ -56,6 +56,10 @@ export function getCompositionOfLocations(){
   final.push(WestOahus);
 
   return final;
+}
+
+export function getCategoryValues(){
+
 }
 /**
  * Returns the values of the specified collection.
