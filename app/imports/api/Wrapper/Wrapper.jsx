@@ -380,6 +380,7 @@ export function addNewTrashBag(event_id, building_id, location_id, category_id, 
     });
     return true;
   }
+
 }
 
 
@@ -397,24 +398,7 @@ export function getBuildingNamesByLocation(location_key) {
     }
   });
   return result;
-}
 
-
-
-export function getBuildingNamesByLocation(location_key) {
-  const location_ids_of_buildings = getCollectionValues(2, "location_id");
-  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-    return id === location_key;
-  });
-
-  let buildings_cursor = getCollection(2);
-  let result = [];
-  buildings_cursor.forEach((doc) => {
-    if (linked_building_ids.includes(doc.location_id)) {
-      result.push(doc.name);
-    }
-  });
-  return result;
 }
 
 export function getBuildingIdsByLocation(location_key) {
@@ -432,7 +416,6 @@ export function getBuildingIdsByLocation(location_key) {
   });
   return result;
 }
-
 
 // /**
 //  *
