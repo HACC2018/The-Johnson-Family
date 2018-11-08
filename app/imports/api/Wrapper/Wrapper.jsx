@@ -209,12 +209,12 @@ export function addNewStudy(name, category_id, start_date, end_date) {
  * @param volume field value
  * @param count field value
  */
-export function addNewTrashBag(study_id, event_id, building_id, category_id, form_id, accepted, weight, volume, count) {
+export function addNewTrashBag(study, event_id, building_id, category_id, form_id, accepted, weight, volume, count) {
   const cursor = getCollection(4);
 
-  let uniqueStudy_id = [];
-  cursor.forEach((doc) => uniqueStudy_id.push(doc.name));
-  uniqueStudy_id = _.uniq(uniqueStudy_id);
+  let uniqueStudy = [];
+  cursor.forEach((doc) => uniqueStudy.push(doc.name));
+  uniqueStudy = _.uniq(uniqueStudy);
 
   let uniqueEvent_id = [];
   cursor.forEach((doc) => uniqueEvent_id.push(doc.name));
@@ -248,12 +248,12 @@ export function addNewTrashBag(study_id, event_id, building_id, category_id, for
   cursor.forEach((doc) => uniqueCount.push(doc.name));
   uniqueCount = _.uniq(uniqueCount);
 
-    if (uniqueStudy_id.includes(study_id) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
+    if (uniqueStudy.includes(study) && uniqueEvent_id.includes(event_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueForm_id.includes(form_id) && uniqueAccepted.includes(accepted) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
       return false;}
       else {
                       Categories.insert({
                         event: event,
-                        study_id: study_id,
+                        study: study,
                         event_id: event_id,
                         building_id: building_id,
                         category_id: category_id,
