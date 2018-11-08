@@ -33,7 +33,6 @@ class AddLocations extends React.Component {
   /** On submit, insert the data. */
   submit(data) {
     const { name, street, city, state, zip_code } = data;
-    const owner = Meteor.user().username;
     db.addNewLocation(name, street, city, state, zip_code)
   }
 
@@ -45,7 +44,6 @@ class AddLocations extends React.Component {
             <Header as="h2" textAlign="center">Add Locations</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={LocationsSchema} onSubmit={this.submit}>
               <Segment>
-                /* TODO: Change the AutoFields to its appropriate fields for proper validation. */
                 <AutoField name='name'/>
                 <AutoField name='street'/>
                 <AutoField name='city'/>
@@ -53,7 +51,6 @@ class AddLocations extends React.Component {
                 <AutoField name='zip_code'/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
-                <HiddenField name='owner' value='fakeuser@foo.com'/>
               </Segment>
             </AutoForm>
           </Grid.Column>
