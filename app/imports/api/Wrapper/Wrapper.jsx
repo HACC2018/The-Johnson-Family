@@ -7,12 +7,14 @@ import { Categories } from '../Categories/Categories';
 import { Forms } from '../Forms/Forms';
 import { Studies } from '../Studies/Studies';
 
+
+
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
   We will assume that Composition charts are Bar charts, Comparison chart
 */
 
-function getCollection(collectionKey) {
+export function getCollection(collectionKey) {
   switch (collectionKey) {
     case 1:
       return Locations.find();
@@ -31,6 +33,13 @@ function getCollection(collectionKey) {
     default:
       throw new SyntaxError();
   }
+}
+
+export function getTotalDocuments(collection){
+  const cursor = getCollection(collection);
+  let count = 0;
+  cursor.forEach(() => count++ );
+  return count;
 }
 
 /**
