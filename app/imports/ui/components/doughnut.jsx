@@ -1,6 +1,7 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { withRouter } from 'react-router-dom';
+import * as db from '../../api/Wrapper/Wrapper'
 
 class DoughnutGraph extends React.Component {
   render() {
@@ -17,7 +18,7 @@ class DoughnutGraph extends React.Component {
         'Kapiolani',
       ],
       datasets: [{
-        data: [300, 50, 100],
+        data: db.getCompositionOfLocations(),
         backgroundColor: [
           '#3fba5a',
           '#026245',
