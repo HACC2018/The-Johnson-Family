@@ -33,7 +33,7 @@ First, install Meteor.
  
  The app/ directory has this top-level structure:
  
- <img src="app-directory.png">
+ <img src="docs/app-directory.png">
  
 ## Import conventions
  
