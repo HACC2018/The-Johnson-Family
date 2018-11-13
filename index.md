@@ -22,8 +22,8 @@ First, install Meteor.
   
  If all goes well, the application will appear at http://localhost:3000. 
  
- # Application Design
- ## Directory structure
+# Application Design
+## Directory structure
  
  The top-level directory structure contains:
  
@@ -35,7 +35,7 @@ First, install Meteor.
  
  <img src="app-directory.png">
  
- ## Import conventions
+## Import conventions
  
  This system adheres to the Meteor 1.4 guideline of putting all application code in the imports/ directory, and using client/main.js and server/main.js to import the code appropriate for the client and server in an appropriate order.
  
@@ -57,7 +57,7 @@ First, install Meteor.
  
  Note that this two-level import structure ensures that all code and templates are loaded, but does not ensure that the symbols needed in a given file are accessible. So, for example, a symbol bound to a collection still needs to be imported into any file that references it.
  
- ## Naming Convention
+## Naming Convention
  
  This system adopts the following naming conventions:
  
@@ -68,11 +68,11 @@ First, install Meteor.
  - Templates representing pages are capitalized, with words separated by underscores. Example: Directory_Page. The files for this template are lower case, with hyphens rather than underscore. Example: directory-page.html, directory-page.js.
  - Routes to pages are named the same as their corresponding page. Example: Directory_Page.
   
- ## Data model
+## Data model
  
  Updating soon...
  
- ## CSS
+## CSS
  
  The application uses the Semantic UI CSS framework. To learn more about the Semantic UI theme integration with Meteor, see Semantic-UI-Meteor.
  
@@ -80,26 +80,26 @@ First, install Meteor.
  
  Note that the user pages contain a menu fixed to the top of the page, and thus the body element needs to have padding attached to it. However, the landing page does not have a menu, and thus no padding should be attached to the body element on that page. To accomplish this, the router uses “triggers” to add an remove the appropriate classes from the body element when a page is visited and then left by the user.
  
-  ## Routing
+## Routing
   
   Updating soon...
   
-  ## Authentication
+## Authentication
   
  Only the admin can login and access the data. Admin can be identify as the person who is in charge of the waste audit event at the time.
   
-  ## Authorization
+## Authorization
   
  The landing page is public and can be access by anyone with the link.
  
-  ## Configuration
+## Configuration
   
   The config directory is intended to hold settings files. The repository contains one file: config/settings.development.json.
   
   The .gitignore file prevents a file named settings.production.json from being committed to the repository. So, if you are deploying the application, you can put settings in a file named settings.production.json and it will not be committed.
  
- # Quality Assurance
- ## ESLint
+# Quality Assurance
+## ESLint
  
  Gather includes a .eslintrc file to define the coding style adhered to in this application. You can invoke ESLint from the command line as follows:
  
@@ -109,7 +109,7 @@ First, install Meteor.
  
  It’s significantly easier to do development with ESLint integrated directly into your IDE (such as IntelliJ).
  
- # Development History
+# Development History
  
  The development process for Gather conformed to Issue Driven Project Management practices. In a nutshell, development consists of a sequence of Milestones. Milestones consist of issues corresponding to 2-3 day tasks. GitHub projects are used to manage the processing of tasks during a milestone.
  
