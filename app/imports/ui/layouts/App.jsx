@@ -29,6 +29,7 @@ import ViewStudies from '../pages/ViewStudies';
 import AddBuildings from '../pages/AddBuildings';
 import ViewMembers from '../pages/ViewMembers';
 import ViewBags from '../pages/ViewBags';
+import glentestpage from '../pages/glentestpage';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';
@@ -46,6 +47,7 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <Route path="/giantestpage" component={giantestpage}/>
               <Route path="/samtestpage" component={samtestpage}/>
+              <Route path="/glentestpage" component={glentestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
               <ProtectedRoute path="/submitdata" component={SubmitData}/>
               <ProtectedRoute path="/editlocations" component={EditLocations}/>
