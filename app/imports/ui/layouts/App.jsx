@@ -20,6 +20,7 @@ import SubmitData from '../pages/SubmitData';
 import EditLocations from '../pages/EditLocations';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
+import glentestpage from '../pages/glentestpage';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';
@@ -37,6 +38,7 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <Route path="/giantestpage" component={giantestpage}/>
               <Route path="/samtestpage" component={samtestpage}/>
+              <Route path="/glentestpage" component={glentestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
               <ProtectedRoute path="/submitdata" component={SubmitData}/>
               <ProtectedRoute path="/editlocations" component={EditLocations}/>
