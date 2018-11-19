@@ -1,3 +1,4 @@
+import { Mongo } from 'meteor/mongo'
 import { _ } from 'meteor/underscore';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
@@ -7,6 +8,8 @@ import { Categories } from '../Categories/Categories';
 import { Forms } from '../Forms/Forms';
 import { Studies } from '../Studies/Studies';
 
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 
 
 /*
@@ -14,12 +17,13 @@ import { Studies } from '../Studies/Studies';
   We will assume that Composition charts are Bar charts, Comparison chart
 */
 
-export function getCollection(collectionKey) {
+function getCollection(collectionKey) {
   switch (collectionKey) {
     case 1:
       return Locations.find();
     case 2:
-      return Buildings.find();
+      while(!this.props.ready){}
+      return Buildings.find().fetch();
     case 3:
       return Events.find();
     case 4:
@@ -34,6 +38,15 @@ export function getCollection(collectionKey) {
       throw new SyntaxError();
   }
 }
+
+export default withTracker(() => {
+  // Get access to Stuff documents.
+  const subscription = Meteor.subscribe('Buildings');
+  return {
+    buildings: Buildings.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(getCollection);
 
 export function getTotalDocuments(collection){
   const cursor = getCollection(collection);

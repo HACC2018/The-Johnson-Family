@@ -1,13 +1,31 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import * as db from '../../api/Wrapper/Wrapper';
+import { List, Container, Item } from 'semantic-ui-react';
 
-/** Render a Not Found page if the user enters a URL that doesn't match any route. */
 class glentestpage extends React.Component {
+  testFunc() {
+    console.log(db.getCollection(2))
+  }
+
   render() {
     return (
-        <Header as="h2" textAlign="center">
-          <p>hello world</p>
-        </Header>
+        <Container>
+          <p>
+            <List>
+              <List.Item>Gaining Access</List.Item>
+              <List.Item>Inviting Friends</List.Item>
+              <List.Item>
+                Benefits
+                <List.List>
+                  <List.Item>Rebates</List.Item>
+                  <List.Item>Discounts</List.Item>
+                </List.List>
+              </List.Item>
+              <List.Item>Warranty</List.Item>
+            </List>
+          </p>
+          <p>X</p>
+        </Container>
     );
   }
 }
