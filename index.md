@@ -22,6 +22,14 @@ First, install Meteor.
   
  If all goes well, the application will appear at http://localhost:3000. 
  
+ <img src="docs/landing1.png">
+ <img src="docs/landing3.png">
+ <img src="docs/landing4.png">
+ <img src="docs/signin.png">
+ <img src="docs/dashboard.png">
+ <img src="docs/adminpage.png">
+ <img src="docs/addbags.png">
+ 
 # Application Design
 ## Directory structure
  
