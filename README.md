@@ -14,6 +14,8 @@ Our solution is a two-pronged approach involving a web app and a smart bin. Our 
 
 In order to realize our solution, we are implementing a database in a series of collections through MongoDB. The web app will use the JavaScript framework Meteor with Semantic UI React, simplifying the process of designing and deploying a clean, intuitive app. The accompanying smart bin will be implemented using proximity and load cell sensors connected to a NodeMCU WiFi Development Board that’s programmed to push data to our database using the MQTT protocol.
 
+[![Watch the video](docs/gathervid.png)](https://www.youtube.com/watch?v=XZxnj_RrCKs)
+
 
 # Developement Progress 
 - [Gather Web App](http://gather.meteorapp.com/#/)
