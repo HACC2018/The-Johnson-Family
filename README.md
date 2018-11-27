@@ -39,7 +39,7 @@ Once you are signed in, you can visit the Dashboard page, which gives you an ind
 
  <img src="docs/dashboard.png">
 
-You can also add your info trash audit information for the Department of Sustainability at UH Manoa to verify and add to the data chart.
+You can also add your trash audit information for the Department of Sustainability at UH Manoa to verify and add to the data chart.
 
  <img src="docs/addbags.png">
 
