@@ -1,4 +1,4 @@
-<img src="docs/Landing-page.png">
+<img src="docs/GatherLogo.png">
 
 Gather is an application that allows users to: 
 
