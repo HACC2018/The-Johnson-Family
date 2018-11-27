@@ -6,6 +6,38 @@ Gather is an application that allows users to:
 - Input the data of different kinds of trash audited.
 - View data of all the audit events.
 
+
+# Developement Progress 
+- [Gather Web App](http://gather.meteorapp.com/#/)
+- [Milestone 1](https://github.com/HACC2018/The-Johnson-Family/projects/2) 
+- [Milestone 2](https://github.com/HACC2018/The-Johnson-Family/projects/3) 
+
+
+# User Guide
+ 
+When you first visit the page, you will be greeted by our Landing Page!
+<img src="docs/Landing-page.png">
+ <img src="docs/landing1.png">
+ <img src="docs/landing3.png">
+ <img src="docs/landing4.png">
+
+Anyone can create an account.
+
+<img src="docs/signin.png">
+
+Once you are signed in, you can visit the Dashboard page, which gives you an indepth look into current trash audit statistics.
+
+ <img src="docs/dashboard.png">
+
+You can also add your info trash audit information for the Department of Sustainability at UH Manoa to verify and add to the data chart.
+
+ <img src="docs/addbags.png">
+
+As an administrator, you can then view pending data and confirm the information to add to the dashboard.
+
+ <img src="docs/adminpage.png">
+
+
 # Installation
 
 First, install Meteor.
@@ -21,14 +53,7 @@ First, install Meteor.
   <img src="docs/runmeteor.png">
   
  If all goes well, the application will appear at http://localhost:3000. 
- 
- <img src="docs/landing1.png">
- <img src="docs/landing3.png">
- <img src="docs/landing4.png">
- <img src="docs/signin.png">
- <img src="docs/dashboard.png">
- <img src="docs/adminpage.png">
- <img src="docs/addbags.png">
+
  
 # Application Design
 ## Directory structure
