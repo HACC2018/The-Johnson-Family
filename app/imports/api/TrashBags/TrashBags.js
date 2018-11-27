@@ -17,6 +17,10 @@ const TrashBagsSchema = new SimpleSchema({
   weight: Number,
   volume: Number,
   count: SimpleSchema.Integer,
+  notes: {
+    type: String,
+    max: 1000
+  },
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
