@@ -18,12 +18,12 @@ class AdminOptions extends React.Component {
     return (
           <Grid.Row columns={4} verticalAlign='middle'>
             <Grid.Column>
-              <Link to={'#'}><Segment>
+              <Link to={'/view'}><Segment>
                 <Grid columns={2} stackable textAlign='center'>
                   <Grid.Row verticalAlign='middle'>
                     <Grid.Column>
                       <Header as="h1" style={styles2}>
-                        Data Retrieval
+                        View Events/Data
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
@@ -72,16 +72,124 @@ class AdminOptions extends React.Component {
             </Grid.Column>
 
             <Grid.Column>
-              <Link to={'/editlocations'}><Segment>
+              <Link to={'/addviewlocations'}><Segment>
                 <Grid columns={2} stackable textAlign='center'>
                   <Grid.Row verticalAlign='middle'>
                     <Grid.Column>
                       <Header as="h1" style={styles2}>
-                        Edit Locations
+                        View/Add Locations
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
                       <Icon name='building outline' size='huge' style={iconStyle}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={'/addcategories'}><Segment>
+                <Grid columns={2} stackable textAlign='center'>
+                  <Grid.Row verticalAlign='middle'>
+                    <Grid.Column>
+                      <Header as="h1" style={styles2}>
+                        View/Add Categories
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Icon name='add square' size='huge' style={iconStyle}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={'/verifyforms'}><Segment>
+                <Grid columns={2} stackable textAlign='center'>
+                  <Grid.Row verticalAlign='middle'>
+                    <Grid.Column>
+                      <Header as="h1" style={styles2}>
+                        Verify Forms
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Icon name='wpforms' size='huge' style={iconStyle}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={'/viewstudies'}><Segment>
+                <Grid columns={2} stackable textAlign='center'>
+                  <Grid.Row verticalAlign='middle'>
+                    <Grid.Column>
+                      <Header as="h1" style={styles2}>
+                        View Studies
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Icon name='line graph' size='huge' style={iconStyle}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={'/addbuildings'}><Segment>
+                <Grid columns={2} stackable textAlign='center'>
+                  <Grid.Row verticalAlign='middle'>
+                    <Grid.Column>
+                      <Header as="h1" style={styles2}>
+                        View/Add Buildings
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Icon name='building' size='huge' style={iconStyle}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={'/viewmembers'}><Segment>
+                <Grid columns={2} stackable textAlign='center'>
+                  <Grid.Row verticalAlign='middle'>
+                    <Grid.Column>
+                      <Header as="h1" style={styles2}>
+                        Members
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Icon name='users' size='huge' style={iconStyle}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={'/viewbags'}><Segment>
+                <Grid columns={2} stackable textAlign='center'>
+                  <Grid.Row verticalAlign='middle'>
+                    <Grid.Column>
+                      <Header as="h1" style={styles2}>
+                        View Bags
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Icon name='wpforms' size='huge' style={iconStyle}/>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
