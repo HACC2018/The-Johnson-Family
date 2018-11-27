@@ -11,6 +11,7 @@ Gather is an application that allows users to:
 - [Gather Web App](http://gather.meteorapp.com/#/)
 - [Milestone 1](https://github.com/HACC2018/The-Johnson-Family/projects/2) 
 - [Milestone 2](https://github.com/HACC2018/The-Johnson-Family/projects/3) 
+- [Milestone 2](https://github.com/HACC2018/The-Johnson-Family/projects/4) 
 
 
 # User Guide
