@@ -597,7 +597,7 @@ export function getBagLinkedData(bag_id, collections) {
   datum['building'] = _.find(collections.buildings, building => bag.building_id === building._id);
   datum['category'] = _.find(collections.categories, category => bag.category_id === category._id);
   datum['form'] = _.find(collections.forms, form => bag.category_id === form._id);
-  return data;
+  return datum;
 }
 
 export function getEventsByDate(date, rangeDate = -1) {
