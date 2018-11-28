@@ -576,6 +576,30 @@ export function editTrashBag(id, event_id, building_id, location_id, category_id
 // }
 
 // New functions for refactor
+
+export function getBagLinkedCollections() {
+  let data = {};
+  data['bags'] = getCollection(constants.codes.trashBags);
+  data['events'] = getCollection(constants.codes.events);
+  data['locations'] = getCollection(constants.codes.locations);
+  data['buildings'] = getCollection(constants.codes.buildings);
+  data['categories'] = getCollection(constants.codes.categories);
+  data['forms'] = getCollection(constants.codes.forms);
+  return data;
+}
+
+export function getBagLinkedData(bag_id, collections) {
+  let datum = {};
+  const bag = _.find(collections.bags, bag => bag._id === bag_id);
+  datum['bag'] = bag;
+  datum['event'] = _.find(collections.events, event => bag.event_id === event._id);
+  datum['location'] = _.find(collections.locations, location => bag.location_id === location._id);
+  datum['building'] = _.find(collections.buildings, building => bag.building_id === building._id);
+  datum['category'] = _.find(collections.categories, category => bag.category_id === category._id);
+  datum['form'] = _.find(collections.forms, form => bag.category_id === form._id);
+  return data;
+}
+
 export function getEventsByDate(date, rangeDate = -1) {
   const events = getCollection(constants.codes.events)
   if (rangeDate === -1) {
