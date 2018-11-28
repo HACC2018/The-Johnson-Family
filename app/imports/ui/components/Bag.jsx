@@ -11,13 +11,15 @@ class Bag extends React.Component {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
+
   deleteCallback(error) {
-    if(error) {
-      Bert.alert({type: 'danger', message: 'Delete failed: ${error.message}' });
+    if (error) {
+      Bert.alert({ type: 'danger', message: 'Delete failed: ${error.message}' });
     } else {
-      Bert.alert({type: 'success', message: 'Delete succeeded' });
+      Bert.alert({ type: 'success', message: 'Delete succeeded' });
     }
   }
+
   onClick() {
     Bags.remove(this.props.bag._id, this.deleteCallback);
   }
@@ -27,12 +29,13 @@ class Bag extends React.Component {
         <List divided verticalAlign='middle'>
           <List.Item>
             <List.Content>
-              <List.Header as='a'>{this.props.bag.event_id}</List.Header>
-              <List.Description>{this.props.bag.building_id}, {this.props.bag.weight}, {this.props.bag.volume}</List.Description>
+              <List.Header
+                  as='a'>{this.props.datum.event.name}</List.Header>
+              <List.Description>{this.props.datum.bag.building_id}, {this.props.bag.weight}, {this.props.bag.volume}</List.Description>
             </List.Content>
             <List.Content floated='right'>
               <Link to={`/edit/${this.props.bag._id}`}><Icon name='edit' size='large'/></Link>
-              <Icon name='delete' size='large' color='red' basic onClick={this.onClick} />
+              <Icon name='delete' size='large' color='red' onClick={this.onClick}/>
             </List.Content>
           </List.Item>
         </List>
@@ -42,7 +45,7 @@ class Bag extends React.Component {
 
 /** Require a document to be passed to this component. */
 Bag.propTypes = {
-  bag: PropTypes.object.isRequired,
+  datum: PropTypes.object.isRequired,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */

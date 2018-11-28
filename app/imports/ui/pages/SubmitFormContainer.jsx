@@ -8,7 +8,6 @@ import ListBag from '../components/ListBag';
 import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper';
 
-
 class SubmitFormContainer extends React.Component {
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
@@ -16,6 +15,7 @@ class SubmitFormContainer extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+
     return (
         <div>
           <Grid container divided='vertically'>
@@ -24,7 +24,7 @@ class SubmitFormContainer extends React.Component {
                 <AddBag/>
               </Grid.Column>
               <Grid.Column>
-                <ListBag bags={this.props.bags}/>
+                <ListBag data={db.getBagLinkedCollections()}/>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -34,15 +34,22 @@ class SubmitFormContainer extends React.Component {
 }
 
 SubmitFormContainer.propTypes = {
-  bags: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
-  const subscription = Meteor.subscribe('TrashBags');
+  const s1 = Meteor.subscribe('TrashBags');
+  const s2 = Meteor.subscribe('Events');
+  const s3 = Meteor.subscribe('Locations');
+  const s4 = Meteor.subscribe('Buildings');
+  const s5 = Meteor.subscribe('Categories');
   return {
-    bags: TrashBags.find({}).fetch(),
-    ready: subscription.ready(),
+    ready:
+        s1.ready() &&
+        s2.ready() &&
+        s3.ready() &&
+        s4.ready() &&
+        s5.ready()
   };
 })(SubmitFormContainer);
