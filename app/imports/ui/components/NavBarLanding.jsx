@@ -53,7 +53,7 @@ class NavBarLanding extends React.Component {
                          exact to="/Home" key='Home'>Home
               </Menu.Item>
               <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
-                         exact to="/addlist" key='addlist'>Submit Data
+                         exact to="/submitform" key='submitform'>Submit Data
               </Menu.Item>
               <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
                          exact to="/dash" key='dash'>Dashboard
