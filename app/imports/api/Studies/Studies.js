@@ -8,9 +8,9 @@ const Studies = new Mongo.Collection('Studies');
 /** Create a schema to constrain the structure of documents associated with this collection. */
 const StudiesSchema = new SimpleSchema({
   name: String,
-  category_id: Number, //should be array
+  category_ids: [String], //should be array
   start_date: Date,
-  end_date: Date,
+  end_date: { type: Date, optional: true },
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
