@@ -34,7 +34,7 @@ class AddBag extends React.Component {
 
   /** On submit, insert the data. */
   submit(data) {
-    const { id, type, weight, volume } = data;
+    const { event, building, location, category, weight, volume, count } = data;
     const owner = Meteor.user().username;
 
     addNewEvent(name, date);
@@ -48,10 +48,13 @@ class AddBag extends React.Component {
             <Header as="h2" textAlign="center">Add Bag</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={BagSchema} onSubmit={this.submit}>
               <Segment>
-                <TextField name='id'/>
-                <SelectField name='type'/>
+                <TextField name='event'/>
+                <TextField name='building'/>
+                <TextField name='location'/>
+                <TextField name='category'/>
                 <NumField name='weight' decimal={false}/>
                 <NumField name='volume' decimal={false}/>
+                <NumField name='count' decimal={false}/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
                 <HiddenField name='owner' value='fakeuser@foo.com'/>
