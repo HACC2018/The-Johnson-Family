@@ -36,8 +36,6 @@ class AddBag extends React.Component {
   submit(data) {
     const { event, building, location, category, weight, volume, count } = data;
     const owner = Meteor.user().username;
-
-    addNewEvent(name, date);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -66,4 +64,4 @@ class AddBag extends React.Component {
   }
 }
 
-export default AddBag;
+
