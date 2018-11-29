@@ -2,6 +2,9 @@ import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
 import ListBag from '../components/ListBag';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropType from 'prop-types';
+import * as db from '../../api/Wrapper/Wrapper';
 
 /** A simple static component to render some text for the landing page. */
 class VerifyForms extends React.Component {
