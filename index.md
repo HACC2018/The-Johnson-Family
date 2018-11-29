@@ -22,7 +22,7 @@ In order to realize our solution, we are implementing a database in a series of 
 - [Devpost Video](https://devpost.com/software/johnson-family-waste-audit-app)
 - [Milestone 1](https://github.com/HACC2018/The-Johnson-Family/projects/2) 
 - [Milestone 2](https://github.com/HACC2018/The-Johnson-Family/projects/3) 
-- [Milestone 2](https://github.com/HACC2018/The-Johnson-Family/projects/4) 
+- [Milestone 3](https://github.com/HACC2018/The-Johnson-Family/projects/4) 
 
 
 # User Guide
