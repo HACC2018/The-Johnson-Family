@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Header, Icon, Segment } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
 
 /** Renders a single row in the StatSegment table. */
 class StatSegment extends React.Component {
@@ -31,22 +30,22 @@ class StatSegment extends React.Component {
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
                 <p style={styles}>
-                  STATISTICS
+                  {this.props.text}
                 </p>
                 <Header as="h3" style={styles2}>
-                  1,324
+                  {this.props.data}
                 </Header>
               </Grid.Column>
 
 
               <Grid.Column>
-                <Icon name='up arrow' size='small' style={iconStyle2}/>
+                {/*<Icon name='up arrow' size='small' style={iconStyle2}/>*/}
               </Grid.Column>
 
 
               <Grid.Column>
                 <Header>
-                  <Icon name='users' size='large' style={iconStyle}/>
+                  <Icon name={this.props.icon} size='large' style={iconStyle}/>
                 </Header>
               </Grid.Column>
             </Grid.Row>
@@ -57,4 +56,4 @@ class StatSegment extends React.Component {
 }
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */
-export default withRouter(StatSegment);
+export default StatSegment;

@@ -29,11 +29,12 @@ class glentestpage extends React.Component {
 
     // const nowDate = new Date();
     // const form_id = db.addNewForm(nowDate);
-    // const category_id = db.addNewCategory('newRootCat' + db.randNum().toString(), 0);
-    // const study_id = db.addNewStudy(
-    //     ('testStudy' + db.randNum().toString()),
+    // const category_id = db.addNewCategory(`newRootCat${db.randNum().toString()}`, 0);
+    // // const study_id = db.addNewStudy(
+    // db.addNewStudy(
+    //     (`testStudy${db.randNum().toString()}`),
     //     _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-    //     db.getEarliestDate()
+    //     db.getEarliestDate(),
     // );
     // const location_id = db.addNewLocation(
     //     `testLoc${db.randNum().toString()}`,
@@ -42,16 +43,19 @@ class glentestpage extends React.Component {
     //     'HI',
     //     '96817',
     // );
-    // const building_id = db.addNewBuilding('Testing Hall ' + db.randNum().toString(), location_id);
-    // const event_id = db.addNewEvent('testEvent' + db.randNum().toString(), nowDate);
-    // const bag_id = db.addNewTrashBag(
+    // const building_id = db.addNewBuilding(`Testing Hall ${db.randNum().toString()}`, location_id);
+    // const event_id = db.addNewEvent(`testEvent${db.randNum().toString()}`, nowDate);
+    // // const bag_id = db.addNewTrashBag(
+    // db.addNewTrashBag(
     //     event_id,
     //     building_id,
     //     location_id,
     //     category_id,
     //     form_id,
-    //     db.randNum(), db.randNum(), db.randNum(), db.randNum()
-    // )
+    //     db.randNum(), db.randNum(), db.randNum(), db.randNum(),
+    // );
+
+    console.log('Composition Data:');
     console.log((
         db.buildCompositionData(
             db.getCollection(db.constants.codes.trashBags),

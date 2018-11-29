@@ -56,15 +56,15 @@ class LineGraph extends React.Component {
             type: 'time',
             scaleLabel: {
               display: true,
-              labelString: 'Date'
-            }
+              labelString: 'Date',
+            },
           }],
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'value'
-            }
-          }]
+              labelString: 'value',
+            },
+          }],
         },
     };
 

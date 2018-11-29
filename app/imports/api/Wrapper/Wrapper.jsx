@@ -46,6 +46,35 @@ export function getCollection(collectionKey, isExcludeUnverified = true) {
   }
 }
 
+export function addNewLocation(name, street, city, state, zip_code) {
+  return Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
+}
+
+export function addNewCategory(name, parent_id) {
+  const level = !(parent_id) ? 1 : Categories.find(category => category._id === parent_id).level + 1
+  return Categories.insert({ name: name, parent_id: parent_id, level: level });
+}
+
+
+export function addNewForm(date) {
+  return Forms.insert({ date: date });
+}
+
+export function addNewBuilding(name, location_id) {
+  return Buildings.insert({ name: name, location_id: location_id });
+}
+
+export function addNewEvent(name, date) {
+  return Events.insert({ name: name, date: date });
+}
+
+export function addNewStudy(name, category_ids, start_date, end_date = -1) {
+  if (end_date === -1) {
+    return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date });
+  }
+  return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date, end_date: end_date });
+}
+
 export function addNewTrashBag(
     event_id, building_id, location_id, category_id, form_id, accepted = false, weight, volume, count, notes = 'none',
 ) {
@@ -289,15 +318,27 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, isInclude
   const events = isIncludeDate ? getCollection(constants.codes.events) : -1;
 
   const data = {};
+  /* data = {
+   *   id1: { // this is the id of the category
+   *     field1: valueFound,
+   *     field2: valueFound,
+   *     field3: ...,
+   *   },
+   *   id2: {
+   *     field1: valueFound,
+   *     field2: valueFound,
+   *     field3: ...,
+   *   },
+   *   id3: {
+   *     field1: valueFound,
+   *     field2: valueFound,
+   *     field3: ...,
+   *   },
+   *   id4: {},
+   *   ...
+   * }
+   */
 
-  // for (const id of reqCategoryIds) {
-  //   data[id] = {};
-  //
-  //   for (const field of fields) {
-  //     data[id][field] = 0;
-  //   }
-  // }
-  // for (const id of reqCategoryIds) {
   reqCategoryIds.forEach(function (id) {
         data[id] = {};
 
@@ -351,6 +392,18 @@ export function formatTransitionData(data, fieldName) {
         return obj;
       });
 }
+
+// export function formatBarData(inputData) {
+//   let formattedData = {};
+//   let formattedData.labels = [];
+//   let formattedData.data = [];
+//   const collections = getCollection(constants.codes.categories);
+//   inputData.forEach(
+//       (category_id) => {
+//         formattedData.labels.push(collections.find())
+//       }
+//   )
+// }
 
 export function randNum() {
   return Math.floor((Math.random() * 100) + 1);
