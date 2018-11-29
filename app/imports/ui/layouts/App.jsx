@@ -25,11 +25,12 @@ import glentestpage from '../pages/glentestpage';
 import View from '../pages/View';
 import AddCategories from '../pages/AddCategories';
 import AddViewLocations from '../pages/AddViewLocations';
-import VerifyForms from '../pages/VerifyForms';
+import ViewForms from '../pages/ViewForms';
 import ViewStudies from '../pages/ViewStudies';
 import AddBuildings from '../pages/AddBuildings';
 import ViewMembers from '../pages/ViewMembers';
 import ViewBags from '../pages/ViewBags';
+import AddForm from '../components/AddForm';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';
@@ -55,7 +56,7 @@ class App extends React.Component {
               <ProtectedRoute path="/view" component={View}/>
               <ProtectedRoute path="/addcategories" component={AddCategories}/>
               <ProtectedRoute path="/addviewlocations" component={AddViewLocations}/>
-              <ProtectedRoute path="/verifyforms" component={VerifyForms}/>
+              <ProtectedRoute path="/viewforms" component={ViewForms}/>
               <ProtectedRoute path="/viewstudies" component={ViewStudies}/>
               <ProtectedRoute path="/addbuildings" component={AddBuildings}/>
               <ProtectedRoute path="/viewmembers" component={ViewMembers}/>
