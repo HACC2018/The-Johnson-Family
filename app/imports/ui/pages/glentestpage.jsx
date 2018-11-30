@@ -63,6 +63,7 @@ class glentestpage extends React.Component {
 
   renderPage() {
     const bagArray = db.getCollection(db.constants.codes.trashBags);
+    if (bagArray.length === 0) {this.onClickNewRoot();}
     // const data = [
     //   { x: new Date(1535796000000), y: 65 },
     //   { x: new Date(1535968800000), y: 59 },
