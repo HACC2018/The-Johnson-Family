@@ -126,35 +126,6 @@ export function addNewTrashBag(
   });
 }
 
-export function addNewLocation(name, street, city, state, zip_code) {
-  return Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
-}
-
-export function addNewCategory(name, parent_id) {
-  const level = !(parent_id) ? 1 : Categories.find(category => category._id === parent_id).level + 1
-  return Categories.insert({ name: name, parent_id: parent_id, level: level });
-}
-
-
-export function addNewForm(date) {
-  return Forms.insert({ date: date });
-}
-
-export function addNewBuilding(name, location_id) {
-  return Buildings.insert({ name: name, location_id: location_id });
-}
-
-export function addNewEvent(name, date) {
-  return Events.insert({ name: name, date: date });
-}
-
-export function addNewStudy(name, category_ids, start_date, end_date = -1) {
-  if (end_date === -1) {
-    return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date });
-  }
-  return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date, end_date: end_date });
-}
-
 // Edit functions
 
 export function editStudy(id, name, category_ids, start_date, end_date = -1) {
@@ -367,7 +338,7 @@ function getClosestParentId(id, reqCategoryIds, categories) {
   const p_id = categories.find(c => c._id === id).parent_id;
 
   if (p_id === '0') {
-    const rootCategories = _.filter(categories, c => c.parent_id === '0')
+    const rootCategories = _.filter(categories, c => c.parent_id === '0');
     const otherCategory = rootCategories.find(c => c.name === 'other')._id;
     console.log(`p_id = 0: other._id: ${otherCategory}`);
     return otherCategory;
