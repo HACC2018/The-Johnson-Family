@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Loader, Segment } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 
@@ -15,6 +15,10 @@ import PieExample from '../components/pie';
 /** A simple static component to render some text for the landing page. */
 class Dashboard extends React.Component {
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader>Getting data</Loader>;
+  }
+
+  renderPage() {
     const compositionData =
         db.buildCompositionData(
             db.getCollection(db.constants.codes.trashBags),
@@ -35,7 +39,7 @@ class Dashboard extends React.Component {
             <Grid.Column>
               <StatSegment
                   text={'AUDITS THIS YEAR'}
-                  data={db.getCollection(db.constants.codes.events).left}
+                  data={db.getCollection(db.constants.codes.events).length}
                   icon={'clipboard'}
               />
             </Grid.Column>
@@ -69,6 +73,7 @@ class Dashboard extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Segment>
+                {console.log(compositionData)}
                 <ComparisonBar data={compositionData}/>
               </Segment>
             </Grid.Column>

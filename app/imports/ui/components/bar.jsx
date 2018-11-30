@@ -4,8 +4,11 @@ import { withRouter } from 'react-router-dom';
 
 class BarGraph extends React.Component {
   render() {
-    const labelArr = _.pluck(this.props.data, 'labels');
-    const dataArr = _.pluck(this.props.data.data, 'data');
+    const inputData = this.props.data;
+    console.log(inputData);
+    const labelArr = Object.keys(inputData).forEach((id) => id.label);
+    const dataArr = Object.keys(inputData).forEach((id) => id.weight);
+    console.log(labelArr);
 
     const styles = {
       textAlign: 'center',

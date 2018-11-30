@@ -51,10 +51,11 @@ export function addNewLocation(name, street, city, state, zip_code) {
 }
 
 export function addNewCategory(name, parent_id) {
-  const level = !(parent_id) ? 1 : Categories.find(category => category._id === parent_id).level + 1
+  const categories = getCollection(constants.codes.categories);
+  const level = !(parent_id) ? 1 : categories.find(category => category._id === parent_id).level + 1;
+  console.log(`addNewCategory: level: ${level}`);
   return Categories.insert({ name: name, parent_id: parent_id, level: level });
 }
-
 
 export function addNewForm(date) {
   return Forms.insert({ date: date });
@@ -276,7 +277,7 @@ export function getTrashBagsByDate(date, rangeDate = -1) {
 
 // No export: helper function
 function getClosestParentId(id, reqCategoryIds, categories) {
-  const p_id = categories.id.parent_id;
+  const p_id = categories[id].parent_id;
 
   if (p_id === 0) {
     return categories.other._id;
@@ -304,12 +305,28 @@ function getClosestParentId(id, reqCategoryIds, categories) {
 
 // Returns earliest event date in the database
 export function getEarliestDate() {
-  return _.min(_.pluck(getCollection(constants.codes.events), 'date'));
+  console.log('earliest');
+  const date = _.min(_.pluck(getCollection(constants.codes.events), 'date'));
+  console.log(getCollection(constants.codes.events));
+  console.log(_.pluck(getCollection(constants.codes.events), 'date'));
+  console.log(_.min(_.pluck(getCollection(constants.codes.events), 'date')));
+  console.log(date);
+  console.log(date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY);
+  console.log('returning from earliestD');
+  return date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY ? new Date() : date;
 }
 
 // Returns latest event date in the database
 export function getLatestDate() {
-  return _.min(_.pluck(getCollection(constants.codes.events), 'date'));
+  console.log('latest');
+  const date = _.max(_.pluck(getCollection(constants.codes.events), 'date'));
+  console.log(getCollection(constants.codes.events));
+  console.log(_.pluck(getCollection(constants.codes.events), 'date'));
+  console.log(_.max(_.pluck(getCollection(constants.codes.events), 'date')));
+  console.log(date);
+  console.log(date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY);
+  console.log('returning from latestD');
+  return date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY ? new Date() : date;
 }
 
 // Bags: sum all categories, display required categories (i.e. getClosestParent),
@@ -340,12 +357,12 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, isInclude
    */
 
   reqCategoryIds.forEach(function (id) {
-        data[id] = {};
+    data[id] = {};
 
-        fields.forEach(function (field) {
-          data[id][field] = 0;
-        });
-      });
+    fields.forEach(function (field) {
+      data[id][field] = 0;
+    });
+  });
 
   // for (const bag of bagArray) {
   //   let id = bag.category_id;
@@ -405,6 +422,82 @@ export function formatTransitionData(data, fieldName) {
 //   )
 // }
 
-export function randNum() {
-  return Math.floor((Math.random() * 100) + 1);
+// Returns random number between 1 and max
+export function randNum(max = 100) {
+  return Math.floor((Math.random() * max) + 1);
+}
+
+export function generateRandomData(numBags = 4, isNewCategory = false, isNewLocation = false, isNewBuilding = false) {
+  const categories = getCollection(constants.codes.categories);
+  const locations = getCollection(constants.codes.locations);
+  const buildings = getCollection(constants.codes.buildings);
+  const events = getCollection(constants.codes.events);
+  // const nowDate = new Date();
+  const latestDate = getLatestDate();
+  console.log(latestDate);
+  const eventDate = latestDate.setDate(latestDate.getDate() + 1);
+  console.log(eventDate);
+
+  const form_id = addNewForm(eventDate);
+
+  const randCategory = categories.length < 2 ?
+      { _id: 0 }
+      : categories[randNum(categories.length - 1)];
+
+  const category_id =
+      isNewCategory || categories.length === 0 ?
+          addNewCategory(`newChildCat${(categories.length + 1).toString()}`, randCategory._id)
+          : randCategory._id;
+
+  // const study_id = db.addNewStudy(
+  // addNewStudy(
+  //     (`testStudy${randNum(100).toString()}`),
+  //     _.pluck(categories, '_id'),
+  //     getEarliestDate(),
+  // );
+
+  const location_id =
+      isNewLocation || locations.length < 2 ?
+          addNewLocation(
+              `testLoc${(locations.length + 1).toString()}`,
+              `${randNum(4242).toString()} Street St.`,
+              'Honolulu',
+              'HI',
+              '96817',
+          )
+          : locations[randNum(locations.length - 1)]._id;
+  const building_id =
+      isNewBuilding || buildings.length < 2 ?
+          addNewBuilding(`Testing Hall ${(buildings.length + 1).toString()}`, location_id)
+          : buildings[randNum(buildings.length - 1)]._id;
+  const event_id = addNewEvent(`testEvent${(events.length + 1).toString()}`, eventDate);
+
+  for (let i = 0; i < numBags; i++) {
+    // const bag_id = addNewTrashBag(
+    addNewTrashBag(
+        event_id,
+        building_id,
+        location_id,
+        category_id,
+        form_id,
+        randNum(), randNum(), randNum(), randNum(),
+    );
+  }
+  console.log(`${numBags} bags generated`);
+
+}
+
+// Removes all except 'other' category
+export function clearAllDocumentsAllCollections() {
+  getCollection(constants.codes.locations).map(doc => Locations.remove({ _id: doc._id }));
+  getCollection(constants.codes.buildings).map(doc => Buildings.remove({ _id: doc._id }));
+  getCollection(constants.codes.events).map(doc => Events.remove({ _id: doc._id }));
+  getCollection(constants.codes.trashBags).map(doc => TrashBags.remove({ _id: doc._id }));
+  getCollection(constants.codes.forms).map(doc => Forms.remove({ _id: doc._id }));
+  getCollection(constants.codes.studies).map(doc => Studies.remove({ _id: doc._id }));
+  getCollection(constants.codes.categories).map(doc => {
+    if (doc.name != 'other') {
+      Categories.remove({ _id: doc._id });
+    }
+  });
 }

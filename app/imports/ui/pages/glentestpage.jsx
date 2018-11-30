@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { List, Container, Loader } from 'semantic-ui-react';
+import { List, Container, Loader, Button } from 'semantic-ui-react';
 
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -10,6 +10,33 @@ import * as db from '../../api/Wrapper/Wrapper';
 import TransitionLine from '../components/line';
 
 class glentestpage extends React.Component {
+
+  onClickAll() {
+    db.generateRandomData(1, true, true, true);
+  }
+
+  onClickBags() {
+    db.generateRandomData(db.randNum(8));
+  }
+
+  onClickDeleteAll() {
+    db.clearAllDocumentsAllCollections();
+  }
+
+  onClickConsole() {
+    console.log(db.getCollection(db.constants.codes.trashBags));
+    console.log(_.pluck(db.getCollection(db.constants.codes.categories), '_id'));
+    console.log(db.getEarliestDate());
+    console.log(db.getLatestDate());
+    console.log((
+        db.buildCompositionData(
+            db.getCollection(db.constants.codes.trashBags),
+            _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+            ['weight'],
+            true,
+        )
+    ));
+  }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
@@ -27,77 +54,51 @@ class glentestpage extends React.Component {
     //   { x: new Date(), y: 55 },
     // ];
 
-    // const nowDate = new Date();
-    // const form_id = db.addNewForm(nowDate);
-    // const category_id = db.addNewCategory(`newRootCat${db.randNum().toString()}`, 0);
-    // // const study_id = db.addNewStudy(
-    // db.addNewStudy(
-    //     (`testStudy${db.randNum().toString()}`),
-    //     _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-    //     db.getEarliestDate(),
-    // );
-    // const location_id = db.addNewLocation(
-    //     `testLoc${db.randNum().toString()}`,
-    //     `${db.randNum().toString()}Street St.`,
-    //     'Honolulu',
-    //     'HI',
-    //     '96817',
-    // );
-    // const building_id = db.addNewBuilding(`Testing Hall ${db.randNum().toString()}`, location_id);
-    // const event_id = db.addNewEvent(`testEvent${db.randNum().toString()}`, nowDate);
-    // // const bag_id = db.addNewTrashBag(
-    // db.addNewTrashBag(
-    //     event_id,
-    //     building_id,
-    //     location_id,
-    //     category_id,
-    //     form_id,
-    //     db.randNum(), db.randNum(), db.randNum(), db.randNum(),
-    // );
-
-    console.log('Composition Data:');
-    console.log((
-        db.buildCompositionData(
-            db.getCollection(db.constants.codes.trashBags),
-            _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-            ['weight'],
-            true,
-        )
-    ));
-
     return (
         <Container>
-            <List>
-              <List.Item>Gaining Access</List.Item>
-              <List.Item>Inviting Friends</List.Item>
-              <List.Item>
-                Benefits
-                <List.List>
-                  <List.Item>Rebates</List.Item>
-                  <List.Item>Discounts</List.Item>
-                </List.List>
-              </List.Item>
-              <List.Item>Warranty</List.Item>
-            </List>
-            {/* <List> */}
-              {/* <List.Item content={this.props.buildings.length}/> */}
-              {/* {this.props.buildings.map((building) => <List.Item key={building._id} content={building.name} />)} */}
-            {/* </List> */}
-            <List>
-              <List.Item content={bagArray.length}/>
-              {bagArray.map((building) => <List.Item key={building._id} content={building.weight} />)}
-            </List>
-            <TransitionLine data={
-              db.formatTransitionData(
-                  db.buildCompositionData(
-                      db.getCollection(db.constants.codes.trashBags),
-                      _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                      ['weight'],
-                      true,
-                  ),
-                  'weight',
-              )
-            }/>
+          <List>
+            <List.Item>Gaining Access</List.Item>
+            <List.Item>Inviting Friends</List.Item>
+            <List.Item>
+              Benefits
+              <List.List>
+                <List.Item>Rebates</List.Item>
+                <List.Item>Discounts</List.Item>
+              </List.List>
+            </List.Item>
+            <List.Item>Warranty</List.Item>
+            <List.Item>
+              <Button content={'Display data in console'} onClick={this.onClickConsole}/>
+              <Button content={'DELETE ALL DATA'} onClick={this.onClickDeleteAll}/>
+              <Button
+                  content={'Create new data in every collection'}
+                  onClick={this.onClickAll}
+              />
+              <Button
+                  content={'Create random bags only'}
+                  onClick={this.onClickBags}
+              />
+            </List.Item>
+          </List>
+          {/* <List> */}
+          {/* <List.Item content={this.props.buildings.length}/> */}
+          {/* {this.props.buildings.map((building) => <List.Item key={building._id} content={building.name} />)} */}
+          {/* </List> */}
+          <List>
+            <List.Item content={`Bags in database: ${bagArray.length}`}/>
+            {/*{bagArray.map((building) => <List.Item key={building._id} content={building.weight}/>)}*/}
+          </List>
+          <TransitionLine data={
+            db.formatTransitionData(
+                db.buildCompositionData(
+                    db.getCollection(db.constants.codes.trashBags),
+                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+                    ['weight'],
+                    true,
+                ),
+                'weight',
+            )
+          }/>
           <p>X</p>
         </Container>
     );
