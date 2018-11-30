@@ -62,7 +62,11 @@ export function addNewLocation(name, street, city, state, zip_code) {
 
 export function addNewCategory(name, parent_id) {
   const categories = getCollection(constants.codes.categories);
-  const level = !(parent_id) ? 1 : categories.find(category => category._id === parent_id).level + 1;
+
+  const level = !(parent_id) || parent_id === '0' ?
+      1
+      : categories.find(category => category._id === parent_id).level + 1;
+
   console.log(`addNewCategory: level: ${level}`);
   return Categories.insert({ name: name, parent_id: parent_id, level: level });
 }
@@ -331,11 +335,13 @@ export function getTrashBagsByDate(date, rangeDate = -1) {
 
 // No export: recursive helper function
 function getClosestParentId(id, reqCategoryIds, categories) {
-  const p_id = categories[id].parent_id;
+  const p_id = categories.find(c => c._id === id).parent_id;
 
-  if (p_id === 0) {
-    console.log(`p_id = 0: other._id: ${categories.other._id}`);
-    return categories.other._id;
+  if (p_id === '0') {
+    const rootCategories = _.filter(categories, c => c.parent_id === '0')
+    const otherCategory = rootCategories.find(c => c.name === 'other')._id;
+    console.log(`p_id = 0: other._id: ${otherCategory}`);
+    return otherCategory;
   }
   if (p_id in reqCategoryIds) {
     return p_id;
@@ -383,7 +389,7 @@ export function getLatestDate(eventsArr = getCollection(constants.codes.events))
 /**
  * Returns an array of TrashBags summed up by categories listed in reqCategoryIds.
  *
- * fields is an object containing the names (as strings) of the fields you want to
+ * fields is an array containing the names (as strings) of the fields you want to
  * include in the object (i.e. 'weight', 'volume', and/or 'count'.
  *
  * @param bagArray
@@ -446,6 +452,7 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg 
     let id = bag.category_id;
     console.log('ids and id in data check:');
     console.log(`buildCompositionData: id: ${id}`);
+    console.log(id);
     console.log(reqCategoryIds);
     console.log(!(id in data));
     if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
@@ -513,11 +520,18 @@ export function randNum(min = 1, max = 100) {
  * at which point the new bags will be created with those newly created values.
  *
  * @param numBags
- * @param isNewCategory
+ * @param isNewChildCategory
+ * @param isNewRootCategory
  * @param isNewLocation
  * @param isNewBuilding
  */
-export function generateRandomData(numBags = 4, isNewCategory = false, isNewLocation = false, isNewBuilding = false) {
+export function generateRandomData(
+    numBags = 4,
+    isNewChildCategory = false,
+    isNewRootCategory = false,
+    isNewLocation = false,
+    isNewBuilding = false,
+) {
   const categories = getCollection(constants.codes.categories);
   const locations = getCollection(constants.codes.locations);
   const buildings = getCollection(constants.codes.buildings);
@@ -528,13 +542,17 @@ export function generateRandomData(numBags = 4, isNewCategory = false, isNewLoca
 
   const form_id = addNewForm(eventDate);
 
-  const randCategory = categories.length === 0 ?
+  const randCategory = categories.length === 0 || isNewRootCategory ?
       { _id: 0 }
       : categories[randNum(0, categories.length - 1)];
 
+  const newCategoryName = isNewRootCategory ?
+      `newRootCat${(categories.length + 1).toString()}`
+      : `newChildCat${(categories.length + 1).toString()}`;
+
   const category_id =
-      isNewCategory || categories.length === 0 ?
-          addNewCategory(`newChildCat${(categories.length + 1).toString()}`, randCategory._id)
+      isNewChildCategory || isNewRootCategory || categories.length === 0 ?
+          addNewCategory(newCategoryName, randCategory._id)
           : randCategory._id;
 
   // const study_id = db.addNewStudy(
@@ -554,10 +572,12 @@ export function generateRandomData(numBags = 4, isNewCategory = false, isNewLoca
               '96817',
           )
           : locations[randNum(0, locations.length - 1)]._id;
+
   const building_id =
       isNewBuilding || buildings.length === 0 ?
           addNewBuilding(`Testing Hall ${(buildings.length + 1).toString()}`, location_id)
           : buildings[randNum(0, buildings.length - 1)]._id;
+
   const event_id = addNewEvent(`testEvent${(events.length + 1).toString()}`, eventDate);
 
   for (let i = 0; i < numBags; i++) {
@@ -572,7 +592,6 @@ export function generateRandomData(numBags = 4, isNewCategory = false, isNewLoca
     );
   }
   console.log(`${numBags} bags generated`);
-
 }
 
 /**

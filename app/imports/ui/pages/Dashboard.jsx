@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import * as db from '../../api/Wrapper/Wrapper';
 import StatSegment from '../components/StatSegment';
-import DoughnutExample from '../components/doughnut';
+import CompositionDoughnut from '../components/doughnut';
 import ComparisonBar from '../components/bar';
 import TransitionLine from '../components/line';
 import PieExample from '../components/pie';
@@ -19,10 +19,13 @@ class Dashboard extends React.Component {
   }
 
   renderPage() {
+    const trashBags = db.getCollection(db.constants.codes.trashBags);
+    const events = db.getCollection(db.constants.codes.events);
+    const categories = db.getCollection(db.constants.codes.categories);
     const compositionData =
         db.buildCompositionData(
-            db.getCollection(db.constants.codes.trashBags),
-            _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+            trashBags,
+            _.pluck(categories, '_id'),
             ['weight'],
             true,
         );
@@ -39,42 +42,51 @@ class Dashboard extends React.Component {
             <Grid.Column>
               <StatSegment
                   text={'AUDITS THIS YEAR'}
-                  data={db.getCollection(db.constants.codes.events).length}
+                  data={events.length}
                   icon={'clipboard'}
               />
             </Grid.Column>
 
             <Grid.Column>
-              <StatSegment text={'RECYCLABLES FOUND THIS YEAR'} data={987} icon={'recycle'}/>
+              <StatSegment text={'RECYCLABLES FOUND THIS YEAR'} data={'-'} icon={'recycle'}/>
             </Grid.Column>
 
             <Grid.Column>
-              <StatSegment text={'COMPOSTABLES FOUND THIS YEAR'} data={987} icon={'leaf'}/>
+              <StatSegment text={'COMPOSTABLES FOUND THIS YEAR'} data={'-'} icon={'leaf'}/>
             </Grid.Column>
 
             <Grid.Column>
-              <StatSegment text={'TOTAL AUDITS'} data={987} icon={'clipboard'}/>
+              <StatSegment text={'TOTAL AUDITS'} data={events.length} icon={'clipboard'}/>
             </Grid.Column>
 
             <Grid.Column>
-              <StatSegment text={'TOTAL TRACKED TRASHBAGS'} data={987} icon={'trash'}/>
+              <StatSegment text={'TOTAL TRACKED TRASHBAGS'} data={trashBags.length} icon={'trash'}/>
             </Grid.Column>
 
             <Grid.Column>
-              <StatSegment text={'TOTAL TRACKED WEIGHT'} data={987} icon={'weight'}/>
+              <StatSegment text={'TOTAL TRACKED WEIGHT'}
+                           data={_.reduce(trashBags, (memo, bag) => memo + bag.weight, 0)}
+                           icon={'weight'}/>
             </Grid.Column>
           </Grid.Row>
 
           <Grid.Row columns={3}>
             <Grid.Column>
               <Segment>
-                <DoughnutExample/>
+                <CompositionDoughnut
+                    data={
+                      db.buildCompositionData(
+                          trashBags,
+                          _.pluck(_.filter(categories, c => c.parent_id === '0'), '_id'),
+                          ['weight'],
+                      )}
+                    field={'weight'}
+                />
               </Segment>
             </Grid.Column>
             <Grid.Column>
               <Segment>
-                {console.log(compositionData)}
-                <ComparisonBar data={compositionData}/>
+                <ComparisonBar data={compositionData} field={'weight'}/>
               </Segment>
             </Grid.Column>
             <Grid.Column>

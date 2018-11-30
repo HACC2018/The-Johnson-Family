@@ -9,11 +9,16 @@ import * as db from '../../api/Wrapper/Wrapper';
 
 import TransitionLine from '../components/line';
 import CompositionDoughnut from '../components/doughnut';
+import ComparisonBar from '../components/bar';
 
 class glentestpage extends React.Component {
 
   onClickAll() {
-    db.generateRandomData(1, true, true, true);
+    db.generateRandomData(1, true, false, true, true);
+  }
+
+  onClickNewRoot() {
+    db.generateRandomData(1, false, true);
   }
 
   onClickBags() {
@@ -21,7 +26,7 @@ class glentestpage extends React.Component {
   }
 
   onClickDeleteAll() {
-    db.clearAllDocumentsAllCollections();
+    return confirm('Are you sure you want to delete all data?') ? db.clearAllDocumentsAllCollections() : 0;
   }
 
   onClickConsole() {
@@ -82,15 +87,16 @@ class glentestpage extends React.Component {
             <List.Item>Warranty</List.Item>
             <List.Item>
               <Button content={'Display data in console'} onClick={this.onClickConsole}/>
-              <Button content={'DELETE ALL DATA'} onClick={this.onClickDeleteAll}/>
               <Button
                   content={'Create new data in every collection'}
                   onClick={this.onClickAll}
               />
+              <Button content={'Create new root category'} onClick={this.onClickNewRoot}/>
               <Button
                   content={'Create random bags only'}
                   onClick={this.onClickBags}
               />
+              <Button content={'DELETE ALL DATA'} negative onClick={this.onClickDeleteAll}/>
             </List.Item>
           </List>
           {/* <List> */}
@@ -101,6 +107,26 @@ class glentestpage extends React.Component {
             <List.Item content={`Bags in database: ${bagArray.length}`}/>
             {/* {bagArray.map((building) => <List.Item key={building._id} content={building.weight}/>)} */}
           </List>
+          <CompositionDoughnut
+              data={
+                db.buildCompositionData(
+                    db.getCollection(db.constants.codes.trashBags),
+                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+                    ['weight'],
+                )
+              }
+              field={'weight'}
+          />
+          <ComparisonBar
+              data={
+                db.buildCompositionData(
+                    db.getCollection(db.constants.codes.trashBags),
+                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+                    ['weight'],
+                )
+              }
+              field={'weight'}
+          />
           <TransitionLine data={
             db.formatTransitionData(
                 db.buildCompositionData(
@@ -112,16 +138,6 @@ class glentestpage extends React.Component {
                 'weight',
             )
           }/>
-          <CompositionDoughnut
-              data={
-                db.buildCompositionData(
-                    db.getCollection(db.constants.codes.trashBags),
-                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                    ['weight'],
-                )
-              }
-              field={'weight'}
-          />
           <p>X</p>
         </Container>
     );

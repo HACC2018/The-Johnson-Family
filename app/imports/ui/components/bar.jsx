@@ -6,9 +6,10 @@ class BarGraph extends React.Component {
   render() {
     const inputData = this.props.data;
     console.log(inputData);
-    const labelArr = Object.keys(inputData).forEach((id) => id.label);
-    const dataArr = Object.keys(inputData).forEach((id) => id.weight);
+    const labelArr = Object.keys(inputData).map((id) => inputData[id].label);
+    const dataArr = Object.keys(inputData).map((id) => inputData[id][this.props.field]);
     console.log(labelArr);
+    console.log(dataArr);
 
     const styles = {
       textAlign: 'center',
@@ -16,7 +17,7 @@ class BarGraph extends React.Component {
     };
 
     const data = {
-      labels: { labelArr },
+      labels: labelArr,
       datasets: [
         {
           label: 'Categories',
@@ -25,7 +26,7 @@ class BarGraph extends React.Component {
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(63,186,90,0.4)',
           hoverBorderColor: 'rgba(63,186,90,1)',
-          data: { dataArr },
+          data: dataArr,
         },
       ],
     };
