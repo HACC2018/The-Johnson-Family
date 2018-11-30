@@ -4,7 +4,6 @@ import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
 import { Events } from '/imports/api/Events/Events';
 import { TrashBags } from '/imports/api/TrashBags/TrashBags';
-import SimpleSchema from 'simpl-schema';
 import { Categories } from '../Categories/Categories';
 import { Forms } from '../Forms/Forms';
 import { Studies } from '../Studies/Studies';
@@ -25,6 +24,17 @@ export const constants = {
   },
 };
 
+/**
+ * Returns an array of document objects contained in the specified database collection.
+ * For the collectionKey, use constants.codes autocomplete to choose a collection.
+ *
+ * Note the TrashBags collection returns only verified bags by default. In order to include
+ * bags that have not yet been verified in the array, override isExcludeUnverified to false.
+ *
+ * @param collectionKey
+ * @param isExcludeUnverified
+ * @returns {*}
+ */
 export function getCollection(collectionKey, isExcludeUnverified = true) {
   switch (collectionKey) {
     case 1:
@@ -76,9 +86,28 @@ export function addNewStudy(name, category_ids, start_date, end_date = -1) {
   return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date, end_date: end_date });
 }
 
+/**
+ * Adds a new TrashBag to the database. Note that the 'accepted' field is false by default.
+ *
+ * @param event_id
+ * @param building_id
+ * @param location_id
+ * @param category_id
+ * @param form_id
+ * @param weight
+ * @param volume
+ * @param count
+ * @param notes
+ * @param accepted
+ * @returns {*}
+ */
 export function addNewTrashBag(
-    event_id, building_id, location_id, category_id, form_id, accepted = false, weight, volume, count, notes = 'none',
+    event_id, building_id, location_id, category_id, form_id, weight, volume, count,
+    notes = 'none', accepted = false,
 ) {
+  if (category_id === 0) {
+    throw 'addNewTrashBag: not a valid id';
+  }
   return TrashBags.insert({
     event_id: event_id,
     building_id: building_id,
@@ -137,18 +166,18 @@ export function editBuilding(id, name, location_id) {
 }
 
 export function editTrashBag(
-    id, event_id, building_id, location_id, category_id, form_id, accepted, weight, volume, count, notes,
+    id, event_id, building_id, location_id, category_id, form_id, weight, volume, count, notes, accepted,
 ) {
   TrashBags.update({ _id: id }, {
-    event_id: String,
-    building_id: String,
-    category_id: String,
-    location_id: String,
-    form_id: String,
-    accepted: Boolean,
-    weight: Number,
-    volume: Number,
-    count: SimpleSchema.Integer,
+    event_id: event_id,
+    building_id: building_id,
+    category_id: category_id,
+    location_id: location_id,
+    form_id: form_id,
+    accepted: accepted,
+    weight: weight,
+    volume: volume,
+    count: count,
     notes: notes,
   });
   return true;
@@ -237,9 +266,13 @@ export function editTrashBag(
 
 // New functions for refactor
 
-export function getBagLinkedCollections() {
+/**
+ * Returns an object containing all the collections linked to TrashBags. The ideal scenario is that
+ * the bagsArray object passed into this function is filtered from the full TrashBags collection.
+ */
+export function getBagLinkedCollections(bagsArray) {
   const data = {};
-  data.bags = getCollection(constants.codes.trashBags);
+  data.bags = bagsArray;
   data.events = getCollection(constants.codes.events);
   data.locations = getCollection(constants.codes.locations);
   data.buildings = getCollection(constants.codes.buildings);
@@ -248,6 +281,13 @@ export function getBagLinkedCollections() {
   return data;
 }
 
+/**
+ * Takes collections from getBagLinkedCollections() and builds an object containing all data
+ * linked to a specific bag from all collections.
+ *
+ * @param bag_id
+ * @param collections
+ */
 export function getBagLinkedData(bag_id, collections) {
   const datum = {};
   const bag = _.find(collections.bags, aBag => aBag._id === bag_id);
@@ -260,6 +300,13 @@ export function getBagLinkedData(bag_id, collections) {
   return datum;
 }
 
+/**
+ * Returns an array of events filtered by a date or a range of dates. If rangeDate is overridden,
+ * it will act as the later date in the range.
+ * @param date
+ * @param rangeDate
+ * @returns {*}
+ */
 export function getEventsByDate(date, rangeDate = -1) {
   const events = getCollection(constants.codes.events);
   if (rangeDate === -1) {
@@ -269,17 +316,25 @@ export function getEventsByDate(date, rangeDate = -1) {
 
 }
 
+/**
+ * Returns an array of TrashBags filtered by a date or a range of dates. If rangeDate is overridden,
+ * it will act as the later date in the range.
+ * @param date
+ * @param rangeDate
+ * @returns {*}
+ */
 export function getTrashBagsByDate(date, rangeDate = -1) {
   const event_ids = _.pluck(getEventsByDate(date, rangeDate), '_id');
   const bags = getCollection(constants.codes.trashBags);
   return bags.filter(bag => bag.event_id in event_ids);
 }
 
-// No export: helper function
+// No export: recursive helper function
 function getClosestParentId(id, reqCategoryIds, categories) {
   const p_id = categories[id].parent_id;
 
   if (p_id === 0) {
+    console.log(`p_id = 0: other._id: ${categories.other._id}`);
     return categories.other._id;
   }
   if (p_id in reqCategoryIds) {
@@ -303,34 +358,43 @@ function getClosestParentId(id, reqCategoryIds, categories) {
 //   return splitDataObj;
 // }
 
-// Returns earliest event date in the database
-export function getEarliestDate() {
-  console.log('earliest');
-  const date = _.min(_.pluck(getCollection(constants.codes.events), 'date'));
-  console.log(getCollection(constants.codes.events));
-  console.log(_.pluck(getCollection(constants.codes.events), 'date'));
-  console.log(_.min(_.pluck(getCollection(constants.codes.events), 'date')));
-  console.log(date);
-  console.log(date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY);
-  console.log('returning from earliestD');
+/**
+ * Returns earliest event date in the database by default.
+ * Can be overridden to find earliest event in an array of events.
+ *
+ * @returns {Date}
+ */
+export function getEarliestDate(eventsArr = getCollection(constants.codes.events)) {
+  const date = _.min(_.pluck(eventsArr, 'date'));
   return date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY ? new Date() : date;
 }
 
-// Returns latest event date in the database
-export function getLatestDate() {
-  console.log('latest');
-  const date = _.max(_.pluck(getCollection(constants.codes.events), 'date'));
-  console.log(getCollection(constants.codes.events));
-  console.log(_.pluck(getCollection(constants.codes.events), 'date'));
-  console.log(_.max(_.pluck(getCollection(constants.codes.events), 'date')));
-  console.log(date);
-  console.log(date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY);
-  console.log('returning from latestD');
+/**
+ * Returns latest event date in the database by default.
+ * Can be overridden to find earliest event in an array of events.
+ *
+ * @returns {Date}
+ */
+export function getLatestDate(eventsArr = getCollection(constants.codes.events)) {
+  const date = _.max(_.pluck(eventsArr, 'date'));
   return date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY ? new Date() : date;
 }
 
-// Bags: sum all categories, display required categories (i.e. getClosestParent),
-export function buildCompositionData(bagArray, reqCategoryIds, fields, isIncludeDate = false) {
+/**
+ * Returns an array of TrashBags summed up by categories listed in reqCategoryIds.
+ *
+ * fields is an object containing the names (as strings) of the fields you want to
+ * include in the object (i.e. 'weight', 'volume', and/or 'count'.
+ *
+ * @param bagArray
+ * @param reqCategoryIds
+ * @param fields
+ * @param isIncludeDate
+ */
+export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg = false) {
+  // Refactor relic:
+  const isIncludeDate = false;
+
   const categories = getCollection(constants.codes.categories);
   const events = isIncludeDate ? getCollection(constants.codes.events) : -1;
 
@@ -363,6 +427,8 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, isInclude
       data[id][field] = 0;
     });
   });
+  console.log('buildCompositionData: data before going through bagArray:');
+  console.log(data);
 
   // for (const bag of bagArray) {
   //   let id = bag.category_id;
@@ -375,10 +441,15 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, isInclude
   //     data[id][field] += bag[field];
   //   }
   // }
+  if (bagArray.length < 1) return;
   bagArray.forEach(function (bag) {
     let id = bag.category_id;
+    console.log('ids and id in data check:');
+    console.log(`buildCompositionData: id: ${id}`);
+    console.log(reqCategoryIds);
+    console.log(!(id in data));
     if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
-
+    console.log(`buildCompositionData: id: ${id}`);
     data[id].label = categories.find(category => category._id === id).name;
     if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
 
@@ -387,6 +458,7 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, isInclude
     });
   });
 
+  console.log('data after bagArray:');
   console.log(data);
 
   if (isIncludeDate) {
@@ -401,13 +473,15 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, isInclude
 
 // Takes an object from buildCompositionData() and formats it for display in a line graph component
 export function formatTransitionData(data, fieldName) {
-  return _.map(data,
+  const returnArray = _.map(data,
       function (datum) {
         const obj = {};
         obj.x = datum.date;
         obj.y = datum[fieldName];
         return obj;
       });
+  // returnArray.sort((a, b) => ((a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)));
+  return returnArray;
 }
 
 // export function formatBarData(inputData) {
@@ -422,11 +496,27 @@ export function formatTransitionData(data, fieldName) {
 //   )
 // }
 
-// Returns random number between 1 and max
-export function randNum(max = 100) {
-  return Math.floor((Math.random() * max) + 1);
+/** Returns random number between min and max (default 1, 100)
+ *
+ * @param min
+ * @param max
+ * @returns {number}
+ */
+export function randNum(min = 1, max = 100) {
+  return Math.floor((Math.random() * (max)) + min);
 }
 
+/**
+ * Generates randomized data for testing and debugging. By default, it creates
+ * 1 new event 1 day after the most recent event and 4 TrashBags under the event.
+ * Category, location, and building are chosen randomly unless the default booleans are overridden,
+ * at which point the new bags will be created with those newly created values.
+ *
+ * @param numBags
+ * @param isNewCategory
+ * @param isNewLocation
+ * @param isNewBuilding
+ */
 export function generateRandomData(numBags = 4, isNewCategory = false, isNewLocation = false, isNewBuilding = false) {
   const categories = getCollection(constants.codes.categories);
   const locations = getCollection(constants.codes.locations);
@@ -434,15 +524,13 @@ export function generateRandomData(numBags = 4, isNewCategory = false, isNewLoca
   const events = getCollection(constants.codes.events);
   // const nowDate = new Date();
   const latestDate = getLatestDate();
-  console.log(latestDate);
   const eventDate = latestDate.setDate(latestDate.getDate() + 1);
-  console.log(eventDate);
 
   const form_id = addNewForm(eventDate);
 
-  const randCategory = categories.length < 2 ?
+  const randCategory = categories.length === 0 ?
       { _id: 0 }
-      : categories[randNum(categories.length - 1)];
+      : categories[randNum(0, categories.length - 1)];
 
   const category_id =
       isNewCategory || categories.length === 0 ?
@@ -457,19 +545,19 @@ export function generateRandomData(numBags = 4, isNewCategory = false, isNewLoca
   // );
 
   const location_id =
-      isNewLocation || locations.length < 2 ?
+      isNewLocation || locations.length === 0 ?
           addNewLocation(
               `testLoc${(locations.length + 1).toString()}`,
-              `${randNum(4242).toString()} Street St.`,
+              `${randNum(11, 4242).toString()} Street St.`,
               'Honolulu',
               'HI',
               '96817',
           )
-          : locations[randNum(locations.length - 1)]._id;
+          : locations[randNum(0, locations.length - 1)]._id;
   const building_id =
-      isNewBuilding || buildings.length < 2 ?
+      isNewBuilding || buildings.length === 0 ?
           addNewBuilding(`Testing Hall ${(buildings.length + 1).toString()}`, location_id)
-          : buildings[randNum(buildings.length - 1)]._id;
+          : buildings[randNum(0, buildings.length - 1)]._id;
   const event_id = addNewEvent(`testEvent${(events.length + 1).toString()}`, eventDate);
 
   for (let i = 0; i < numBags; i++) {
@@ -487,7 +575,9 @@ export function generateRandomData(numBags = 4, isNewCategory = false, isNewLoca
 
 }
 
-// Removes all except 'other' category
+/**
+ * Removes all data in all collections except the required 'other' category
+ */
 export function clearAllDocumentsAllCollections() {
   getCollection(constants.codes.locations).map(doc => Locations.remove({ _id: doc._id }));
   getCollection(constants.codes.buildings).map(doc => Buildings.remove({ _id: doc._id }));
@@ -496,8 +586,9 @@ export function clearAllDocumentsAllCollections() {
   getCollection(constants.codes.forms).map(doc => Forms.remove({ _id: doc._id }));
   getCollection(constants.codes.studies).map(doc => Studies.remove({ _id: doc._id }));
   getCollection(constants.codes.categories).map(doc => {
-    if (doc.name != 'other') {
+    if (doc.name !== 'other') {
       Categories.remove({ _id: doc._id });
     }
+    return true;
   });
 }

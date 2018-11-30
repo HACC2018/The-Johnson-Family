@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper';
 
 import TransitionLine from '../components/line';
+import CompositionDoughnut from '../components/doughnut';
 
 class glentestpage extends React.Component {
 
@@ -16,7 +17,7 @@ class glentestpage extends React.Component {
   }
 
   onClickBags() {
-    db.generateRandomData(db.randNum(8));
+    db.generateRandomData(db.randNum(1, 8));
   }
 
   onClickDeleteAll() {
@@ -24,18 +25,30 @@ class glentestpage extends React.Component {
   }
 
   onClickConsole() {
+    // console.log(db.randNum(2));
     console.log(db.getCollection(db.constants.codes.trashBags));
     console.log(_.pluck(db.getCollection(db.constants.codes.categories), '_id'));
     console.log(db.getEarliestDate());
     console.log(db.getLatestDate());
     console.log((
-        db.buildCompositionData(
-            db.getCollection(db.constants.codes.trashBags),
-            _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-            ['weight'],
-            true,
-        )
-    ));
+            db.buildCompositionData(
+                db.getCollection(db.constants.codes.trashBags),
+                _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+                ['weight'],
+                true,
+            )
+        ));
+    console.log(
+        db.formatTransitionData(
+            db.buildCompositionData(
+                db.getCollection(db.constants.codes.trashBags),
+                _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+                ['weight'],
+                true,
+            ),
+            'weight',
+        ),
+    );
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -86,7 +99,7 @@ class glentestpage extends React.Component {
           {/* </List> */}
           <List>
             <List.Item content={`Bags in database: ${bagArray.length}`}/>
-            {/*{bagArray.map((building) => <List.Item key={building._id} content={building.weight}/>)}*/}
+            {/* {bagArray.map((building) => <List.Item key={building._id} content={building.weight}/>)} */}
           </List>
           <TransitionLine data={
             db.formatTransitionData(
@@ -99,6 +112,16 @@ class glentestpage extends React.Component {
                 'weight',
             )
           }/>
+          <CompositionDoughnut
+              data={
+                db.buildCompositionData(
+                    db.getCollection(db.constants.codes.trashBags),
+                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+                    ['weight'],
+                )
+              }
+              field={'weight'}
+          />
           <p>X</p>
         </Container>
     );
