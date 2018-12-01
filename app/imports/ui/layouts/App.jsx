@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
@@ -20,6 +21,15 @@ import SubmitData from '../pages/SubmitData';
 import EditLocations from '../pages/EditLocations';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
+import View from '../pages/View';
+import AddCategories from '../pages/AddCategories';
+import AddViewLocations from '../pages/AddViewLocations';
+import VerifyForms from '../pages/VerifyForms';
+import ViewStudies from '../pages/ViewStudies';
+import AddBuildings from '../pages/AddBuildings';
+import ViewMembers from '../pages/ViewMembers';
+import ViewBags from '../pages/ViewBags';
+import glentestpage from '../pages/glentestpage';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';
@@ -37,10 +47,19 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <Route path="/giantestpage" component={giantestpage}/>
               <Route path="/samtestpage" component={samtestpage}/>
+              <Route path="/glentestpage" component={glentestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
               <ProtectedRoute path="/submitdata" component={SubmitData}/>
               <ProtectedRoute path="/editlocations" component={EditLocations}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
+              <ProtectedRoute path="/view" component={View}/>
+              <ProtectedRoute path="/addcategories" component={AddCategories}/>
+              <ProtectedRoute path="/addviewlocations" component={AddViewLocations}/>
+              <ProtectedRoute path="/verifyforms" component={VerifyForms}/>
+              <ProtectedRoute path="/viewstudies" component={ViewStudies}/>
+              <ProtectedRoute path="/addbuildings" component={AddBuildings}/>
+              <ProtectedRoute path="/viewmembers" component={ViewMembers}/>
+              <ProtectedRoute path="/viewbags" component={ViewBags}/>
               <ProtectedRoute path="/addlist" component={AddListBag}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>
               <ProtectedRoute path="/Home" component={Landing}/>

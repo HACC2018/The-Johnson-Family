@@ -11,13 +11,9 @@ class DoughnutGraph extends React.Component {
     };
 
     const data = {
-      labels: [
-        'Manoa',
-        'West Oahu',
-        'Kapiolani',
-      ],
+      labels: _.map(this.props.data, catId => catId.label),
       datasets: [{
-        data: [300, 50, 100],
+        data: _.map(this.props.data, catId => catId[this.props.field]),
         backgroundColor: [
           '#3fba5a',
           '#026245',

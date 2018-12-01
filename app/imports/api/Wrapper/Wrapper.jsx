@@ -1,3 +1,4 @@
+// import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
@@ -7,422 +8,217 @@ import { Categories } from '../Categories/Categories';
 import { Forms } from '../Forms/Forms';
 import { Studies } from '../Studies/Studies';
 
-
-
 /*
   We need to fetch data for three types of charts: Composition, Comparison, and Transition.
   We will assume that Composition charts are Bar charts, Comparison chart
 */
+export const constants = {
+  codes: {
+    locations: 1,
+    buildings: 2,
+    events: 3,
+    trashBags: 4,
+    categories: 5,
+    forms: 6,
+    studies: 7,
+  },
+};
 
-export function getCollection(collectionKey) {
+/**
+ * Returns an array of document objects contained in the specified database collection.
+ * For the collectionKey, use constants.codes autocomplete to choose a collection.
+ *
+ * Note the TrashBags collection returns only verified bags by default. In order to include
+ * bags that have not yet been verified in the array, override isExcludeUnverified to false.
+ *
+ * @param collectionKey
+ * @param isExcludeUnverified
+ * @returns {*}
+ */
+export function getCollection(collectionKey, isExcludeUnverified = true) {
   switch (collectionKey) {
     case 1:
-      return Locations.find();
+      return Locations.find().fetch();
     case 2:
-      return Buildings.find();
+      return Buildings.find().fetch();
     case 3:
-      return Events.find();
+      return Events.find().fetch();
     case 4:
-      return TrashBags.find();
+      return isExcludeUnverified ? TrashBags.find().fetch({ accepted: true }) : TrashBags.find().fetch();
     case 5:
-      return Categories.find();
+      return Categories.find().fetch();
     case 6:
-      return Forms.find();
+      return Forms.find().fetch();
     case 7:
-      return Studies.find();
+      return Studies.find().fetch();
     default:
       throw new SyntaxError();
   }
 }
 
-export function getTotalDocuments(collection){
-  const cursor = getCollection(collection);
-  let count = 0;
-  cursor.forEach(() => count++ );
-  return count;
-}
-
-/**
- * Returns an array that holds within it the amount of campuses that match the three tested names.
- * @return {Array} An array of how many campuses of each exist.
- */
-export function getCompositionOfLocations() {
-  const cursor = getCollection(1);
-  let result = [];
-  let final = [];
-  cursor.forEach((doc) => result.push(doc.name));
-
-  const KCC = _.filter(result, function (entry) {
-    return entry.toLowerCase().includes('kcc')
-  });
-
-  const KCCAmount = KCC.length;
-  final.push(KCCAmount);
-
-  const UH = _.filter(result, function (entry) {
-    return entry.toLowerCase().includes('uh')
-  });
-  const UHAmount = UH.length;
-  final.push(UHAmount);
-
-  const WestOahu = _.filter(result, function (entry) {
-    return entry.toLowerCase().includes('westoahu')
-  });
-  const westOahuAmount = WestOahu.length;
-  final.push(westOahuAmount);
-
-  return final;
-}
-
-/**
- * Returns an array similar to getCompositionOfLocations, except it filters through all the trash bags and returns the amount of each per category type.
- * @return {Array} An array containing a list of numbers referencing the amount of trash bags listed under certain trash types.
- */
-export function getCategoryValues() {
-  const cursor = getCollection(5);
-  let all = [];
-  let final = [];
-  cursor.forEach((doc) => all.push(doc.parent_id));
-
-  const paper = _.filter(all, function (entry) {
-    return entry.toLowerCase().includes('paper')
-  });
-  const paperAmount = paper.length;
-  final.push(paperAmount);
-
-  const plastic = _.filter(all, function (entry) {
-    return entry.toLowerCase().includes('plastic')
-  });
-  const plasticAmount = plastic.length;
-  final.push(plasticAmount);
-
-  const glass = _.filter(all, function (entry) {
-    return entry.toLowerCase().includes('glass')
-  });
-  const glassAmount = glass.length;
-  final.push(glassAmount);
-
-  const metal = _.filter(all, function (entry) {
-    return entry.toLowerCase().includes('metal')
-  });
-  const metalAmount = metal.length;
-  final.push(metalAmount);
-
-  const organics = _.filter(all, function (entry) {
-    return entry.toLowerCase().includes('organics')
-  });
-  const organicsAmount = organics.length;
-  final.push(organicsAmount);
-
-  return final;
-}
-
-/**
- * Returns an array of blah blah blah
- */
-export function getTrashBagsByDate() {
-  let final = [];
-  const trash = getCollection(4);
-  let allTrash = [];
-  trash.forEach((doc) => allTrash.push(doc.event_id));
-
-  const event = getCollection(3);
-  let allEvents = [];
-  event.forEach((doc) => allEvents.push(doc.date));
-
-  let springEvents = _.filter(allEvents, function (spring) {
-    return (spring.toString().includes('January')) || (spring.toString().includes('February')) || (spring.toString().includes('March')) || (spring.toString().includes('April')) || (spring.toString().includes('May'))
-  });
-
-  let spring17 = _.filter(springEvents, function (spring) {
-    return spring.toString().includes('2017')
-  });
-  let spring18 = _.filter(springEvents, function (spring) {
-    return spring.toString().includes('2018')
-  });
-
-  let fallEvents = _.filter(allEvents, function (fall) {
-    return (fall.toString().includes('August')) || (fall.toString().includes('September')) || (fall.toString().includes('October')) || (fall.toString().includes('November')) || (fall.toString().includes('December'))
-  });
-
-  let fall17 = _.filter(fallEvents, function (fall) {
-    return fall.toString().includes('2017')
-  });
-  let fall18 = _.filter(fallEvents, function (fall) {
-    return fall.toString().includes('2018')
-  });
-
-  final.push(spring17.length);
-  final.push(fall17.length);
-  final.push(spring18.length);
-  final.push(fall18.length);
-
-  return final;
-
-}
-
-/**
- * Returns the values of the specified collection.
- * @param collectionKey the key indicating which collection to retrieve data from. See #information channel on Discord.
- * @param field if specified, it will return all the values for that field ONLY. If left blank, it will return the entire Collection with all the values.
- * @param index if specified, it will only return the document at that index position. If left blank, it will return all documents fro the collection.
- */
-export function getCollectionValues(collectionKey, field = undefined, index = -1) {
-  const cursor = getCollection(collectionKey);
-  let result = [];
-  if (field !== undefined) {
-    cursor.forEach((doc) => result.push(doc[field]));
-  } else {
-    cursor.forEach((doc) => result.push(doc));
-  }
-  if (index === -1) {
-    return result;
-  }
-  return result[index];
-}
-
-/**
- * Returns true if the document was added to the Location collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate Locations. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param name field value
- * @param street field value
- * @param city field value
- * @param state field value
- * @param zip_code field value
- */
 export function addNewLocation(name, street, city, state, zip_code) {
-  const cursor = getCollection(1);
-  let uniqueStreets = [];
-  cursor.forEach((doc) => uniqueStreets.push(doc.street));
-  uniqueStreets = _.uniq(uniqueStreets);
-
-  let uniqueCities = [];
-  cursor.forEach((doc) => uniqueCities.push(doc.city));
-  uniqueCities = _.uniq(uniqueCities);
-
-  let uniqueStates = [];
-  cursor.forEach((doc) => uniqueStates.push(doc.state));
-  uniqueStates = _.uniq(uniqueStates);
-
-  let uniqueZipCodes = [];
-  cursor.forEach((doc) => uniqueZipCodes.push(doc.zip_code));
-  uniqueZipCodes = _.uniq(uniqueZipCodes);
-  if (uniqueStreets.includes(street) && uniqueCities.includes(city) && uniqueStates.includes(state) && uniqueZipCodes.includes(zip_code)) {
-    return false;
-  } else {
-    Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
-    return true;
-  }
+  return Locations.insert({ name: name, street: street, city: city, state: state, zip_code: zip_code });
 }
 
-/**
- * Returns true if the document was added to the Categories collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate Categories. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param name field value
- * @param parent_id field value, referencing the selected category id.
- * @param level field value
- */
-export function addNewCategory(name, parent_id, level) {
-  const cursor = getCollection(5);
-  let uniqueNames = [];
-  cursor.forEach((doc) => uniqueNames.push(doc.name));
-  uniqueNames = _.uniq(uniqueNames);
+export function addNewCategory(name, parent_id) {
+  const categories = getCollection(constants.codes.categories);
 
-  let uniqueParent_id = [];
-  cursor.forEach((doc) => uniqueParent_id.push(doc.parent_id));
-  uniqueParent_id = _.uniq(uniqueParent_id);
+  const level = !(parent_id) || parent_id === '0' ?
+      1
+      : categories.find(category => category._id === parent_id).level + 1;
 
-  let uniqueLevel = [];
-  cursor.forEach((doc) => uniqueLevel.push(doc.level));
-  uniqueLevel = _.uniq(uniqueLevel);
-
-  if (uniqueNames.includes(name) && uniqueParent_id.includes(parent_id) && uniqueLevel.includes(level)) {
-    return false;
-  }
-  else {
-
-    Categories.insert({ name: name, parent_id: parent_id, level: level });
-    return true;
-
-  }
+  console.log(`addNewCategory: level: ${level}`);
+  return Categories.insert({ name: name, parent_id: parent_id, level: level });
 }
-
-/**
- * Returns true if the document was added to the Forms collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate Forms. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param date field value
- */
 
 export function addNewForm(date) {
-    Forms.insert({ date: date });
-    return true;
+  return Forms.insert({ date: date });
 }
-/**
- * Returns true if the document was added to the Buildings collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate Buildings. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param name field value
- * @param location_id field value, referencing the selected location id.
- */
+
 export function addNewBuilding(name, location_id) {
-  const cursor = getCollection(2);
-  let uniqueNames = [];
-  cursor.forEach((doc) => uniqueNames.push(doc.name));
-  uniqueNames = _.uniq(uniqueNames);
-
-  if (uniqueNames.includes(name)) {
-    return false;
-  } else {
-    Buildings.insert({ name: name, location_id: location_id });
-    return true;
-  }
+  return Buildings.insert({ name: name, location_id: location_id });
 }
 
-/**
- * Returns true if the document was added to the Events collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate Events. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param name field value
- * @param date field value
- */
 export function addNewEvent(name, date) {
-  const cursor = getCollection(3);
-  let uniqueNames = [];
-  cursor.forEach((doc) => uniqueNames.push(doc.name));
-  uniqueNames = _.uniq(uniqueNames);
+  return Events.insert({ name: name, date: date });
+}
 
-  if (uniqueNames.includes(name)) {
-    return false;
-  } else {
-    Events.insert({ name: name, date: date });
-    return true;
+export function addNewStudy(name, category_ids, start_date, end_date = -1) {
+  if (end_date === -1) {
+    return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date });
   }
+  return Studies.insert({ name: name, category_ids: category_ids, start_date: start_date, end_date: end_date });
 }
 
 /**
- * Always adds a new study, as there can be identical studies.
- * @param name field value
- * @param category_id field value, referencing the selected form id.
- * @param start_date field value, referencing the start date
- * @param end_date field value, referencing the end date
+ * Adds a new TrashBag to the database. Note that the 'accepted' field is false by default.
  *
+ * @param event_id
+ * @param building_id
+ * @param location_id
+ * @param category_id
+ * @param form_id
+ * @param weight
+ * @param volume
+ * @param count
+ * @param notes
+ * @param accepted
+ * @returns {*}
  */
-export function addNewStudy(name, category_id, start_date, end_date) {
-
-  Studies.insert({ name: name, category_id: category_id, start_date: start_date, end_date: end_date });
-
+export function addNewTrashBag(
+    event_id, building_id, location_id, category_id, form_id, weight, volume, count,
+    notes = 'none', accepted = false,
+) {
+  if (category_id === 0) {
+    throw 'addNewTrashBag: not a valid id';
+  }
+  return TrashBags.insert({
+    event_id: event_id,
+    building_id: building_id,
+    location_id: location_id,
+    category_id: category_id,
+    form_id: form_id,
+    accepted: accepted,
+    weight: weight,
+    volume: volume,
+    count: count,
+    notes: notes,
+  });
 }
 
-/**
- * Returns true if the document was added to the TrashBag collection successfully. False, otherwise.
- * This function guarantees that the Admin cannot add duplicate TrashBag. TODO: This function needs to be optimized so that we do case-insensitive string comparison, and no white space string comparison.
- * @param event_id field value, referencing the selected event id.
- * @param building_id field value, referencing the selected building id.
- * @param location_id field value, referencing the selected location id.
- * @param category_id field value, referencing the selected category id.
- * @param form_id field value, referencing the selected form id.
- * @param accepted boolean value, always set to false.
- * @param weight field value.
- * @param volume field value.
- * @param count field value.
- */
-export function addNewTrashBag(event_id, building_id, location_id, category_id, form_id, accepted = false, weight, volume, count) {
-  const cursor = getCollection(4);
+// Edit functions
 
-  const date = new Date();
-  const stripped_date = date.toLocaleString('en-US');
-
-//Create a new form
-  addNewForm(stripped_date);
-  const forms_cursor = getCollection(6);
-  let formId = undefined;
-  //Find the Form ID of the Form document we just created
-  forms_cursor.forEach((doc) =>  {
-    if (doc.date === stripped_date) {
-      formId = doc._id;
-    }
-  });
-  let uniqueEvent_id = [];
-  cursor.forEach((doc) => uniqueEvent_id.push(doc.event_id));
-  uniqueEvent_id = _.uniq(uniqueEvent_id);
-
-  let uniqueBuilding_id = [];
-  cursor.forEach((doc) => uniqueBuilding_id.push(doc.building_id));
-  uniqueBuilding_id = _.uniq(uniqueBuilding_id);
-
-  let uniqueLocation_id = [];
-  cursor.forEach((doc) => uniqueLocation_id.push(doc.location_id));
-  uniqueLocation_id = _.uniq(uniqueLocation_id);
-
-  let uniqueCategory_id = [];
-  cursor.forEach((doc) => uniqueCategory_id.push(doc.category_id));
-  uniqueCategory_id = _.uniq(uniqueCategory_id);
-
-
-  let uniqueWeight = [];
-  cursor.forEach((doc) => uniqueWeight.push(doc.weight));
-  uniqueWeight = _.uniq(uniqueWeight);
-
-  let uniqueVolume = [];
-  cursor.forEach((doc) => uniqueVolume.push(doc.volume));
-  uniqueVolume = _.uniq(uniqueVolume);
-
-  let uniqueCount = [];
-  cursor.forEach((doc) => uniqueCount.push(doc.count));
-  uniqueCount = _.uniq(uniqueCount);
-
-
-  if (uniqueEvent_id.includes(event_id) && uniqueLocation_id.includes(location_id) && uniqueBuilding_id.includes(building_id) && uniqueCategory_id.includes(category_id) && uniqueWeight.includes(weight) && uniqueVolume.includes(volume) && uniqueCount.includes(count)) {
-    return false;
-  }
-  else {
-    TrashBags.insert({
-      event_id: event_id,
-      building_id: building_id,
-      location_id: location_id,
-      category_id: category_id,
-      form_id: formId,
-      accepted: accepted,
-      weight: weight,
-      volume: volume,
-      count: count
+export function editStudy(id, name, category_ids, start_date, end_date = -1) {
+  if (end_date === -1) {
+    return Studies.update({ _id: id }, {
+      $set: {
+        name: name,
+        category_ids: category_ids, // should be array
+        start_date: start_date,
+      },
     });
-    return true;
   }
-
+  return Studies.update({ _id: id }, {
+    $set: {
+      name: name,
+      category_ids: category_ids, // should be array
+      start_date: start_date,
+      end_date: end_date,
+    },
+  });
 }
 
-
-export function getBuildingNamesByLocation(location_key) {
-  const location_ids_of_buildings = getCollectionValues(2, "location_id");
-  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-    return id === location_key;
+export function editLocation(id, name, street, city, state, zip_code) {
+  Locations.update({ _id: id }, {
+    $set: {
+      name: name,
+      street: street,
+      city: city,
+      state: state,
+      zip_code: zip_code,
+    },
   });
-
-  let buildings_cursor = getCollection(2);
-  let result = [];
-  buildings_cursor.forEach((doc) => {
-    if (linked_building_ids.includes(doc.location_id)) {
-      result.push(doc.name);
-    }
-  });
-  return result;
-
+  return true;
 }
 
-export function getBuildingIdsByLocation(location_key) {
-  const location_ids_of_buildings = getCollectionValues(2, "location_id");
-  const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-    return id === location_key;
+export function editBuilding(id, name, location_id) {
+  Buildings.update({ _id: id }, {
+    name: name,
+    location_id: location_id,
   });
-
-  let buildings_cursor = getCollection(2);
-  let result = [];
-  buildings_cursor.forEach((doc) => {
-    if (linked_building_ids.includes(doc.location_id)) {
-      result.push(doc._id);
-    }
-  });
-  return result;
+  return true;
 }
+
+export function editTrashBag(
+    id, event_id, building_id, location_id, category_id, form_id, weight, volume, count, notes, accepted,
+) {
+  TrashBags.update({ _id: id }, {
+    event_id: event_id,
+    building_id: building_id,
+    category_id: category_id,
+    location_id: location_id,
+    form_id: form_id,
+    accepted: accepted,
+    weight: weight,
+    volume: volume,
+    count: count,
+    notes: notes,
+  });
+  return true;
+}
+
+// export function getBuildingNamesByLocation(location_key) {
+//   const location_ids_of_buildings = getCollectionValues(2, "location_id");
+//   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+//     return id === location_key;
+//   });
+//
+//   let buildings_cursor = getCollection(2);
+//   let result = [];
+//   buildings_cursor.forEach((doc) => {
+//     if (linked_building_ids.includes(doc.location_id)) {
+//       result.push(doc.name);
+//     }
+//   });
+//   return result;
+//
+// }
+
+// export function getBuildingIdsByLocation(location_key) {
+//   const location_ids_of_buildings = getCollectionValues(2, "location_id");
+//   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
+//     return id === location_key;
+//   });
+//
+//   let buildings_cursor = getCollection(2);
+//   let result = [];
+//   buildings_cursor.forEach((doc) => {
+//     if (linked_building_ids.includes(doc.location_id)) {
+//       result.push(doc._id);
+//     }
+//   });
+//   return result;
+// }
 
 // /**
 //  *
@@ -471,3 +267,347 @@ export function getBuildingIdsByLocation(location_key) {
 //       .reduce((memo, num) => memo + num)
 //       .value();
 // }
+
+// New functions for refactor
+
+/**
+ * Returns an object containing all the collections linked to TrashBags. The ideal scenario is that
+ * the bagsArray object passed into this function is filtered from the full TrashBags collection.
+ */
+export function getBagLinkedCollections(bagsArray) {
+  const data = {};
+  data.bags = bagsArray;
+  data.events = getCollection(constants.codes.events);
+  data.locations = getCollection(constants.codes.locations);
+  data.buildings = getCollection(constants.codes.buildings);
+  data.categories = getCollection(constants.codes.categories);
+  data.forms = getCollection(constants.codes.forms);
+  return data;
+}
+
+/**
+ * Takes collections from getBagLinkedCollections() and builds an object containing all data
+ * linked to a specific bag from all collections.
+ *
+ * @param bag_id
+ * @param collections
+ */
+export function getBagLinkedData(bag_id, collections) {
+  const datum = {};
+  const bag = _.find(collections.bags, aBag => aBag._id === bag_id);
+  datum.bag = bag;
+  datum.event = _.find(collections.events, event => bag.event_id === event._id);
+  datum.location = _.find(collections.locations, location => bag.location_id === location._id);
+  datum.building = _.find(collections.buildings, building => bag.building_id === building._id);
+  datum.category = _.find(collections.categories, category => bag.category_id === category._id);
+  datum.form = _.find(collections.forms, form => bag.category_id === form._id);
+  return datum;
+}
+
+/**
+ * Returns an array of events filtered by a date or a range of dates. If rangeDate is overridden,
+ * it will act as the later date in the range.
+ * @param date
+ * @param rangeDate
+ * @returns {*}
+ */
+export function getEventsByDate(date, rangeDate = -1) {
+  const events = getCollection(constants.codes.events);
+  if (rangeDate === -1) {
+    return events.filter(event => event.date === date);
+  }
+  return events.filter(event => event.date > date && event.date < rangeDate);
+
+}
+
+/**
+ * Returns an array of TrashBags filtered by a date or a range of dates. If rangeDate is overridden,
+ * it will act as the later date in the range.
+ * @param date
+ * @param rangeDate
+ * @returns {*}
+ */
+export function getTrashBagsByDate(date, rangeDate = -1) {
+  const event_ids = _.pluck(getEventsByDate(date, rangeDate), '_id');
+  const bags = getCollection(constants.codes.trashBags);
+  return bags.filter(bag => bag.event_id in event_ids);
+}
+
+// No export: recursive helper function
+function getClosestParentId(id, reqCategoryIds, categories) {
+  const p_id = categories.find(c => c._id === id).parent_id;
+
+  if (p_id === '0') {
+    const rootCategories = _.filter(categories, c => c.parent_id === '0');
+    const otherCategory = rootCategories.find(c => c.name === 'other')._id;
+    console.log(`p_id = 0: other._id: ${otherCategory}`);
+    return otherCategory;
+  }
+  if (p_id in reqCategoryIds) {
+    return p_id;
+  }
+  return getClosestParentId(p_id, reqCategoryIds, categories);
+
+}
+
+// This function is to help format data for graph modules
+// export function splitData(inputData, field, isIncludeDate = false) {
+//   const data = inputData;
+//   const splitDataObj = {};
+//   splitDataObj.labels = [];
+//   splitDataObj.data = [];
+//   if (isIncludeDate) { splitDataObj['']; }
+//   for (const datum of data) {
+//     splitDataObj.labels.push(datum.label);
+//     splitDataObj.data.push(datum[field]);
+//   }
+//   return splitDataObj;
+// }
+
+/**
+ * Returns earliest event date in the database by default.
+ * Can be overridden to find earliest event in an array of events.
+ *
+ * @returns {Date}
+ */
+export function getEarliestDate(eventsArr = getCollection(constants.codes.events)) {
+  const date = _.min(_.pluck(eventsArr, 'date'));
+  return date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY ? new Date() : date;
+}
+
+/**
+ * Returns latest event date in the database by default.
+ * Can be overridden to find earliest event in an array of events.
+ *
+ * @returns {Date}
+ */
+export function getLatestDate(eventsArr = getCollection(constants.codes.events)) {
+  const date = _.max(_.pluck(eventsArr, 'date'));
+  return date === Number.NEGATIVE_INFINITY || date === Number.POSITIVE_INFINITY ? new Date() : date;
+}
+
+/**
+ * Returns an array of TrashBags summed up by categories listed in reqCategoryIds.
+ *
+ * fields is an array containing the names (as strings) of the fields you want to
+ * include in the object (i.e. 'weight', 'volume', and/or 'count'.
+ *
+ * @param bagArray
+ * @param reqCategoryIds
+ * @param fields
+ * @param isIncludeDate
+ */
+export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg = false) {
+  // Refactor relic:
+  const isIncludeDate = false;
+
+  const categories = getCollection(constants.codes.categories);
+  const events = isIncludeDate ? getCollection(constants.codes.events) : -1;
+
+  const data = {};
+  /* data = {
+   *   id1: { // this is the id of the category
+   *     field1: valueFound,
+   *     field2: valueFound,
+   *     field3: ...,
+   *   },
+   *   id2: {
+   *     field1: valueFound,
+   *     field2: valueFound,
+   *     field3: ...,
+   *   },
+   *   id3: {
+   *     field1: valueFound,
+   *     field2: valueFound,
+   *     field3: ...,
+   *   },
+   *   id4: {},
+   *   ...
+   * }
+   */
+
+  reqCategoryIds.forEach(function (id) {
+    data[id] = {};
+
+    fields.forEach(function (field) {
+      data[id][field] = 0;
+    });
+  });
+  console.log('buildCompositionData: data before going through bagArray:');
+  console.log(data);
+
+  // for (const bag of bagArray) {
+  //   let id = bag.category_id;
+  //   if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
+  //
+  //   data[id].label = categories.find(category => category._id === id).name;
+  //   if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
+  //
+  //   for (const field of fields) {
+  //     data[id][field] += bag[field];
+  //   }
+  // }
+  if (bagArray.length < 1) return;
+  bagArray.forEach(function (bag) {
+    let id = bag.category_id;
+    console.log('ids and id in data check:');
+    console.log(`buildCompositionData: id: ${id}`);
+    console.log(id);
+    console.log(reqCategoryIds);
+    console.log(!(id in data));
+    if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
+    console.log(`buildCompositionData: id: ${id}`);
+    data[id].label = categories.find(category => category._id === id).name;
+    if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
+
+    fields.forEach(function (field) {
+      data[id][field] += bag[field];
+    });
+  });
+
+  console.log('data after bagArray:');
+  console.log(data);
+
+  if (isIncludeDate) {
+    Object.keys(data).forEach(function (key) {
+      const datum = data[key];
+      if (!('date' in datum)) delete data[key];
+    });
+  }
+
+  return data;
+}
+
+// Takes an object from buildCompositionData() and formats it for display in a line graph component
+export function formatTransitionData(data, fieldName) {
+  const returnArray = _.map(data,
+      function (datum) {
+        const obj = {};
+        obj.x = datum.date;
+        obj.y = datum[fieldName];
+        return obj;
+      });
+  // returnArray.sort((a, b) => ((a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)));
+  return returnArray;
+}
+
+// export function formatBarData(inputData) {
+//   let formattedData = {};
+//   let formattedData.labels = [];
+//   let formattedData.data = [];
+//   const collections = getCollection(constants.codes.categories);
+//   inputData.forEach(
+//       (category_id) => {
+//         formattedData.labels.push(collections.find())
+//       }
+//   )
+// }
+
+/** Returns random number between min and max (default 1, 100)
+ *
+ * @param min
+ * @param max
+ * @returns {number}
+ */
+export function randNum(min = 1, max = 100) {
+  return Math.floor((Math.random() * (max)) + min);
+}
+
+/**
+ * Generates randomized data for testing and debugging. By default, it creates
+ * 1 new event 1 day after the most recent event and 4 TrashBags under the event.
+ * Category, location, and building are chosen randomly unless the default booleans are overridden,
+ * at which point the new bags will be created with those newly created values.
+ *
+ * @param numBags
+ * @param isNewChildCategory
+ * @param isNewRootCategory
+ * @param isNewLocation
+ * @param isNewBuilding
+ */
+export function generateRandomData(
+    numBags = 4,
+    isNewChildCategory = false,
+    isNewRootCategory = false,
+    isNewLocation = false,
+    isNewBuilding = false,
+) {
+  const categories = getCollection(constants.codes.categories);
+  const locations = getCollection(constants.codes.locations);
+  const buildings = getCollection(constants.codes.buildings);
+  const events = getCollection(constants.codes.events);
+  // const nowDate = new Date();
+  const latestDate = getLatestDate();
+  const eventDate = latestDate.setDate(latestDate.getDate() + 1);
+
+  const form_id = addNewForm(eventDate);
+
+  const randCategory = categories.length === 0 || isNewRootCategory ?
+      { _id: 0 }
+      : categories[randNum(0, categories.length - 1)];
+
+  const newCategoryName = isNewRootCategory ?
+      `newRootCat${(categories.length + 1).toString()}`
+      : `newChildCat${(categories.length + 1).toString()}`;
+
+  const category_id =
+      isNewChildCategory || isNewRootCategory || categories.length === 0 ?
+          addNewCategory(newCategoryName, randCategory._id)
+          : randCategory._id;
+
+  // const study_id = db.addNewStudy(
+  // addNewStudy(
+  //     (`testStudy${randNum(100).toString()}`),
+  //     _.pluck(categories, '_id'),
+  //     getEarliestDate(),
+  // );
+
+  const location_id =
+      isNewLocation || locations.length === 0 ?
+          addNewLocation(
+              `testLoc${(locations.length + 1).toString()}`,
+              `${randNum(11, 4242).toString()} Street St.`,
+              'Honolulu',
+              'HI',
+              '96817',
+          )
+          : locations[randNum(0, locations.length - 1)]._id;
+
+  const building_id =
+      isNewBuilding || buildings.length === 0 ?
+          addNewBuilding(`Testing Hall ${(buildings.length + 1).toString()}`, location_id)
+          : buildings[randNum(0, buildings.length - 1)]._id;
+
+  const event_id = addNewEvent(`testEvent${(events.length + 1).toString()}`, eventDate);
+
+  for (let i = 0; i < numBags; i++) {
+    // const bag_id = addNewTrashBag(
+    addNewTrashBag(
+        event_id,
+        building_id,
+        location_id,
+        category_id,
+        form_id,
+        randNum(), randNum(), randNum(), randNum(),
+    );
+  }
+  console.log(`${numBags} bags generated`);
+}
+
+/**
+ * Removes all data in all collections except the required 'other' category
+ */
+export function clearAllDocumentsAllCollections() {
+  getCollection(constants.codes.locations).map(doc => Locations.remove({ _id: doc._id }));
+  getCollection(constants.codes.buildings).map(doc => Buildings.remove({ _id: doc._id }));
+  getCollection(constants.codes.events).map(doc => Events.remove({ _id: doc._id }));
+  getCollection(constants.codes.trashBags).map(doc => TrashBags.remove({ _id: doc._id }));
+  getCollection(constants.codes.forms).map(doc => Forms.remove({ _id: doc._id }));
+  getCollection(constants.codes.studies).map(doc => Studies.remove({ _id: doc._id }));
+  getCollection(constants.codes.categories).map(doc => {
+    if (doc.name !== 'other') {
+      Categories.remove({ _id: doc._id });
+    }
+    return true;
+  });
+}
