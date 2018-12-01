@@ -30,6 +30,7 @@ import AddBuildings from '../pages/AddBuildings';
 import ViewMembers from '../pages/ViewMembers';
 import ViewBags from '../pages/ViewBags';
 import glentestpage from '../pages/glentestpage';
+import SubmitFormContainer from '../pages/SubmitFormContainer';
 
 // import AddLocations from '../pages/AddLocations';
 // import ListLocations from '../pages/ListLocations';
@@ -60,7 +61,7 @@ class App extends React.Component {
               <ProtectedRoute path="/addbuildings" component={AddBuildings}/>
               <ProtectedRoute path="/viewmembers" component={ViewMembers}/>
               <ProtectedRoute path="/viewbags" component={ViewBags}/>
-              <ProtectedRoute path="/addlist" component={AddListBag}/>
+              <ProtectedRoute path="/submitform" component={SubmitFormContainer}/>
               <ProtectedRoute path="/dash" component={Dashboard}/>
               <ProtectedRoute path="/Home" component={Landing}/>
               <ProtectedRoute path="/edit/:_id" component={EditBag}/>

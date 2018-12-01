@@ -11,6 +11,12 @@ import TransitionLine from '../components/line';
 import CompositionDoughnut from '../components/doughnut';
 import ComparisonBar from '../components/bar';
 
+
+//Sun's Test
+import { Categories } from '../../api/Categories/Categories';
+import DropdownListCategory from '../components/DropdownListCategory';
+
+
 class glentestpage extends React.Component {
 
   onClickAll() {
@@ -63,6 +69,19 @@ class glentestpage extends React.Component {
 
   renderPage() {
     const bagArray = db.getCollection(db.constants.codes.trashBags);
+
+    //Sun's Test
+    const categoryArray = db.getCollection(db.constants.codes.categories);
+    const categoryOptions = categoryArray.map( function(category) {
+      let obj = {};
+      obj.text = category.name;
+      obj.value = category._id;
+      return obj;
+    });
+    console.log(categoryOptions);
+
+
+
     if (bagArray.length === 0) {this.onClickNewRoot();}
     // const data = [
     //   { x: new Date(1535796000000), y: 65 },
@@ -72,6 +91,7 @@ class glentestpage extends React.Component {
     //   { x: new Date(1536400800000), y: 56 },
     //   { x: new Date(), y: 55 },
     // ];
+
 
     return (
         <Container>
@@ -140,6 +160,10 @@ class glentestpage extends React.Component {
             )
           }/>
           <p>X</p>
+
+          //Sun's Test
+          <DropdownListCategory options={categoryOptions}/>
+
         </Container>
     );
   }
