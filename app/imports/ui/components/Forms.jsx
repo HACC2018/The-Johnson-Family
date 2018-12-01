@@ -1,71 +1,102 @@
 import React from 'react';
+import { Container, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import { TrashBags, TrashBagSchema } from '/imports/api/TrashBags/TrashBags';
-import { Bert } from 'meteor/themeteorchef:bert';
-import { Meteor } from 'meteor/meteor';
+import * as db from '../../api/Wrapper/Wrapper';
 
-import React, { Component } from 'react'
-import { Form } from 'semantic-ui-react'
 
-class Forms extends React.Component {
-  state = {
-    event: '',
-    building: '',
-    location: '',
-    // category: '',
-    // weight: '',
-    // volume: '',
-    // count: '',
-    submittedEvent: '',
-    submittedBuilding: '',
-    submittedLocation: ''
-    // submittedCategory: '',
+export default class InputForm extends React.Component {
+  /** Initialize state fields. */
+  constructor(props) {
+    super(props);
+    this.state = { event: '', building: '', location: '', category: '', weight: '', volume: '', count: '' };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
+  }
 
-  handleSubmit = () => {
-    const { event, building, location } = this.state
-
-    this.setState({ submittedEvent: event, submittedBuilding: building, submittedLocation: location })
+  handleSubmit() {
+    const { event, building, location, category, weight, volume, count, error } = this.state;
+    db.addNewTrashBags({ event, building, location, category, weight, volume, count }, (err) => {
+      if (err) {
+        this.setState({ error: err.reason });
+      } else {
+        // browserHistory.push('/submitform');
+      }
+    });
   }
 
   render() {
-    const { event, building, location, submittedEvent, submittedBuilding, submittedLocation } = this.state
-
     return (
-        <div>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Input
-                  placeholder='Event'
-                  name='event'
-                  value={event}
-                  onChange={this.handleChange}
-              />
-              <Form.Input
-                  placeholder='Building'
-                  name='building'
-                  value={building}
-                  onChange={this.handleChange}
-              />
-              <Form.Input
-                  placeholder='Location'
-                  name='location'
-                  value={location}
-                  onChange={this.handleChange}
-              />
-              <Form.Button content='Submit' />
-            </Form.Group>
-          </Form>
-          <strong>onChange:</strong>
-          <pre>{JSON.stringify({ event, building, location }, null, 3)}</pre>
-          <strong>onSubmit:</strong>
-          <pre>{JSON.stringify({ submittedEvent, submittedBuilding, submittedLocation }, null, 3)}</pre>
-        </div>
-    )
+        <Container>
+          <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
+            <Grid.Column>
+              <Header as="h2" textAlign="center">
+                Manage Bags
+              </Header>
+              <Form onSubmit={this.handleSubmit}>
+                <Segment stacked>
+                  <Form.Input
+                    label="Event"
+                    name="event"
+                    type="event"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Building"
+                      name="building"
+                      type="building"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Location"
+                      name="location"
+                      type="location"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Category"
+                      name="category"
+                      type="category"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Weight"
+                      name="weight"
+                      type="weight"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Volume"
+                      name="volume"
+                      type="volume"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Count"
+                      name="count"
+                      type="count"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Button content=" Submit"/>
+                </Segment>
+              </Form>
+
+              {this.state.error === '' ? (
+                  ''
+              ) : (
+                  <Message
+                      error
+                      header="not successful"
+                      content={this.state.error}
+                  />
+              )}
+            </Grid.Column>
+          </Grid>
+        </Container>
+    );
   }
 }
 
-
-
-export default Forms;
