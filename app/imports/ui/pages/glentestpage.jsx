@@ -171,8 +171,8 @@ class glentestpage extends React.Component {
 
 
           {/*<DropdownListCategory options={eventOptions}/>*/}
-          <DropdownListCategory options={buildingOptions}/>
-          <DropdownListCategory options={locationOptions}/>
+          <DropdownListBuilding placeholder={'Building'} options={buildingOptions}/>
+          <DropdownListLocation options={locationOptions}/>
           <DropdownListCategory options={categoryOptions}/>
 
 
