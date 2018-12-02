@@ -8,7 +8,6 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import AddListBag from '../pages/AddListBag';
 import EditBag from '../pages/EditBag';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
@@ -21,6 +20,7 @@ import SubmitData from '../pages/SubmitData';
 import EditLocations from '../pages/EditLocations';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
+import glentestpage from '../pages/glentestpage';
 import View from '../pages/View';
 import AddCategories from '../pages/AddCategories';
 import AddViewLocations from '../pages/AddViewLocations';
@@ -29,7 +29,6 @@ import ViewStudies from '../pages/ViewStudies';
 import AddBuildings from '../pages/AddBuildings';
 import ViewMembers from '../pages/ViewMembers';
 import ViewBags from '../pages/ViewBags';
-import glentestpage from '../pages/glentestpage';
 import SubmitFormContainer from '../pages/SubmitFormContainer';
 
 // import AddLocations from '../pages/AddLocations';

@@ -84,15 +84,15 @@ export default class InputForm extends React.Component {
                 </Segment>
               </Form>
 
-              {/*{this.state.error === '' ? (*/}
-                  {/*''*/}
-              {/*) : (*/}
-                  {/*<Message*/}
-                      {/*error*/}
-                      {/*header="not successful"*/}
-                      {/*content={this.state.error}*/}
-                  {/*/>*/}
-              {/*)}*/}
+              {this.state.error === '' ? (
+                  ''
+              ) : (
+                  <Message
+                      error
+                      header="not successful"
+                      content={this.state.error}
+                  />
+              )}
             </Grid.Column>
           </Grid>
         </Container>

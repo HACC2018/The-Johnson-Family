@@ -24,7 +24,7 @@ class SubmitFormContainer extends React.Component {
                 <AddBag/>
               </Grid.Column>
               <Grid.Column>
-                <ListBag data={db.getBagLinkedCollections()}/>
+                <ListBag data={db.getBagLinkedCollections(db.getCollection(db.constants.codes.trashBags))}/>
               </Grid.Column>
             </Grid.Row>
           </Grid>
