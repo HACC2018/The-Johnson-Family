@@ -3,27 +3,30 @@ import { List, Icon, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { Bert } from 'meteor/themeteorchef:bert';
-import { TrashBags } from '/imports/api/TrashBags/TrashBags';
+// import { TrashBags } from '/imports/api/TrashBags/TrashBags';
 
 
 /** Renders a single row in the List Bag table. See pages/ListBag.jsx. */
 class Bag extends React.Component {
   constructor(props) {
     super(props);
-    this.onClick = this.onClick.bind(this);
+    // this.onClick = this.onClick.bind(this);
   }
-
-  deleteCallback(error) {
-    if (error) {
-      Bert.alert({ type: 'danger', message: 'Delete failed: ${error.message}' });
-    } else {
-      Bert.alert({ type: 'success', message: 'Delete succeeded' });
-    }
-  }
-
-  onClick() {
-    TrashBags.remove(this.props.datum.bag._id, this.deleteCallback);
-  }
+  //
+  // deleteCallback(error) {
+  //   if (error) {
+  //     Bert.alert({ type: 'danger', message: 'Delete failed: ${error.message}' });
+  //   } else {
+  //     Bert.alert({ type: 'success', message: 'Delete succeeded' });
+  //   }
+  // }
+  //
+  // onClick() {
+  //   TrashBags.remove(this.props.datum.bag._id, this.deleteCallback);
+  // }
+  // onClick() {
+  //   this.props.onDelete(this.props.datum.bag._id);
+  // }
 
   render() {
     return (
@@ -36,7 +39,7 @@ class Bag extends React.Component {
             </List.Content>
             <List.Content floated='right'>
               <Link to={`/edit/${this.props.datum.bag._id}`}><Icon name='edit' size='large'/></Link>
-              <Icon name='delete' size='large' color='red' onClick={this.onClick}/>
+              <Icon name='delete' size='large' color='red' onClick={() => this.props.onDelete(this.props.datum.bag._id)}/>
             </List.Content>
           </List.Item>
         </List>

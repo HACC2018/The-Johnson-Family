@@ -7,8 +7,43 @@ import AddBag from '../components/AddBag';
 import ListBag from '../components/ListBag';
 import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper';
+import EditBag from './EditBag';
 
 class SubmitFormContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onDelete = this.onDelete.bind(this);
+    this.state = {
+      isEdit: false,
+      editBag: {},
+    };
+  }
+
+  deleteCallback(error) {
+    if (error) {
+      Bert.alert({ type: 'danger', message: 'Delete failed: ${error.message}' });
+    } else {
+      Bert.alert({ type: 'success', message: 'Delete succeeded' });
+    }
+  }
+
+  renderForm(props) {
+    return this.state.isEdit ? <EditBag props={props}/> : <AddBag/>
+  }
+
+  onEdit(bag) {
+    this.setState(
+        {
+          isEdit: true,
+          editBag: bag,
+        }
+    );
+  }
+
+  onDelete(id) {
+    TrashBags.remove(id, this.deleteCallback);
+  }
+
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
@@ -21,10 +56,13 @@ class SubmitFormContainer extends React.Component {
           <Grid container divided='vertically'>
             <Grid.Row columns={2}>
               <Grid.Column>
-                <AddBag/>
+                {this.renderForm()}
               </Grid.Column>
               <Grid.Column>
-                <ListBag data={db.getBagLinkedCollections(this.props.bags)}/>
+                <ListBag
+                    data={db.getBagLinkedCollections(this.props.bags)}
+                    onDelete={this.onDelete}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
