@@ -1,66 +1,103 @@
 import React from 'react';
-import { Bags, BagSchema } from '/imports/api/bag/bag';
-import { Grid, Segment, Header } from 'semantic-ui-react';
-import AutoForm from 'uniforms-semantic/AutoForm';
-import TextField from 'uniforms-semantic/TextField';
-import NumField from 'uniforms-semantic/NumField';
-import SelectField from 'uniforms-semantic/SelectField';
-import SubmitField from 'uniforms-semantic/SubmitField';
-import HiddenField from 'uniforms-semantic/HiddenField';
-import ErrorsField from 'uniforms-semantic/ErrorsField';
-import { Bert } from 'meteor/themeteorchef:bert';
-import { Meteor } from 'meteor/meteor';
+import { Container, Form, Grid, Header, Segment, Message } from 'semantic-ui-react';
+import { TrashBags, TrashBagSchema } from '/imports/api/TrashBags/TrashBags';
+import * as db from '../../api/Wrapper/Wrapper';
 
-/** Renders the Page for adding a document. */
-class AddBag extends React.Component {
 
-  /** Bind 'this' so that a ref to the Form can be saved in formRef and communicated between render() and submit(). */
+export default class InputForm extends React.Component {
+  /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.submit = this.submit.bind(this);
-    this.insertCallback = this.insertCallback.bind(this);
-    this.formRef = null;
+    this.state = { event: '', building: '', location: '', category: '', weight: '', volume: '', count: '' };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  /** Notify the user of the results of the submit. If successful, clear the form. */
-  insertCallback(error) {
-    if (error) {
-      Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
-    } else {
-      Bert.alert({ type: 'success', message: 'Add succeeded' });
-      this.formRef.reset();
-    }
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
   }
 
-  /** On submit, insert the data. */
-  submit(data) {
-    const { id, type, weight, volume } = data;
-    const owner = Meteor.user().username;
-
-    addNewEvent(name, date);
+  handleSubmit() {
+    const { event, building, location, category, weight, volume, count, error } = this.state;
+    db.addNewTrashBag( event, building, location, category, weight, volume, count, (err) => {
+      if (err) {
+        this.setState({ error: err.reason });
+      } else {
+        // browserHistory.push('/submitform');
+      }
+    });
   }
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     return (
-        <Grid container centered>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">Add Bag</Header>
-            <AutoForm ref={(ref) => { this.formRef = ref; }} schema={BagSchema} onSubmit={this.submit}>
-              <Segment>
-                <TextField name='id'/>
-                <SelectField name='type'/>
-                <NumField name='weight' decimal={false}/>
-                <NumField name='volume' decimal={false}/>
-                <SubmitField value='Submit'/>
-                <ErrorsField/>
-                <HiddenField name='owner' value='fakeuser@foo.com'/>
-              </Segment>
-            </AutoForm>
-          </Grid.Column>
-        </Grid>
+        <Container>
+          <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
+            <Grid.Column>
+              <Header as="h2" textAlign="center">
+                Manage Bags
+              </Header>
+              <Form onSubmit={this.handleSubmit}>
+                <Segment stacked>
+                  <Form.Input
+                      label="Event"
+                      name="event"
+                      type="event"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Building"
+                      name="building"
+                      type="building"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Location"
+                      name="location"
+                      type="location"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Category"
+                      name="category"
+                      type="category"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Weight"
+                      name="weight"
+                      type="weight"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Volume"
+                      name="volume"
+                      type="volume"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Count"
+                      name="count"
+                      type="count"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Button content=" Submit"/>
+                </Segment>
+              </Form>
+
+              {this.state.error === '' ? (
+                  ''
+              ) : (
+                  <Message
+                      error
+                      header="not successful"
+                      content={this.state.error}
+                  />
+              )}
+            </Grid.Column>
+          </Grid>
+        </Container>
     );
   }
 }
 
-export default AddBag;
+
