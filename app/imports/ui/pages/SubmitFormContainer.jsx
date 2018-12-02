@@ -24,7 +24,7 @@ class SubmitFormContainer extends React.Component {
                 <AddBag/>
               </Grid.Column>
               <Grid.Column>
-                <ListBag data={db.getBagLinkedCollections(db.getCollection(db.constants.codes.trashBags))}/>
+                <ListBag data={db.getBagLinkedCollections(this.props.bags)}/>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -45,6 +45,7 @@ export default withTracker(() => {
   const s4 = Meteor.subscribe('Buildings');
   const s5 = Meteor.subscribe('Categories');
   return {
+    bags: TrashBags.find({}).fetch(),
     ready:
         s1.ready() &&
         s2.ready() &&

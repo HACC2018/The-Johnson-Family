@@ -3,6 +3,7 @@ import { List, Icon, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { TrashBags } from '/imports/api/TrashBags/TrashBags';
 
 
 /** Renders a single row in the List Bag table. See pages/ListBag.jsx. */
@@ -21,7 +22,7 @@ class Bag extends React.Component {
   }
 
   onClick() {
-    Bags.remove(this.props.bag._id, this.deleteCallback);
+    TrashBags.remove(this.props.datum.bag._id, this.deleteCallback);
   }
 
   render() {

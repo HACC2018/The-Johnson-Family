@@ -1,7 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, List } from 'semantic-ui-react';
-// import { Bags } from '/imports/api/bag/bag';
 import Bag from '/imports/ui/components/Bag';
 import * as db from '../../api/Wrapper/Wrapper';
 
