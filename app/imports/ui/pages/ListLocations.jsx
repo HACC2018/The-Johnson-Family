@@ -15,10 +15,12 @@ class ListLocations extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+    console.log(this.props.locations);
     return (
         <Container>
           <Header as="h2" textAlign="center" inverted>List Contacts</Header>
           <Card.Group>
+            {console.log(this.props.locations)}
             {this.props.locations.map((location, index) => <Location key={index} location={location}/>)}
           </Card.Group>
         </Container>
@@ -28,7 +30,7 @@ class ListLocations extends React.Component {
 
 /** Require an array of Contacts documents in the props. */
 ListLocations.propTypes = {
-  locations: PropTypes.string.isRequired,
+  locations: PropTypes.Array,
   ready: PropTypes.bool.isRequired,
 };
 
@@ -41,3 +43,5 @@ export default withTracker(() => {
     ready: subscription.ready(),
   };
 })(ListLocations);
+
+console.log(this.props.locations);

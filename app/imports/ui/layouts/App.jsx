@@ -21,6 +21,7 @@ import EditLocations from '../pages/EditLocations';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
 import glentestpage from '../pages/glentestpage';
+import AddLocations from '../pages/AddLocations';
 import View from '../pages/View';
 import AddCategories from '../pages/AddCategories';
 import AddViewLocations from '../pages/AddViewLocations';
@@ -48,6 +49,7 @@ class App extends React.Component {
               <Route path="/giantestpage" component={giantestpage}/>
               <Route path="/samtestpage" component={samtestpage}/>
               <Route path="/glentestpage" component={glentestpage}/>
+              <Route path="/addlocations" component={AddLocations}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
               <ProtectedRoute path="/submitdata" component={SubmitData}/>
               <ProtectedRoute path="/editlocations" component={EditLocations}/>

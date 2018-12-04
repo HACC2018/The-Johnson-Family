@@ -62,5 +62,3 @@ class SubmitData extends React.Component {
 
 
 export default SubmitData;
-
-

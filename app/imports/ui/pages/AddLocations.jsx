@@ -4,9 +4,9 @@ import { Bert } from 'meteor/themeteorchef:bert';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import SubmitField from 'uniforms-semantic/SubmitField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
-import { Locations, LocationsSchema } from '../../api/Locations/Locations';
 import { AutoField, HiddenField } from 'uniforms-semantic';
-import { Meteor } from "meteor/meteor";
+import { Meteor } from 'meteor/meteor';
+import { Locations, LocationsSchema } from '../../api/Locations/Locations';
 import * as db from '../../api/Wrapper/Wrapper';
 
 /** A simple static component to render some text for the landing page. */
@@ -34,7 +34,7 @@ class AddLocations extends React.Component {
   submit(data) {
     const { name, street, city, state, zip_code } = data;
     const owner = Meteor.user().username;
-    db.addNewLocation(name, street, city, state, zip_code)
+    db.addNewLocation(name, street, city, state, zip_code);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -45,7 +45,6 @@ class AddLocations extends React.Component {
             <Header as="h2" textAlign="center">Add Locations</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={LocationsSchema} onSubmit={this.submit}>
               <Segment>
-                /* TODO: Change the AutoFields to its appropriate fields for proper validation. */
                 <AutoField name='name'/>
                 <AutoField name='street'/>
                 <AutoField name='city'/>

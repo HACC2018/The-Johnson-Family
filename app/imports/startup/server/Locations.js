@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import { Locations } from '../../api/Locations/Locations';
 
 /** This subscription publishes all documents within the Location collection, can be changed once admin permissions are added. */

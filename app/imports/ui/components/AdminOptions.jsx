@@ -1,6 +1,10 @@
 import React from 'react';
 import { Grid, Header, Icon, Segment } from 'semantic-ui-react';
+import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
+import { withTracker } from 'meteor/react-meteor-data';
+import Locations from '../components/Location';
 
 /** A simple static component to render some text for the landing page. */
 class AdminOptions extends React.Component {
@@ -53,7 +57,7 @@ class AdminOptions extends React.Component {
       </Grid.Column>
 
       <Grid.Column>
-        <Link to={'/submitdata'}><Segment>
+        <Link to={'/submitform'}><Segment>
           <Grid columns={2} stackable textAlign='center'>
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
@@ -71,7 +75,7 @@ class AdminOptions extends React.Component {
       </Grid.Column>
 
       <Grid.Column>
-        <Link to={'/addviewlocations'}><Segment>
+        <Link to={'/submitdata'}><Segment>
           <Grid columns={2} stackable textAlign='center'>
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
