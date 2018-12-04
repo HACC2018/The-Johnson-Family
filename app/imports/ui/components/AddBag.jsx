@@ -8,24 +8,28 @@ export default class InputForm extends React.Component {
   /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.state = { event: '', building: '', location: '', category: '', weight: '', volume: '', count: '' };
+    this.state = { event: '', building: '', location: '', category: '', form: 123, weight: '', volume: '', count: '', notes: '', accepted: false };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
+    console.log(this.state.form);
   }
 
   handleSubmit() {
-    const { event, building, location, category, weight, volume, count, error } = this.state;
-    db.addNewTrashBag( event, building, location, category, weight, volume, count, (err) => {
-      if (err) {
-        this.setState({ error: err.reason });
-      } else {
-        // browserHistory.push('/submitform');
-      }
-    });
+    let { event, building, location, category, form, weight, volume, count, notes } = this.state;
+    if (typeof notes === 'undefined') { notes = 'none'; }
+    db.addNewTrashBag( event, building, location, category, form, weight, volume, count, notes,
+    //     (err) => {
+    //   if (err) {
+    //     this.setState({ error: err.reason });
+    //   } else {
+    //     // browserHistory.push('/submitform');
+    //   }
+    // }
+    );
   }
 
   render() {
@@ -80,19 +84,15 @@ export default class InputForm extends React.Component {
                       type="count"
                       onChange={this.handleChange}
                   />
+                  <Form.Input
+                      label="Notes"
+                      name="notes"
+                      type="notes"
+                      onChange={this.handleChange}
+                  />
                   <Form.Button content=" Submit"/>
                 </Segment>
               </Form>
-
-              {this.state.error === '' ? (
-                  ''
-              ) : (
-                  <Message
-                      error
-                      header="not successful"
-                      content={this.state.error}
-                  />
-              )}
             </Grid.Column>
           </Grid>
         </Container>

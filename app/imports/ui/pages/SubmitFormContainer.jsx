@@ -13,6 +13,7 @@ class SubmitFormContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onDelete = this.onDelete.bind(this);
+    this.onEdit = this.onEdit.bind(this);
     this.state = {
       isEdit: false,
       editBag: {},

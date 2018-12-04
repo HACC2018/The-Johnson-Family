@@ -27,7 +27,7 @@ class ViewBags extends React.Component {
             <Header as="h1" style={style}>
               Bags
             </Header>
-            <ListBag/>
+            <ListBag />
           </Grid.Row>
         </Grid>
     );
