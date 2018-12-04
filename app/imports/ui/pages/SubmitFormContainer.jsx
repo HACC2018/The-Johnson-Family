@@ -62,6 +62,7 @@ class SubmitFormContainer extends React.Component {
                 <ListBag
                     data={db.getBagLinkedCollections(this.props.bags)}
                     onDelete={this.onDelete}
+                    onEdit={this.onEdit}
                 />
               </Grid.Column>
             </Grid.Row>

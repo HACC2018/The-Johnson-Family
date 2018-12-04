@@ -20,6 +20,7 @@ class ListBags extends React.Component {
                       key={index}
                       datum={db.getBagLinkedData(bag._id, this.props.data)}
                       onDelete={this.props.onDelete}
+                      onEdit={this.props.onEdit}
                   />)}
             </List.Item>
           </List>
