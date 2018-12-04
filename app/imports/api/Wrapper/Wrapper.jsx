@@ -1,4 +1,3 @@
-// import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
@@ -8,10 +7,7 @@ import { Categories } from '../Categories/Categories';
 import { Forms } from '../Forms/Forms';
 import { Studies } from '../Studies/Studies';
 
-/*
-  We need to fetch data for three types of charts: Composition, Comparison, and Transition.
-  We will assume that Composition charts are Bar charts, Comparison chart
-*/
+
 export const constants = {
   codes: {
     locations: 1,
@@ -187,87 +183,6 @@ export function editTrashBag(
   return true;
 }
 
-// export function getBuildingNamesByLocation(location_key) {
-//   const location_ids_of_buildings = getCollectionValues(2, "location_id");
-//   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-//     return id === location_key;
-//   });
-//
-//   let buildings_cursor = getCollection(2);
-//   let result = [];
-//   buildings_cursor.forEach((doc) => {
-//     if (linked_building_ids.includes(doc.location_id)) {
-//       result.push(doc.name);
-//     }
-//   });
-//   return result;
-//
-// }
-
-// export function getBuildingIdsByLocation(location_key) {
-//   const location_ids_of_buildings = getCollectionValues(2, "location_id");
-//   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-//     return id === location_key;
-//   });
-//
-//   let buildings_cursor = getCollection(2);
-//   let result = [];
-//   buildings_cursor.forEach((doc) => {
-//     if (linked_building_ids.includes(doc.location_id)) {
-//       result.push(doc._id);
-//     }
-//   });
-//   return result;
-// }
-
-// /**
-//  *
-//  * @param study_id
-//  * @param location
-//  * @param buildings
-//  * @param startDate
-//  * @param endDate
-//  * @param weight Boolean - if this is true then we get data by weight. Otherwise, by volume.
-//  * @returns {*}
-//  */
-// export function getTransitionDataByWeight(study_id, location, buildings, startDate, endDate, weight, trashType) {
-//   const eventsByDate = getEventsByDate(startDate, endDate);
-//   const eventsByLocation = getEventsByLocation(eventsByDate);
-//   const eventsByBuilding = getEventsByBuilding(eventsByLocation, buildings);
-//   const data = getData();
-//   return data;
-// }
-//
-// /**
-//  * Returns Events within the range of startDate and endDate, inclusive.
-//  * If the study is ongoing (i.e. 2017 - current), endDate is handled by just fetching all events from startDate.
-//  */
-// function getEventsByDate(startDate, endDate) {
-//   if (endDate === undefined) {
-//     return Events.find();
-//   }
-//   return Events.find();
-// }
-//
-// function getEventsByLocation(events) {
-//   console.log("getEventsByLocations Not yet implemented")
-// }
-//
-// /**
-//  *  Returns Events by building.
-//  *  If buildings is undefined, it means that we will sum the value of ALL buildings
-//  */
-// function getEventsByBuilding(events, buildings) {
-//   return _.filter(events, (event) => event);
-// }
-//
-// function getData(events, trashType, weight) {
-//   return _.chain(events)
-//       .pluck(trashType)
-//       .reduce((memo, num) => memo + num)
-//       .value();
-// }
-
 // New functions for refactor
 
 /**
@@ -397,7 +312,7 @@ export function getLatestDate(eventsArr = getCollection(constants.codes.events))
  * @param fields
  * @param isIncludeDate
  */
-export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg = false) {
+export function buildCompositionData(bagArray, reqCategoryIds, fields) {
   // Refactor relic:
   const isIncludeDate = false;
 
@@ -436,27 +351,10 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg 
   console.log('buildCompositionData: data before going through bagArray:');
   console.log(data);
 
-  // for (const bag of bagArray) {
-  //   let id = bag.category_id;
-  //   if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
-  //
-  //   data[id].label = categories.find(category => category._id === id).name;
-  //   if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
-  //
-  //   for (const field of fields) {
-  //     data[id][field] += bag[field];
-  //   }
-  // }
   if (bagArray.length < 1) return;
   bagArray.forEach(function (bag) {
     let id = bag.category_id;
-    console.log('ids and id in data check:');
-    console.log(`buildCompositionData: id: ${id}`);
-    console.log(id);
-    console.log(reqCategoryIds);
-    console.log(!(id in data));
     if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
-    console.log(`buildCompositionData: id: ${id}`);
     data[id].label = categories.find(category => category._id === id).name;
     if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
 
@@ -477,6 +375,16 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg 
 
   return data;
 }
+
+export function join(collection, field, foreignField = '_id', foreignCollection) {
+  const data = _.clone(collection);
+  return data.map(
+      function (doc) {
+        return { ...foreignCollection.find(fDoc => fDoc[foreignField] === doc[field]), ...doc };
+      },
+  );
+}
+
 
 // Takes an object from buildCompositionData() and formats it for display in a line graph component
 export function formatTransitionData(data, fieldName) {
@@ -588,7 +496,7 @@ export function generateRandomData(
         location_id,
         category_id,
         form_id,
-        randNum(), randNum(), randNum(), randNum(),
+        randNum(), randNum(), randNum(),
     );
   }
   console.log(`${numBags} bags generated`);

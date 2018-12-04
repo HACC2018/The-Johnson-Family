@@ -36,30 +36,41 @@ class glentestpage extends React.Component {
   }
 
   onClickConsole() {
-    // console.log(db.randNum(2));
-    console.log(db.getCollection(db.constants.codes.trashBags));
-    console.log(_.pluck(db.getCollection(db.constants.codes.categories), '_id'));
-    console.log(db.getEarliestDate());
-    console.log(db.getLatestDate());
-    console.log((
-            db.buildCompositionData(
-                db.getCollection(db.constants.codes.trashBags),
-                _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                ['weight'],
-                true,
-            )
-        ));
+    const val = 42;
+    const obj1 = { _id: 1, a: 1, b: 2 };
+    let obj2 = { _id: 2, c: 3, d: 4 };
+    obj2 = { val, ...obj1, ...obj2 };
+    // const obj3 = { val, ...obj1, ...obj2 };
+    console.log(obj2);
     console.log(
-        db.formatTransitionData(
-            db.buildCompositionData(
-                db.getCollection(db.constants.codes.trashBags),
-                _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                ['weight'],
-                true,
-            ),
-            'weight',
+        db.join(
+            db.getCollection(db.constants.codes.trashBags),
+            'event_id',
+            '_id',
+            db.getCollection(db.constants.codes.events),
         ),
     );
+    // console.log(db.getCollection(db.constants.codes.trashBags));
+    // console.log(_.pluck(db.getCollection(db.constants.codes.categories), '_id'));
+    // console.log(db.getEarliestDate());
+    // console.log(db.getLatestDate());
+    // console.log((
+    //         db.buildCompositionData(
+    //             db.getCollection(db.constants.codes.trashBags),
+    //             _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+    //             ['weight'],
+    //         )
+    //     ));
+    // console.log(
+    //     db.formatTransitionData(
+    //         db.buildCompositionData(
+    //             db.getCollection(db.constants.codes.trashBags),
+    //             _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+    //             ['weight'],
+    //         ),
+    //         'weight',
+    //     ),
+    // );
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -69,20 +80,9 @@ class glentestpage extends React.Component {
 
   renderPage() {
     const bagArray = db.getCollection(db.constants.codes.trashBags);
-
-    //Sun's Test
-    const categoryArray = db.getCollection(db.constants.codes.categories);
-    const categoryOptions = categoryArray.map( function(category) {
-      let obj = {};
-      obj.text = category.name;
-      obj.value = category._id;
-      return obj;
-    });
-    console.log(categoryOptions);
-
-
-
-    if (bagArray.length === 0) {this.onClickNewRoot();}
+    if (bagArray.length === 0) {
+      this.onClickNewRoot();
+    }
     // const data = [
     //   { x: new Date(1535796000000), y: 65 },
     //   { x: new Date(1535968800000), y: 59 },
@@ -148,17 +148,11 @@ class glentestpage extends React.Component {
               }
               field={'weight'}
           />
-          <TransitionLine data={
-            db.formatTransitionData(
-                db.buildCompositionData(
-                    db.getCollection(db.constants.codes.trashBags),
-                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                    ['weight'],
-                    true,
-                ),
-                'weight',
-            )
-          }/>
+          {/* <TransitionLine data={ */}
+          {/* db.formatTransitionData( */}
+          {/**/}
+          {/* ) */}
+          {/* }/> */}
           <p>X</p>
 
           //Sun's Test

@@ -27,7 +27,6 @@ class Dashboard extends React.Component {
             trashBags,
             _.pluck(categories, '_id'),
             ['weight'],
-            true,
         );
 
     // const barData = compositionData.map(function (category) {
