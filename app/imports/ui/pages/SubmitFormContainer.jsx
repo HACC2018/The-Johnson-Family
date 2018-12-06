@@ -7,8 +7,52 @@ import AddBag from '../components/AddBag';
 import ListBag from '../components/ListBag';
 import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper';
+import EditBag from './EditBag';
 
 class SubmitFormContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onDelete = this.onDelete.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.renderForm = this.renderForm.bind(this);
+    this.state = {
+      isEdit: false,
+      editBag: {},
+    };
+  }
+
+  deleteCallback(error) {
+    if (error) {
+      Bert.alert({ type: 'danger', message: 'Delete failed: ${error.message}' });
+    } else {
+      Bert.alert({ type: 'success', message: 'Delete succeeded' });
+    }
+  }
+
+  renderForm() {
+    // console.log(this.props.bags.find(bag => this.state.editBag === bag._id));
+    if (this.state.isEdit) {
+      // this.setState({isEdit: false});
+      // this.state.isEdit = false;
+      return <EditBag bag={this.props.bags.find(bag => this.state.editBag === bag._id)}/>;
+    } else {
+      return <AddBag/>;
+    }
+  }
+
+  onEdit(bag_id) {
+    this.setState(
+        {
+          isEdit: true,
+          editBag: bag_id,
+        }
+    );
+  }
+
+  onDelete(id) {
+    TrashBags.remove(id, this.deleteCallback);
+  }
+
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
@@ -21,10 +65,15 @@ class SubmitFormContainer extends React.Component {
           <Grid container divided='vertically'>
             <Grid.Row columns={2}>
               <Grid.Column>
-                <AddBag/>
+                {this.renderForm()}
               </Grid.Column>
               <Grid.Column>
-                <ListBag data={db.getBagLinkedCollections(this.props.bags)}/>
+                <ListBag
+                    data={db.getBagLinkedCollections(this.props.bags)}
+                    onDelete={this.onDelete}
+                    onEdit={this.onEdit}
+                    isEdit={this.state.isEdit}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>

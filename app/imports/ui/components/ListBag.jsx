@@ -15,7 +15,14 @@ class ListBags extends React.Component {
           <Header as="h2" textAlign="center">List Bags</Header>
           <List divided verticalAlign='middle'>
             <List.Item>
-              {this.props.data.bags.map((bag, index) => <Bag key={index} datum={db.getBagLinkedData(bag._id, this.props.data)}/>)}
+              {this.props.data.bags.map((bag, index) =>
+                  <Bag
+                      key={index}
+                      datum={db.getBagLinkedData(bag._id, this.props.data)}
+                      onDelete={this.props.onDelete}
+                      onEdit={this.props.onEdit}
+                      isEdit={this.props.isEdit}
+                  />)}
             </List.Item>
           </List>
         </Container>

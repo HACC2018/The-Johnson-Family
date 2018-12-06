@@ -172,7 +172,7 @@ export function editBuilding(id, name, location_id) {
 export function editTrashBag(
     id, event_id, building_id, location_id, category_id, form_id, weight, volume, count, notes, accepted,
 ) {
-  TrashBags.update({ _id: id }, {
+  TrashBags.update({ _id: id }, { $set: {
     event_id: event_id,
     building_id: building_id,
     category_id: category_id,
@@ -183,7 +183,7 @@ export function editTrashBag(
     volume: volume,
     count: count,
     notes: notes,
-  });
+  }});
   return true;
 }
 
