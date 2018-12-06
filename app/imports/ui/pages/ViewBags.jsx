@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
-import ListBag from '../components/ListBag';
 
 /** A simple static component to render some text for the landing page. */
 class ViewBags extends React.Component {
@@ -25,9 +24,8 @@ class ViewBags extends React.Component {
 
           <Grid.Row>
             <Header as="h1" style={style}>
-              Bags
+              View Bags
             </Header>
-            <ListBag />
           </Grid.Row>
         </Grid>
     );
