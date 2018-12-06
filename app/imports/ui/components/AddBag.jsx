@@ -14,7 +14,7 @@ import { Meteor } from 'meteor/meteor';
 /** Renders the Page for adding a document. */
 class AddBag extends React.Component {
 
-  /** Bind 'this' so that a ref to the Form can be saved in formRef and communicated between render() and submit(). */
+  /** Bind 'this' so that a ref to the FormItem can be saved in formRef and communicated between render() and submit(). */
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);

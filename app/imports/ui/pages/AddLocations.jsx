@@ -12,7 +12,7 @@ import * as db from '../../api/Wrapper/Wrapper';
 /** A simple static component to render some text for the landing page. */
 class AddLocations extends React.Component {
 
-  /** Bind 'this' so that a ref to the Form can be saved in formRef and communicated between render() and submit(). */
+  /** Bind 'this' so that a ref to the FormItem can be saved in formRef and communicated between render() and submit(). */
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);

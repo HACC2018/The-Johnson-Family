@@ -33,7 +33,7 @@ class ViewForms extends React.Component {
             <Header as="h1" style={style}>
               Forms
             </Header>
-            <ListForms/>
+            <ListForms collection={db.getCollection(db.constants.codes.forms)}/>
           </Grid.Row>
         </Grid>
     );

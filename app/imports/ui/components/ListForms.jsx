@@ -2,10 +2,9 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, List } from 'semantic-ui-react';
 import { Forms } from '/imports/api/Forms/Forms';
-import Form from '/imports/ui/components/Form';
+import FormItem from '/imports/ui/components/FormItem';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ListForms extends React.Component {
