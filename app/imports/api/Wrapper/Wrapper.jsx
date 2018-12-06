@@ -224,14 +224,16 @@ export function getBagLinkedData(bag_id, collections) {
  * it will act as the later date in the range.
  * @param date
  * @param rangeDate
+ * @param eventsCollection
  * @returns {*}
  */
-export function getEventsByDate(date, rangeDate = -1) {
-  const events = getCollection(constants.codes.events);
+export function getEventsByDate(date, rangeDate = -1, eventsCollection = getCollection(constants.codes.events)) {
   if (rangeDate === -1) {
-    return events.filter(event => event.date === date);
+    return eventsCollection.filter(event => event.date === date);
   }
-  return events.filter(event => event.date > date && event.date < rangeDate);
+  // console.log('getEventsByDate:');
+  // console.log(eventsCollection.filter(event => (event.date >= date) && (event.date <= rangeDate)));
+  return eventsCollection.filter(event => (event.date >= date) && (event.date <= rangeDate));
 
 }
 
@@ -240,12 +242,17 @@ export function getEventsByDate(date, rangeDate = -1) {
  * it will act as the later date in the range.
  * @param date
  * @param rangeDate
+ * @param bagsCollection
  * @returns {*}
  */
-export function getTrashBagsByDate(date, rangeDate = -1) {
+export function getTrashBagsByDate(date, rangeDate = -1, bagsCollection = getCollection(constants.codes.trashBags)) {
   const event_ids = _.pluck(getEventsByDate(date, rangeDate), '_id');
-  const bags = getCollection(constants.codes.trashBags);
-  return bags.filter(bag => bag.event_id in event_ids);
+  // console.log('getTrashBagsByDate: event_ids (after pluck), date, rangedate, retVal');
+  // console.log(event_ids);
+  // console.log(date);
+  // console.log(rangeDate);
+  // console.log(bagsCollection.filter(bag => event_ids.includes(bag.event_id)));
+  return bagsCollection.filter(bag => event_ids.includes(bag.event_id));
 }
 
 // No export: recursive helper function
@@ -385,16 +392,94 @@ export function join(collection, field, foreignField = '_id', foreignCollection)
   );
 }
 
+function toNoonDate(d) {
+  const nd = new Date(+d);
+  nd.setHours(12, 0, 0, 0);
+  return nd;
+}
+
+function diffDays(firstDate, secondDate) {
+  // Copy dates so don't affect originals
+  // const d0 = new Date(+firstDate);
+  // const d1 = new Date(+secondDate);
+
+  // Set to noon
+  // d0.setHours(12, 0, 0, 0);
+  // d1.setHours(12, 0, 0, 0);
+
+  const d0 = toNoonDate(firstDate);
+  const d1 = toNoonDate(secondDate);
+
+  // Get difference in whole days, divide by milliseconds in one day
+  // and round to remove any daylight saving boundary effects
+  return Math.round((d1 - d0) / 8.64e7);
+}
+
 
 // Takes an object from buildCompositionData() and formats it for display in a line graph component
-export function formatTransitionData(data, fieldName) {
-  const returnArray = _.map(data,
-      function (datum) {
-        const obj = {};
-        obj.x = datum.date;
-        obj.y = datum[fieldName];
-        return obj;
-      });
+export function formatTransitionData(
+    startDate = getEarliestDate(),
+    endDate = getLatestDate(),
+    fieldName = 'weight',
+    collectionOption = constants.codes.trashBags,
+    bagCollection = getCollection(constants.codes.trashBags),
+    eventCollection = getCollection(constants.codes.events),
+) {
+  // console.log('formatTransitionData: earliestDate, latestDate');
+  // console.log(getEarliestDate());
+  // console.log(getLatestDate());
+  const isLength = (fieldName === 'length');
+  const returnArray = [];
+  const bagArr = getTrashBagsByDate(startDate, endDate, bagCollection);
+  const eventsArr = getEventsByDate(startDate, endDate, eventCollection);
+  let dated = [];
+
+  // console.log('formatTransitionData: bagArr, eventsArr');
+  // console.log(bagArr);
+  // console.log(eventsArr);
+
+  switch (collectionOption) {
+    case (constants.codes.events):
+      dated = eventsArr;
+      break;
+
+    case (constants.codes.trashBags):
+      dated = join(bagArr, 'event_id', '_id', eventsArr);
+      break;
+
+    default:
+      throw 'formatTransitionData: illegal value for collectionOption';
+  }
+  console.log('dated');
+  console.log(dated);
+  dated.forEach(function (doc) {
+    // if (returnArray.find( dataPoint => dataPoint.x === toNoonDate(doc.date)) === undefined) {
+      const graphObj = { x: toNoonDate(doc.date), y: 0 };
+    const existingPoint = returnArray.find(dataPoint => +dataPoint.x === +graphObj.x);
+    if (!(existingPoint === undefined)) { graphObj.y = existingPoint.y; }
+    // }
+
+    // dated.forEach(function (sameDate) {
+      console.log(`doc[fieldName]: ${doc[fieldName]} + graphObj.y: ${graphObj.y} = ${doc[fieldName] + graphObj.y}`);
+      console.log((diffDays(doc.date, graphObj.x)));
+      console.log(!(diffDays(doc.date, graphObj.x)));
+      if (!(diffDays(doc.date, graphObj.x))) { graphObj.y = isLength ? 1 : doc[fieldName]; }
+    // });
+    console.log('formatTransitionData: graphObj, existingPoint');
+    console.log(graphObj);
+
+
+    console.log(existingPoint);
+
+    if (existingPoint === undefined) {
+      returnArray.push(graphObj);
+      console.log('formatTransitionData: graphObj pushed');
+    } else {
+      existingPoint.y += graphObj.y;
+      console.log('formatTransitionData: graphObj summed');
+    }
+  });
+
   // returnArray.sort((a, b) => ((a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)));
   return returnArray;
 }
