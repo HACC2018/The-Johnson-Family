@@ -1,9 +1,10 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
+import ViewFormContainer from './ViewFormContainer';
 
 /** A simple static component to render some text for the landing page. */
-class VerifyForms extends React.Component {
+class ViewForms extends React.Component {
   render() {
 
     const style = {
@@ -25,6 +26,7 @@ class VerifyForms extends React.Component {
           <Grid.Row>
             <Header as="h1" style={style}>
               Forms
+              <ViewFormContainer/>
             </Header>
           </Grid.Row>
         </Grid>
@@ -32,4 +34,4 @@ class VerifyForms extends React.Component {
   }
 }
 
-export default VerifyForms;
+export default ViewForms;

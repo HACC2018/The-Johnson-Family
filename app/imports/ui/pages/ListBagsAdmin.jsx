@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, Card } from 'semantic-ui-react';
-import { Bags } from '/imports/api/bag/bag';
+import { TrashBags } from '/imports/api/TrashBags/TrashBags';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import BagAdmin from '/imports/ui/components/BagAdmin';
@@ -20,7 +20,7 @@ class ListBagsAdmin extends React.Component {
         <Container>
           <Header as="h2" textAlign="center" inverted>List Bags</Header>
           <Card.Group>
-            {this.props.bags.map((bag, index) => <BagAdmin key={index} bag={bag} />)}
+            {this.props.bags.map((bag, index) => <TrashBags key={index} bag={bag} />)}
           </Card.Group>
         </Container>
     );
@@ -36,9 +36,9 @@ ListBagsAdmin.propTypes = {
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Stuff documents.
-  const subscription = Meteor.subscribe('BagsAdmin');
+  const subscription = Meteor.subscribe('TrashBags');
   return {
-    bags: Bags.find({}).fetch(),
+    bags: TrashBags.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(ListBagsAdmin);
