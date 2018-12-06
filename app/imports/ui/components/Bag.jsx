@@ -27,6 +27,11 @@ class Bag extends React.Component {
   // onClick() {
   //   this.props.onDelete(this.props.datum.bag._id);
   // }
+  renderIcon() {
+    return !(this.props.isEdit) ?
+        <Icon name='edit' size='large' color='blue' onClick={() => this.props.onEdit(this.props.datum.bag._id)}/>
+        : <Icon name='edit' size='large' color='blue' disabled/>
+  }
 
   render() {
     return (
@@ -38,7 +43,7 @@ class Bag extends React.Component {
               <List.Description> {this.props.datum.building.name}, {this.props.datum.location.name}, {this.props.datum.category.name}, {this.props.datum.bag.weight}, {this.props.datum.bag.volume}, {this.props.datum.bag.count}, {this.props.datum.bag.notes} </List.Description>
             </List.Content>
             <List.Content floated='right'>
-              <Icon name='edit' size='large' color='blue' onClick={() => this.props.onEdit(this.props.datum.bag._id)}/>
+              {this.renderIcon()}
               <Icon name='delete' size='large' color='red' onClick={() => this.props.onDelete(this.props.datum.bag._id)}/>
             </List.Content>
           </List.Item>

@@ -13,7 +13,7 @@ export default class InputForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
-    this.handleRef = this.handleRef.bind(this);
+    //this.handleRef = this.handleRef.bind(this);
   }
 
   insertCallback(error) {
@@ -25,9 +25,9 @@ export default class InputForm extends React.Component {
     }
   }
 
-  handleRef(c)  {
-    this.inputRef = c;
-  }
+  // handleRef(c)  {
+  //   this.inputRef = c;
+  // }
 
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
@@ -39,7 +39,7 @@ export default class InputForm extends React.Component {
     db.addNewTrashBag( event, building, location, category, form, weight, volume, count, notes );
     this.insertCallback();
     this.setState({ event: '', building: '', location: '', category: '', form: 123, weight: '', volume: '', count: '', notes: '', accepted: false });
-    this.inputRef.focus()
+    //this.inputRef.focus()
     //this.state.reset(this.setState));
     //this.setState.value = "";
   }
@@ -80,7 +80,7 @@ export default class InputForm extends React.Component {
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column>
               <Header as="h2" textAlign="center">
-                Manage Bags
+                Add Bag
               </Header>
               <Form onSubmit={this.handleSubmit}>
                 <Segment stacked>

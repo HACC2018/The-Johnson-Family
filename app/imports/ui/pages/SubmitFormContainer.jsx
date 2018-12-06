@@ -14,6 +14,7 @@ class SubmitFormContainer extends React.Component {
     super(props);
     this.onDelete = this.onDelete.bind(this);
     this.onEdit = this.onEdit.bind(this);
+    this.renderForm = this.renderForm.bind(this);
     this.state = {
       isEdit: false,
       editBag: {},
@@ -28,15 +29,22 @@ class SubmitFormContainer extends React.Component {
     }
   }
 
-  renderForm(props) {
-    return this.state.isEdit ? <EditBag props={props}/> : <AddBag/>
+  renderForm() {
+    // console.log(this.props.bags.find(bag => this.state.editBag === bag._id));
+    if (this.state.isEdit) {
+      // this.setState({isEdit: false});
+      // this.state.isEdit = false;
+      return <EditBag bag={this.props.bags.find(bag => this.state.editBag === bag._id)}/>;
+    } else {
+      return <AddBag/>;
+    }
   }
 
-  onEdit(bag) {
+  onEdit(bag_id) {
     this.setState(
         {
           isEdit: true,
-          editBag: bag,
+          editBag: bag_id,
         }
     );
   }
@@ -64,6 +72,7 @@ class SubmitFormContainer extends React.Component {
                     data={db.getBagLinkedCollections(this.props.bags)}
                     onDelete={this.onDelete}
                     onEdit={this.onEdit}
+                    isEdit={this.state.isEdit}
                 />
               </Grid.Column>
             </Grid.Row>
