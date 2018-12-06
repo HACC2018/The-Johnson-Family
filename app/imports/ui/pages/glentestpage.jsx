@@ -5,6 +5,7 @@ import { List, Container, Loader, Button } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 // import { Buildings } from '../../api/Buildings/Buildings';
+import { TrashBags } from '../../api/TrashBags/TrashBags';
 import * as db from '../../api/Wrapper/Wrapper';
 
 import TransitionLine from '../components/line';
@@ -36,30 +37,42 @@ class glentestpage extends React.Component {
   }
 
   onClickConsole() {
-    // console.log(db.randNum(2));
-    console.log(db.getCollection(db.constants.codes.trashBags));
-    console.log(_.pluck(db.getCollection(db.constants.codes.categories), '_id'));
-    console.log(db.getEarliestDate());
-    console.log(db.getLatestDate());
-    console.log((
-            db.buildCompositionData(
-                db.getCollection(db.constants.codes.trashBags),
-                _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                ['weight'],
-                true,
-            )
-        ));
-    console.log(
-        db.formatTransitionData(
-            db.buildCompositionData(
-                db.getCollection(db.constants.codes.trashBags),
-                _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                ['weight'],
-                true,
-            ),
-            'weight',
-        ),
-    );
+    // const val = 42;
+    // const obj1 = { _id: 1, a: 1, b: 2 };
+    // let obj2 = { _id: 2, c: 3, d: 4 };
+    // obj2 = { val, ...obj1, ...obj2 };
+    // // const obj3 = { val, ...obj1, ...obj2 };
+    // console.log(obj2);
+    // console.log(
+    //     db.join(
+    //         db.getCollection(db.constants.codes.trashBags),
+    //         'event_id',
+    //         '_id',
+    //         db.getCollection(db.constants.codes.events),
+    //     ),
+    // );
+    console.log(db.formatTransitionData());
+    // console.log(db.getCollection(db.constants.codes.trashBags));
+    // console.log(_.pluck(db.getCollection(db.constants.codes.categories), '_id'));
+    // console.log(db.getEarliestDate());
+    // console.log(db.getLatestDate());
+    // console.log((
+    //         db.buildCompositionData(
+    //             db.getCollection(db.constants.codes.trashBags),
+    //             _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+    //             ['weight'],
+    //         )
+    //     ));
+    // console.log(
+    //     db.formatTransitionData(
+    //         db.buildCompositionData(
+    //             db.getCollection(db.constants.codes.trashBags),
+    //             _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
+    //             ['weight'],
+    //         ),
+    //         'weight',
+    //     ),
+    // );
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -68,21 +81,10 @@ class glentestpage extends React.Component {
   }
 
   renderPage() {
-    const bagArray = db.getCollection(db.constants.codes.trashBags);
-
-    //Sun's Test
-    const categoryArray = db.getCollection(db.constants.codes.categories);
-    const categoryOptions = categoryArray.map( function(category) {
-      let obj = {};
-      obj.text = category.name;
-      obj.value = category._id;
-      return obj;
-    });
-    console.log(categoryOptions);
-
-
-
-    if (bagArray.length === 0) {this.onClickNewRoot();}
+    const bagArray = this.props.bags;
+    if (bagArray.length === 0) {
+      this.onClickNewRoot();
+    }
     // const data = [
     //   { x: new Date(1535796000000), y: 65 },
     //   { x: new Date(1535968800000), y: 59 },
@@ -131,7 +133,7 @@ class glentestpage extends React.Component {
           <CompositionDoughnut
               data={
                 db.buildCompositionData(
-                    db.getCollection(db.constants.codes.trashBags),
+                    this.props.bags,
                     _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
                     ['weight'],
                 )
@@ -141,24 +143,14 @@ class glentestpage extends React.Component {
           <ComparisonBar
               data={
                 db.buildCompositionData(
-                    db.getCollection(db.constants.codes.trashBags),
+                    this.props.bags,
                     _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
                     ['weight'],
                 )
               }
               field={'weight'}
           />
-          <TransitionLine data={
-            db.formatTransitionData(
-                db.buildCompositionData(
-                    db.getCollection(db.constants.codes.trashBags),
-                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                    ['weight'],
-                    true,
-                ),
-                'weight',
-            )
-          }/>
+           <TransitionLine data={db.formatTransitionData()}/>
           <p>X</p>
 
           //Sun's Test
@@ -185,6 +177,7 @@ export default withTracker(() => {
   const s6 = Meteor.subscribe('Forms');
   const s7 = Meteor.subscribe('TrashBags');
   return {
+    bags: TrashBags.find({}).fetch(),
     ready:
         s1.ready() &&
         s2.ready() &&
