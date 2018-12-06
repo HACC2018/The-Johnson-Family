@@ -35,7 +35,7 @@ class Bag extends React.Component {
             <List.Content>
               <List.Header
                   as='a'>{this.props.datum.event.name}</List.Header>
-              <List.Description> {this.props.datum.building.name}, {this.props.datum.location.name}, {this.props.datum.category.name}, {this.props.datum.bag.weight}, {this.props.datum.bag.volume}, {this.props.datum.bag.count}, {this.props.datum.notes} </List.Description>
+              <List.Description> {this.props.datum.building.name}, {this.props.datum.location.name}, {this.props.datum.category.name}, {this.props.datum.bag.weight}, {this.props.datum.bag.volume}, {this.props.datum.bag.count}, {this.props.datum.bag.notes} </List.Description>
             </List.Content>
             <List.Content floated='right'>
               <Icon name='edit' size='large' color='blue' onClick={() => this.props.onEdit(this.props.datum.bag._id)}/>

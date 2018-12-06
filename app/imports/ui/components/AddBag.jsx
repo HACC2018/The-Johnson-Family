@@ -13,6 +13,7 @@ export default class InputForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
+    this.handleRef = this.handleRef.bind(this);
   }
 
   insertCallback(error) {
@@ -24,17 +25,21 @@ export default class InputForm extends React.Component {
     }
   }
 
+  handleRef(c)  {
+    this.inputRef = c;
+  }
+
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
     console.log(this.state);
   }
 
   handleSubmit() {
-    // this.setState({ event: '', building: '', location: '', category: '', form: 123, weight: '', volume: '', count: '', notes: '', accepted: false });
     let { event, building, location, category, form, weight, volume, count, notes } = this.state;
     db.addNewTrashBag( event, building, location, category, form, weight, volume, count, notes );
     this.insertCallback();
-
+    this.setState({ event: '', building: '', location: '', category: '', form: 123, weight: '', volume: '', count: '', notes: '', accepted: false });
+    this.inputRef.focus()
     //this.state.reset(this.setState));
     //this.setState.value = "";
   }
@@ -111,27 +116,31 @@ export default class InputForm extends React.Component {
                       label="Weight"
                       name="weight"
                       type="weight"
+                      value={this.state.weight}
                       onChange={this.handleChange}
                   />
                   <Form.Input
                       label="Volume"
                       name="volume"
                       type="volume"
+                      value={this.state.volume}
                       onChange={this.handleChange}
                   />
                   <Form.Input
                       label="Count"
                       name="count"
                       type="count"
+                      value={this.state.count}
                       onChange={this.handleChange}
                   />
                   <Form.Input
                       label="Notes"
                       name="notes"
                       type="notes"
+                      value={this.state.notes}
                       onChange={this.handleChange}
                   />
-                  <Form.Button content=" Submit"/>
+                  <Form.Button content="Submit"/>
                 </Segment>
               </Form>
             </Grid.Column>
