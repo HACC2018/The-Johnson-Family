@@ -1,79 +1,157 @@
 import React from 'react';
-import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
-import { Bags, BagSchema } from '/imports/api/bag/bag';
-import { Bert } from 'meteor/themeteorchef:bert';
-import AutoForm from 'uniforms-semantic/AutoForm';
-import TextField from 'uniforms-semantic/TextField';
-import NumField from 'uniforms-semantic/NumField';
-import SelectField from 'uniforms-semantic/SelectField';
-import SubmitField from 'uniforms-semantic/SubmitField';
-import HiddenField from 'uniforms-semantic/HiddenField';
-import ErrorsField from 'uniforms-semantic/ErrorsField';
+import { Container, Form, Grid, Header, Segment, Message } from 'semantic-ui-react';
+import { TrashBags, TrashBagSchema } from '/imports/api/TrashBags/TrashBags';
+import * as db from '../../api/Wrapper/Wrapper';
 import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types';
-import ListBag from '../components/ListBag';
+import { Bert } from 'meteor/themeteorchef:bert';
 
-/** Renders the Page for editing a single document. */
 class EditBag extends React.Component {
-
-  /** On successful submit, insert the data. */
-  submit(data) {
-    const { id, type, weight, volume, _id } = data;
-    Bags.update(_id, { $set: { id, type, weight, volume } }, (error) => (error ?
-        Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
-        window.location = '/addlist#/addlist',
-        Bert.alert({ type: 'success', message: 'Update succeeded' })));
+  constructor(props) {
+    super(props);
+    this.state = { event: this.props.bag.event_id, building: this.props.bag.building_id, location: this.props.bag.location_id, category: this.props.bag.category_id, form: this.props.bag.form_id, weight: this.props.bag.weight, volume: this.props.bag.volume, count: this.props.bag.count, notes: this.props.bag.notes, accepted: this.props.bag.accepted };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.updateCallback = this.updateCallback.bind(this);
+    //this.handleRef = this.handleRef.bind(this);
   }
 
-  /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
+  updateCallback(error) {
+    if (error) {
+      Bert.alert({ type: 'danger', message: `Edit failed: ${error.message}` });
+    } else {
+      Bert.alert({ type: 'success', message: 'Edit succeeded' });
+      return () => this.props.offEdit();
+    }
+  }
+
+  // handleRef(c)  {
+  //   this.inputRef = c;
+  // }
+
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
+    console.log(this.state);
+  }
+
+  handleSubmit() {
+    let { event, building, location, category, form, weight, volume, count, notes, accepted} = this.state;
+    console.log('state, variables');
+    console.log(this.state);
+    console.log(this.props.bag._id, event, building, location, category, form, weight, volume, count, notes, accepted);
+    // update
+    db.editTrashBag( this.props.bag._id, event, building, location, category, form, weight, volume, count, notes, accepted );
+    this.updateCallback();
+    // this.setState({ event: '', building: '', location: '', category: '', form: 123, weight: '', volume: '', count: '', notes: '', accepted: false });
+    // this.inputRef.focus()
+    // //this.state.reset(this.setState));
+    //this.setState.value = "";
+  }
+
   render() {
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
-  }
+    const eventArray = db.getCollection(db.constants.codes.events);
+    const buildingArray = db.getCollection(db.constants.codes.buildings);
+    const locationArray = db.getCollection(db.constants.codes.locations);
+    const categoryArray = db.getCollection(db.constants.codes.categories);
+    const eventOptions = eventArray.map( function(event) {
+      let obj = {};
+      obj.text = event.name;
+      obj.value = event._id;
+      return obj;
+    });
+    const buildingOptions = buildingArray.map( function(building) {
+      let obj = {};
+      obj.text = building.name;
+      obj.value = building._id;
+      return obj;
+    });
+    const locationOptions = locationArray.map( function(location) {
+      let obj = {};
+      obj.text = location.name;
+      obj.value = location._id;
+      return obj;
+    });
+    const categoryOptions = categoryArray.map( function(category) {
+      let obj = {};
+      obj.text = category.name;
+      obj.value = category._id;
+      return obj;
+    });
+    //console.log(eventOptions, buildingOptions, locationOptions, categoryOptions);
+    // this.state = { event: this.props.bag.event_id, building: this.props.bag.building_id, location: this.props.bag.location_id, category: this.props.bag.category_id, form: this.props.bag.form_id, weight: this.props.bag.weight, volume: this.props.bag.volume, count: this.props.bag.count, notes: this.props.bag.notes, accepted: this.props.bag.accepted };
 
-  /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
-  renderPage() {
     return (
-        <Grid container divided='vertically'>
-          <Grid.Row columns={2}>
+        <Container>
+          <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column>
-              <Header as="h2" textAlign="center">Edit Bag</Header>
-              <AutoForm schema={BagSchema} onSubmit={this.submit} model={this.props.doc}>
-                <Segment>
-                  <TextField name='id'/>
-                  <SelectField name='type'/>
-                  <NumField name='weight' decimal={false}/>
-                  <NumField name='volume' decimal={false}/>
-                  <SubmitField value='Submit'/>
-                  <ErrorsField/>
-                  <HiddenField name='owner'/>
+              <Header as="h2" textAlign="center">
+                Edit Bag
+              </Header>
+              <Form onSubmit={this.handleSubmit}>
+                <Segment stacked>
+                  <Form.Select
+                      label='Event'
+                      name={'event'}
+                      options={eventOptions}
+                      defaultValue={this.props.bag.event_id}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Select
+                      label='Building'
+                      name={'building'}
+                      options={buildingOptions}
+                      defaultValue={this.props.bag.building_id}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Select
+                      label='Location'
+                      name={'location'}
+                      options={locationOptions}
+                      defaultValue={this.props.bag.location_id}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Select
+                      label='Category'
+                      name={'category'}
+                      options={categoryOptions}
+                      defaultValue={this.props.bag.category_id}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Weight"
+                      name="weight"
+                      type="weight"
+                      defaultValue={this.props.bag.weight}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Volume"
+                      name="volume"
+                      type="volume"
+                      value={this.props.bag.volume}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Count"
+                      name="count"
+                      type="count"
+                      defaultValue={this.props.bag.count}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Input
+                      label="Notes"
+                      name="notes"
+                      type="notes"
+                      defaultValue={this.props.bag.notes}
+                      onChange={this.handleChange}
+                  />
+                  <Form.Button content="Submit"/>
                 </Segment>
-              </AutoForm>
+              </Form>
             </Grid.Column>
-            <Grid.Column>
-              <ListBag/>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+          </Grid>
+        </Container>
     );
   }
 }
 
-/** Require the presence of a Bag document in the props object. Uniforms adds 'model' to the props, which we use. */
-EditBag.propTypes = {
-  doc: PropTypes.object,
-  model: PropTypes.object,
-  ready: PropTypes.bool.isRequired,
-};
-
-/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
-export default withTracker(({ match }) => {
-  // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
-  const documentId = match.params._id;
-  // Get access to Bag documents.
-  const subscription = Meteor.subscribe('Bags');
-  return {
-    doc: Bags.findOne(documentId),
-    ready: subscription.ready(),
-  };
-})(EditBag);
+export default EditBag;

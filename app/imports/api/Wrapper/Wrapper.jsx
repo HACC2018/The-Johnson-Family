@@ -1,4 +1,3 @@
-// import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { Locations } from '/imports/api/Locations/Locations';
 import { Buildings } from '/imports/api/Buildings/Buildings';
@@ -8,10 +7,7 @@ import { Categories } from '../Categories/Categories';
 import { Forms } from '../Forms/Forms';
 import { Studies } from '../Studies/Studies';
 
-/*
-  We need to fetch data for three types of charts: Composition, Comparison, and Transition.
-  We will assume that Composition charts are Bar charts, Comparison chart
-*/
+
 export const constants = {
   codes: {
     locations: 1,
@@ -172,7 +168,7 @@ export function editBuilding(id, name, location_id) {
 export function editTrashBag(
     id, event_id, building_id, location_id, category_id, form_id, weight, volume, count, notes, accepted,
 ) {
-  TrashBags.update({ _id: id }, {
+  TrashBags.update({ _id: id }, { $set: {
     event_id: event_id,
     building_id: building_id,
     category_id: category_id,
@@ -183,90 +179,9 @@ export function editTrashBag(
     volume: volume,
     count: count,
     notes: notes,
-  });
+  }});
   return true;
 }
-
-// export function getBuildingNamesByLocation(location_key) {
-//   const location_ids_of_buildings = getCollectionValues(2, "location_id");
-//   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-//     return id === location_key;
-//   });
-//
-//   let buildings_cursor = getCollection(2);
-//   let result = [];
-//   buildings_cursor.forEach((doc) => {
-//     if (linked_building_ids.includes(doc.location_id)) {
-//       result.push(doc.name);
-//     }
-//   });
-//   return result;
-//
-// }
-
-// export function getBuildingIdsByLocation(location_key) {
-//   const location_ids_of_buildings = getCollectionValues(2, "location_id");
-//   const linked_building_ids = _.filter(location_ids_of_buildings, (id) => {
-//     return id === location_key;
-//   });
-//
-//   let buildings_cursor = getCollection(2);
-//   let result = [];
-//   buildings_cursor.forEach((doc) => {
-//     if (linked_building_ids.includes(doc.location_id)) {
-//       result.push(doc._id);
-//     }
-//   });
-//   return result;
-// }
-
-// /**
-//  *
-//  * @param study_id
-//  * @param location
-//  * @param buildings
-//  * @param startDate
-//  * @param endDate
-//  * @param weight Boolean - if this is true then we get data by weight. Otherwise, by volume.
-//  * @returns {*}
-//  */
-// export function getTransitionDataByWeight(study_id, location, buildings, startDate, endDate, weight, trashType) {
-//   const eventsByDate = getEventsByDate(startDate, endDate);
-//   const eventsByLocation = getEventsByLocation(eventsByDate);
-//   const eventsByBuilding = getEventsByBuilding(eventsByLocation, buildings);
-//   const data = getData();
-//   return data;
-// }
-//
-// /**
-//  * Returns Events within the range of startDate and endDate, inclusive.
-//  * If the study is ongoing (i.e. 2017 - current), endDate is handled by just fetching all events from startDate.
-//  */
-// function getEventsByDate(startDate, endDate) {
-//   if (endDate === undefined) {
-//     return Events.find();
-//   }
-//   return Events.find();
-// }
-//
-// function getEventsByLocation(events) {
-//   console.log("getEventsByLocations Not yet implemented")
-// }
-//
-// /**
-//  *  Returns Events by building.
-//  *  If buildings is undefined, it means that we will sum the value of ALL buildings
-//  */
-// function getEventsByBuilding(events, buildings) {
-//   return _.filter(events, (event) => event);
-// }
-//
-// function getData(events, trashType, weight) {
-//   return _.chain(events)
-//       .pluck(trashType)
-//       .reduce((memo, num) => memo + num)
-//       .value();
-// }
 
 // New functions for refactor
 
@@ -309,14 +224,16 @@ export function getBagLinkedData(bag_id, collections) {
  * it will act as the later date in the range.
  * @param date
  * @param rangeDate
+ * @param eventsCollection
  * @returns {*}
  */
-export function getEventsByDate(date, rangeDate = -1) {
-  const events = getCollection(constants.codes.events);
+export function getEventsByDate(date, rangeDate = -1, eventsCollection = getCollection(constants.codes.events)) {
   if (rangeDate === -1) {
-    return events.filter(event => event.date === date);
+    return eventsCollection.filter(event => event.date === date);
   }
-  return events.filter(event => event.date > date && event.date < rangeDate);
+  // console.log('getEventsByDate:');
+  // console.log(eventsCollection.filter(event => (event.date >= date) && (event.date <= rangeDate)));
+  return eventsCollection.filter(event => (event.date >= date) && (event.date <= rangeDate));
 
 }
 
@@ -325,12 +242,17 @@ export function getEventsByDate(date, rangeDate = -1) {
  * it will act as the later date in the range.
  * @param date
  * @param rangeDate
+ * @param bagsCollection
  * @returns {*}
  */
-export function getTrashBagsByDate(date, rangeDate = -1) {
+export function getTrashBagsByDate(date, rangeDate = -1, bagsCollection = getCollection(constants.codes.trashBags)) {
   const event_ids = _.pluck(getEventsByDate(date, rangeDate), '_id');
-  const bags = getCollection(constants.codes.trashBags);
-  return bags.filter(bag => bag.event_id in event_ids);
+  // console.log('getTrashBagsByDate: event_ids (after pluck), date, rangedate, retVal');
+  // console.log(event_ids);
+  // console.log(date);
+  // console.log(rangeDate);
+  // console.log(bagsCollection.filter(bag => event_ids.includes(bag.event_id)));
+  return bagsCollection.filter(bag => event_ids.includes(bag.event_id));
 }
 
 // No export: recursive helper function
@@ -397,7 +319,7 @@ export function getLatestDate(eventsArr = getCollection(constants.codes.events))
  * @param fields
  * @param isIncludeDate
  */
-export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg = false) {
+export function buildCompositionData(bagArray, reqCategoryIds, fields) {
   // Refactor relic:
   const isIncludeDate = false;
 
@@ -436,27 +358,10 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg 
   console.log('buildCompositionData: data before going through bagArray:');
   console.log(data);
 
-  // for (const bag of bagArray) {
-  //   let id = bag.category_id;
-  //   if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
-  //
-  //   data[id].label = categories.find(category => category._id === id).name;
-  //   if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
-  //
-  //   for (const field of fields) {
-  //     data[id][field] += bag[field];
-  //   }
-  // }
   if (bagArray.length < 1) return;
   bagArray.forEach(function (bag) {
     let id = bag.category_id;
-    console.log('ids and id in data check:');
-    console.log(`buildCompositionData: id: ${id}`);
-    console.log(id);
-    console.log(reqCategoryIds);
-    console.log(!(id in data));
     if (!(id in data)) id = getClosestParentId(id, reqCategoryIds, categories);
-    console.log(`buildCompositionData: id: ${id}`);
     data[id].label = categories.find(category => category._id === id).name;
     if (isIncludeDate) data[id].date = events.find(event => event._id === bag.event_id).date;
 
@@ -478,15 +383,103 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields, relicArg 
   return data;
 }
 
+export function join(collection, field, foreignField = '_id', foreignCollection) {
+  const data = _.clone(collection);
+  return data.map(
+      function (doc) {
+        return { ...foreignCollection.find(fDoc => fDoc[foreignField] === doc[field]), ...doc };
+      },
+  );
+}
+
+function toNoonDate(d) {
+  const nd = new Date(+d);
+  nd.setHours(12, 0, 0, 0);
+  return nd;
+}
+
+function diffDays(firstDate, secondDate) {
+  // Copy dates so don't affect originals
+  // const d0 = new Date(+firstDate);
+  // const d1 = new Date(+secondDate);
+
+  // Set to noon
+  // d0.setHours(12, 0, 0, 0);
+  // d1.setHours(12, 0, 0, 0);
+
+  const d0 = toNoonDate(firstDate);
+  const d1 = toNoonDate(secondDate);
+
+  // Get difference in whole days, divide by milliseconds in one day
+  // and round to remove any daylight saving boundary effects
+  return Math.round((d1 - d0) / 8.64e7);
+}
+
+
 // Takes an object from buildCompositionData() and formats it for display in a line graph component
-export function formatTransitionData(data, fieldName) {
-  const returnArray = _.map(data,
-      function (datum) {
-        const obj = {};
-        obj.x = datum.date;
-        obj.y = datum[fieldName];
-        return obj;
-      });
+export function formatTransitionData(
+    startDate = getEarliestDate(),
+    endDate = getLatestDate(),
+    fieldName = 'weight',
+    collectionOption = constants.codes.trashBags,
+    bagCollection = getCollection(constants.codes.trashBags),
+    eventCollection = getCollection(constants.codes.events),
+) {
+  // console.log('formatTransitionData: earliestDate, latestDate');
+  // console.log(getEarliestDate());
+  // console.log(getLatestDate());
+  const isLength = (fieldName === 'length');
+  const returnArray = [];
+  const bagArr = getTrashBagsByDate(startDate, endDate, bagCollection);
+  const eventsArr = getEventsByDate(startDate, endDate, eventCollection);
+  let dated = [];
+
+  // console.log('formatTransitionData: bagArr, eventsArr');
+  // console.log(bagArr);
+  // console.log(eventsArr);
+
+  switch (collectionOption) {
+    case (constants.codes.events):
+      dated = eventsArr;
+      break;
+
+    case (constants.codes.trashBags):
+      dated = join(bagArr, 'event_id', '_id', eventsArr);
+      break;
+
+    default:
+      throw 'formatTransitionData: illegal value for collectionOption';
+  }
+  console.log('dated');
+  console.log(dated);
+  dated.forEach(function (doc) {
+    // if (returnArray.find( dataPoint => dataPoint.x === toNoonDate(doc.date)) === undefined) {
+      const graphObj = { x: toNoonDate(doc.date), y: 0 };
+    const existingPoint = returnArray.find(dataPoint => +dataPoint.x === +graphObj.x);
+    if (!(existingPoint === undefined)) { graphObj.y = existingPoint.y; }
+    // }
+
+    // dated.forEach(function (sameDate) {
+      console.log(`doc[fieldName]: ${doc[fieldName]} + graphObj.y: ${graphObj.y} = ${doc[fieldName] + graphObj.y}`);
+      console.log((diffDays(doc.date, graphObj.x)));
+      console.log(!(diffDays(doc.date, graphObj.x)));
+      if (!(diffDays(doc.date, graphObj.x))) { graphObj.y = isLength ? 1 : doc[fieldName]; }
+    // });
+    console.log('formatTransitionData: graphObj, existingPoint');
+    console.log(graphObj);
+
+
+    console.log(existingPoint);
+
+    if (existingPoint === undefined) {
+      returnArray.push(graphObj);
+      console.log('formatTransitionData: graphObj pushed');
+    } else {
+      existingPoint.y += graphObj.y;
+      console.log('formatTransitionData: graphObj summed');
+    }
+  });
+
   // returnArray.sort((a, b) => ((a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)));
   return returnArray;
 }
@@ -588,7 +581,7 @@ export function generateRandomData(
         location_id,
         category_id,
         form_id,
-        randNum(), randNum(), randNum(), randNum(),
+        randNum(), randNum(), randNum(),
     );
   }
   console.log(`${numBags} bags generated`);

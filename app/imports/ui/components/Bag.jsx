@@ -3,23 +3,34 @@ import { List, Icon, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { Bert } from 'meteor/themeteorchef:bert';
-import { Bags } from '/imports/api/bag/bag';
+//import { TrashBags } from '/imports/api/TrashBags/TrashBags';
+
 
 /** Renders a single row in the List Bag table. See pages/ListBag.jsx. */
 class Bag extends React.Component {
   constructor(props) {
     super(props);
-    this.onClick = this.onClick.bind(this);
+    // this.onClick = this.onClick.bind(this);
   }
-  deleteCallback(error) {
-    if(error) {
-      Bert.alert({type: 'danger', message: 'Delete failed: ${error.message}' });
-    } else {
-      Bert.alert({type: 'success', message: 'Delete succeeded' });
-    }
-  }
-  onClick() {
-    Bags.remove(this.props.bag._id, this.deleteCallback);
+  //
+  // deleteCallback(error) {
+  //   if (error) {
+  //     Bert.alert({ type: 'danger', message: 'Delete failed: ${error.message}' });
+  //   } else {
+  //     Bert.alert({ type: 'success', message: 'Delete succeeded' });
+  //   }
+  // }
+  //
+  // onClick() {
+  //   TrashBags.remove(this.props.datum.bag._id, this.deleteCallback);
+  // }
+  // onClick() {
+  //   this.props.onDelete(this.props.datum.bag._id);
+  // }
+  renderIcon() {
+    return !(this.props.isEdit) ?
+        <Icon name='edit' size='large' color='blue' onClick={() => this.props.onEdit(this.props.datum.bag._id)}/>
+        : <Icon name='edit' size='large' color='blue' disabled/>
   }
 
   render() {
@@ -27,12 +38,13 @@ class Bag extends React.Component {
         <List divided verticalAlign='middle'>
           <List.Item>
             <List.Content>
-              <List.Header as='a'>{this.props.bag.id}</List.Header>
-              <List.Description>{this.props.bag.type}, {this.props.bag.weight}, {this.props.bag.volume}</List.Description>
+              <List.Header
+                  as='a'>{this.props.datum.event.name}</List.Header>
+              <List.Description> {this.props.datum.building.name}, {this.props.datum.location.name}, {this.props.datum.category.name}, {this.props.datum.bag.weight}, {this.props.datum.bag.volume}, {this.props.datum.bag.count}, {this.props.datum.bag.notes} </List.Description>
             </List.Content>
             <List.Content floated='right'>
-              <Link to={`/edit/${this.props.bag._id}`}><Icon name='edit' size='large'/></Link>
-              <Icon name='delete' size='large' color='red' basic onClick={this.onClick} />
+              {this.renderIcon()}
+              <Icon name='delete' size='large' color='red' onClick={() => this.props.onDelete(this.props.datum.bag._id)}/>
             </List.Content>
           </List.Item>
         </List>
@@ -42,7 +54,7 @@ class Bag extends React.Component {
 
 /** Require a document to be passed to this component. */
 Bag.propTypes = {
-  bag: PropTypes.object.isRequired,
+  datum: PropTypes.object.isRequired,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */

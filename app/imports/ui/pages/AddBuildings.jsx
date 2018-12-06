@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
-import ListBag from '../components/ListBag';
+import ListBuildings from '../components/ListBuildings';
 
 /** A simple static component to render some text for the landing page. */
 class AddBuildings extends React.Component {
@@ -27,7 +27,7 @@ class AddBuildings extends React.Component {
             <Header as="h1" style={style}>
               Buildings
             </Header>
-            <ListBag/>
+            <ListBuildings/>
           </Grid.Row>
         </Grid>
     );

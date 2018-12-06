@@ -3,7 +3,9 @@ import { Meteor } from 'meteor/meteor';
 import { Grid, Loader, Segment } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-
+import { TrashBags } from '../../api/TrashBags/TrashBags';
+import { Events } from '../../api/Events/Events';
+import { Categories } from '../../api/Categories/Categories';
 import * as db from '../../api/Wrapper/Wrapper';
 import StatSegment from '../components/StatSegment';
 import CompositionDoughnut from '../components/doughnut';
@@ -19,22 +21,21 @@ class Dashboard extends React.Component {
   }
 
   renderPage() {
-    const trashBags = db.getCollection(db.constants.codes.trashBags);
-    const events = db.getCollection(db.constants.codes.events);
+    const trashBags = this.props.bags;
+    const events = this.props.events;
     const categories = db.getCollection(db.constants.codes.categories);
     const compositionData =
         db.buildCompositionData(
             trashBags,
             _.pluck(categories, '_id'),
             ['weight'],
-            true,
         );
 
     // const barData = compositionData.map(function (category) {
     //   return 'hello';
     // });
 
-    const transitData = db.formatTransitionData(compositionData, 'weight');
+    const transitData = db.formatTransitionData();
 
     return (
         <Grid verticalAlign='middle' container divided='vertically'>
@@ -130,6 +131,8 @@ export default withTracker(() => {
   const s6 = Meteor.subscribe('Forms');
   const s7 = Meteor.subscribe('TrashBags');
   return {
+    bags: TrashBags.find({}).fetch(),
+    events: Events.find({}).fetch(),
     ready:
         s1.ready() &&
         s2.ready() &&

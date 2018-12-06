@@ -27,7 +27,7 @@ class NavBarLanding extends React.Component {
       backgroundColor: 'black',
     };
 
-     return <Menu style={menuStyle} attached="top" borderless inverted>
+    return <Menu style={menuStyle} attached="top" borderless inverted>
       {/* LOGO ITEM */}
 
       {/* Additional menu when signed in as admin */}
@@ -53,7 +53,7 @@ class NavBarLanding extends React.Component {
                          exact to="/Home" key='Home'>Home
               </Menu.Item>
               <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
-                         exact to="/addlist" key='addlist'>Submit Data
+                         exact to="/submitform" key='submitform'>Submit Data
               </Menu.Item>
               <Menu.Item as={NavLink} activeClassName="active" style={itemStyle}
                          exact to="/dash" key='dash'>Dashboard
