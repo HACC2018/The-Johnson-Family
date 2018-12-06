@@ -8,22 +8,9 @@ import * as db from '../../api/Wrapper/Wrapper';
 class Location extends React.Component {
   constructor(props) {
     super(props);
-    this.onClick = this.onClick.bind(this);
-  }
-  deleteCallback(error) {
-    if(error) {
-      Bert.alert({type: 'danger', message: 'Delete failed: ${error.message}' });
-    } else {
-      Bert.alert({type: 'success', message: 'Delete succeeded' });
-    }
-  }
-  onClick() {
-    Locations.remove(this.props.location._id, this.deleteCallback);
   }
 
   render() {
-
-
     return (
         <List divided verticalAlign='middle'>
           <List.Item>
@@ -32,8 +19,8 @@ class Location extends React.Component {
               <List.Description>{this.props.location.street}, {this.props.location.city}, {this.props.location.state}, {this.props.location.zip_code}</List.Description>
             </List.Content>
             <List.Content floated='right'>
-              <Link to={`/editlocations/${this.props.location._id}`}><Icon name='edit' size='large'/></Link>
-              <Icon name='delete' size='large' color='red' basic onClick={this.onClick} />
+              <Icon name='edit' size='large' color='blue' onClick={() => this.props.onDelete(this.props.location._id)}/>
+              <Icon name='delete' size='large' color='red' onClick={() => this.props.onDelete(this.props.location._id)}/>
             </List.Content>
           </List.Item>
         </List>
@@ -43,7 +30,7 @@ class Location extends React.Component {
 
 /** Require a document to be passed to this component. */
 Location.propTypes = {
-  location: PropTypes.object.isRequired,
+  locations: PropTypes.object.isRequired,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */
