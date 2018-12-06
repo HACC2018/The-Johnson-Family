@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Header, Loader, List } from 'semantic-ui-react';
 import { Forms } from '/imports/api/Forms/Forms';
-import FormItem from '/imports/ui/components/FormItem';
+import Form from '/imports/ui/components/Form';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 
