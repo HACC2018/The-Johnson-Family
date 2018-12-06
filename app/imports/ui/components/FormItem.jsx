@@ -22,7 +22,7 @@ class FormItem extends React.Component {
   }
 
   onClick() {
-    Forms.remove(this.props.datum.bag._id, this.deleteCallback);
+    Forms.remove(this.props.form_id, this.deleteCallback);
   }
 
   render() {
@@ -30,12 +30,12 @@ class FormItem extends React.Component {
         <List divided verticalAlign='middle'>
           <List.Item>
             <List.Content>
-              <List.Header
-                  as='a'>{this.props.datum.event.name}</List.Header>
-              <List.Description>{this.props.datum.building.name}, {this.props.datum.bag.weight}, {this.props.datum.bag.volume}</List.Description>
+              <List.Header as='a'>
+                </List.Header>
+              <List.Description>{this.props.form.date}</List.Description>
             </List.Content>
             <List.Content floated='right'>
-              <Link to={`/edit/${this.props.datum.bag._id}`}><Icon name='edit' size='large'/></Link>
+              <Link to={`/edit/${this.props.form}`}><Icon name='edit' size='large'/></Link>
               <Icon name='delete' size='large' color='red' onClick={this.onClick}/>
             </List.Content>
           </List.Item>
@@ -46,7 +46,7 @@ class FormItem extends React.Component {
 
 /** Require a document to be passed to this component. */
 FormItem.propTypes = {
-  datum: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */

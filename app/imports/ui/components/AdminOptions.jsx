@@ -107,12 +107,12 @@ class AdminOptions extends React.Component {
       </Grid.Column>
 
       <Grid.Column>
-        <Link to={'/verifyforms'}><Segment>
+        <Link to={'/viewforms'}><Segment>
           <Grid columns={2} stackable textAlign='center'>
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
                 <Header as="h1" style={styles2}>
-                  Verify Forms
+                  View Forms
                 </Header>
               </Grid.Column>
               <Grid.Column>

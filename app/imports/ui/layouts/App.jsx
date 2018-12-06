@@ -55,7 +55,7 @@ class App extends React.Component {
               <ProtectedRoute path="/view" component={View}/>
               <ProtectedRoute path="/addcategories" component={AddCategories}/>
               <ProtectedRoute path="/addviewlocations" component={AddViewLocations}/>
-              <ProtectedRoute path="/verifyforms" component={ViewForms}/>
+              <ProtectedRoute path="/viewforms" component={ViewForms}/>
               <ProtectedRoute path="/viewstudies" component={ViewStudies}/>
               <ProtectedRoute path="/addbuildings" component={AddBuildings}/>
               <ProtectedRoute path="/viewmembers" component={ViewMembers}/>

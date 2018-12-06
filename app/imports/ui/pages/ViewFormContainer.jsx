@@ -4,7 +4,6 @@ import { Grid, Loader } from 'semantic-ui-react';
 import { Forms } from '/imports/api/Forms/Forms';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import AddBag from '../components/AddBag';
 import ListForm from '../components/ListForm';
 import * as db from '../../api/Wrapper/Wrapper';
 
@@ -19,14 +18,9 @@ class ViewFormContainer extends React.Component {
     return (
         <div>
           <Grid container divided='vertically'>
-            <Grid.Row columns={2}>
               <Grid.Column>
-                <AddBag/>
+                <ListForm forms={db.getCollection(db.constants.codes.forms)}/>
               </Grid.Column>
-              <Grid.Column>
-                <ListForm data={db.getBagLinkedCollections(this.props.bags)}/>
-              </Grid.Column>
-            </Grid.Row>
           </Grid>
         </div>
     );
