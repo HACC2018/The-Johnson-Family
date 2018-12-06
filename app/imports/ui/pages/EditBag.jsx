@@ -20,7 +20,7 @@ class EditBag extends React.Component {
       Bert.alert({ type: 'danger', message: `Edit failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'success', message: 'Edit succeeded' });
-      window.location = '/#/submitform'
+      return () => this.props.offEdit();
     }
   }
 

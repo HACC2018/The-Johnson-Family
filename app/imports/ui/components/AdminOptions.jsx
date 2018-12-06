@@ -52,23 +52,23 @@ class AdminOptions extends React.Component {
         </Link>
       </Grid.Column>
 
-      <Grid.Column>
-        <Link to={'/submitdata'}><Segment>
-          <Grid columns={2} stackable textAlign='center'>
-            <Grid.Row verticalAlign='middle'>
-              <Grid.Column>
-                <Header as="h1" style={styles2}>
-                  Submit Data
-                </Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Icon name='add' size='huge' style={iconStyle}/>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Segment>
-        </Link>
-      </Grid.Column>
+      {/*<Grid.Column>*/}
+        {/*<Link to={'/submitdata'}><Segment>*/}
+          {/*<Grid columns={2} stackable textAlign='center'>*/}
+            {/*<Grid.Row verticalAlign='middle'>*/}
+              {/*<Grid.Column>*/}
+                {/*<Header as="h1" style={styles2}>*/}
+                  {/*Submit Data*/}
+                {/*</Header>*/}
+              {/*</Grid.Column>*/}
+              {/*<Grid.Column>*/}
+                {/*<Icon name='add' size='huge' style={iconStyle}/>*/}
+              {/*</Grid.Column>*/}
+            {/*</Grid.Row>*/}
+          {/*</Grid>*/}
+        {/*</Segment>*/}
+        {/*</Link>*/}
+      {/*</Grid.Column>*/}
 
       <Grid.Column>
         <Link to={'/addviewlocations'}><Segment>
@@ -195,6 +195,24 @@ class AdminOptions extends React.Component {
         </Segment>
         </Link>
       </Grid.Column>
+      <Grid.Column>
+        <Link to={'/glentestpage'}><Segment>
+          <Grid columns={2} stackable textAlign='center'>
+            <Grid.Row verticalAlign='middle'>
+              <Grid.Column>
+                <Header as="h1" style={styles2}>
+                  Debug Page
+                </Header>
+              </Grid.Column>
+              <Grid.Column>
+                <Icon name='code' size='huge' style={iconStyle}/>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+        </Link>
+      </Grid.Column>
+
     </Grid.Row>;
   }
 }

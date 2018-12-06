@@ -49,12 +49,12 @@ class App extends React.Component {
               <Route path="/samtestpage" component={samtestpage}/>
               <Route path="/glentestpage" component={glentestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
-              <ProtectedRoute path="/submitdata" component={SubmitData}/>
+              {/*<ProtectedRoute path="/submitdata" component={SubmitData}/>*/}
               <ProtectedRoute path="/editlocations" component={EditLocations}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
               <ProtectedRoute path="/view" component={View}/>
               <ProtectedRoute path="/addcategories" component={AddCategories}/>
-              <ProtectedRoute path="/addviewlocations" component={AddViewLocations}/>
+              <ProtectedRoute path="/addviewlocations" component={SubmitData}/>
               <ProtectedRoute path="/verifyforms" component={VerifyForms}/>
               <ProtectedRoute path="/viewstudies" component={ViewStudies}/>
               <ProtectedRoute path="/addbuildings" component={AddBuildings}/>

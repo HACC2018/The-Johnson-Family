@@ -21,6 +21,7 @@ class ListBags extends React.Component {
                       datum={db.getBagLinkedData(bag._id, this.props.data)}
                       onDelete={this.props.onDelete}
                       onEdit={this.props.onEdit}
+                      offEdit={this.props.onEdit}
                       isEdit={this.props.isEdit}
                   />)}
             </List.Item>

@@ -3,9 +3,9 @@ import { Meteor } from 'meteor/meteor';
 import { Grid, Loader, Segment } from 'semantic-ui-react';
 import { TrashBags } from '/imports/api/TrashBags/TrashBags';
 import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import AddBag from '../components/AddBag';
 import ListBag from '../components/ListBag';
-import PropTypes from 'prop-types';
 import * as db from '../../api/Wrapper/Wrapper';
 import EditBag from './EditBag';
 
@@ -14,6 +14,7 @@ class SubmitFormContainer extends React.Component {
     super(props);
     this.onDelete = this.onDelete.bind(this);
     this.onEdit = this.onEdit.bind(this);
+    this.offEdit = this.offEdit.bind(this);
     this.renderForm = this.renderForm.bind(this);
     this.state = {
       isEdit: false,
@@ -35,9 +36,9 @@ class SubmitFormContainer extends React.Component {
       // this.setState({isEdit: false});
       // this.state.isEdit = false;
       return <EditBag bag={this.props.bags.find(bag => this.state.editBag === bag._id)}/>;
-    } else {
-      return <AddBag/>;
     }
+      return <AddBag/>;
+
   }
 
   onEdit(bag_id) {
@@ -45,7 +46,15 @@ class SubmitFormContainer extends React.Component {
         {
           isEdit: true,
           editBag: bag_id,
-        }
+        },
+    );
+  }
+
+  offEdit() {
+    this.setState(
+        {
+          isEdit: false,
+        },
     );
   }
 
@@ -72,6 +81,7 @@ class SubmitFormContainer extends React.Component {
                     data={db.getBagLinkedCollections(this.props.bags)}
                     onDelete={this.onDelete}
                     onEdit={this.onEdit}
+                    offEdit={this.offEdit}
                     isEdit={this.state.isEdit}
                 />
               </Grid.Column>
@@ -100,6 +110,6 @@ export default withTracker(() => {
         s2.ready() &&
         s3.ready() &&
         s4.ready() &&
-        s5.ready()
+        s5.ready(),
   };
 })(SubmitFormContainer);

@@ -1,22 +1,13 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { List, Container, Loader, Button } from 'semantic-ui-react';
-
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-// import { Buildings } from '../../api/Buildings/Buildings';
 import { TrashBags } from '../../api/TrashBags/TrashBags';
 import * as db from '../../api/Wrapper/Wrapper';
-
 import TransitionLine from '../components/line';
 import CompositionDoughnut from '../components/doughnut';
 import ComparisonBar from '../components/bar';
-
-
-//Sun's Test
-import { Categories } from '../../api/Categories/Categories';
-import DropdownListCategory from '../components/DropdownListCategory';
-
 
 class glentestpage extends React.Component {
 
@@ -152,10 +143,6 @@ class glentestpage extends React.Component {
           />
            <TransitionLine data={db.formatTransitionData()}/>
           <p>X</p>
-
-          //Sun's Test
-          <DropdownListCategory options={categoryOptions}/>
-
         </Container>
     );
   }
@@ -163,6 +150,7 @@ class glentestpage extends React.Component {
 
 /** Require an array of Stuff documents in the props. */
 glentestpage.propTypes = {
+  bags: PropTypes.array.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
