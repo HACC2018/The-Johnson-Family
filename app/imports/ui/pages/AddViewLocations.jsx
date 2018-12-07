@@ -23,7 +23,7 @@ class AddViewLocations extends React.Component {
 
     return (
         <div>
-        <Grid container style={bodyStyle} divided='vertically' verticalAlign='middle'>
+        <Grid container style={bodyStyle} divided='vertically'>
           <AdminOptions/>
 
             <Grid.Row columns={2}>

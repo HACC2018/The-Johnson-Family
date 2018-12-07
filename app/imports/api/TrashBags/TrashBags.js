@@ -18,6 +18,7 @@ const TrashBagsSchema = new SimpleSchema({
   count: SimpleSchema.Integer,
   notes: {
     type: String,
+    optional: true,
     max: 1000,
   },
 }, { tracker: Tracker });
