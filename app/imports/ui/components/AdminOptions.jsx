@@ -17,16 +17,16 @@ class AdminOptions extends React.Component {
 
     return <Grid.Row columns={4} verticalAlign='middle'>
       <Grid.Column>
-        <Link to={'/view'}><Segment>
+        <Link to={'events'}><Segment>
           <Grid columns={2} stackable textAlign='center'>
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
                 <Header as="h1" style={styles2}>
-                  View Events/Data
+                  View Events
                 </Header>
               </Grid.Column>
               <Grid.Column>
-                <Icon name='chart pie' size='huge' style={iconStyle}/>
+                <Icon name='calendar outline' size='huge' style={iconStyle}/>
               </Grid.Column>
             </Grid.Row>
           </Grid>

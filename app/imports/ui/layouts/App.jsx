@@ -20,10 +20,11 @@ import AddViewLocations from '../pages/AddViewLocations';
 import EditLocations from '../pages/EditLocations';
 import EditBuilding from '../pages/EditBuilding';
 import EditCategory from '../pages/EditCategory';
+import EditEvent from '../pages/EditEvent';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
 import glentestpage from '../pages/glentestpage';
-import View from '../pages/View';
+import AddEvents from '../pages/AddEvents';
 import AddCategories from '../pages/AddCategories';
 import VerifyForms from '../pages/VerifyForms';
 import ViewStudies from '../pages/ViewStudies';
@@ -50,8 +51,9 @@ class App extends React.Component {
               <ProtectedRoute path="/editcategory/:_id" component={EditCategory}/>
               <ProtectedRoute path="/editlocations/:_id" component={EditLocations}/>
               <ProtectedRoute path="/editbuilding/:_id" component={EditBuilding}/>
+              <ProtectedRoute path="/editevent/:_id" component={EditEvent}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
-              <ProtectedRoute path="/view" component={View}/>
+              <ProtectedRoute path="/events" component={AddEvents}/>
               <ProtectedRoute path="/addcategories" component={AddCategories}/>
               <ProtectedRoute path="/addviewlocations" component={AddViewLocations}/>
               <ProtectedRoute path="/verifyforms" component={VerifyForms}/>

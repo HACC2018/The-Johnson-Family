@@ -1,12 +1,12 @@
 import React from 'react';
 import { List, Icon } from 'semantic-ui-react';
-import { Buildings } from '/imports/api/Buildings/Buildings';
+import { Events } from '/imports/api/Events/Events';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { Bert } from 'meteor/themeteorchef:bert';
 
 /** Renders a single row in the List Location table. See pages/ListLocation.jsx. */
-class Building extends React.Component {
+class EventItem extends React.Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
@@ -21,7 +21,7 @@ class Building extends React.Component {
   }
 
   onClick() {
-    Building.remove(this.props.building._id, this.deleteCallback);
+    Events.remove(this.props.event._id, this.deleteCallback);
   }
 
   render() {
@@ -29,13 +29,15 @@ class Building extends React.Component {
         <List divided verticalAlign='middle'>
           <List.Item>
             <List.Content>
-              <List.Header
-                  as='a'>{this.props.building.name}</List.Header>
-               <List.Description>Location: {this.props.locationName}</List.Description>
+              <List.Header as='a'>{this.props.event.name}</List.Header>
+              <List.Description>
+                <List.Item>Date: {this.props.event.date.toDateString()}</List.Item>
+                <List.Item>Time: {this.props.event.date.toTimeString()}</List.Item>
+              </List.Description>
             </List.Content>
             <List.Content floated='right'>
-              <Link to={`/editbuilding/${this.props.building._id}`}><Icon name='edit' size='large'/></Link>
-              <Icon name='delete' size='large' color='red' onClick={this.onClick} />
+              <Link to={`/editevent/${this.props.event._id}`}><Icon name='edit' size='large'/></Link>
+              <Icon name='delete' size='large' color='red' onClick={this.onClick}/>
             </List.Content>
           </List.Item>
         </List>
@@ -44,10 +46,9 @@ class Building extends React.Component {
 }
 
 /** Require a document to be passed to this component. */
-Building.propTypes = {
-  building: PropTypes.object.isRequired,
-  locationName: PropTypes.string.isRequired,
+EventItem.propTypes = {
+  event: PropTypes.object.isRequired,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */
-export default withRouter(Building);
+export default withRouter(EventItem);
