@@ -1,11 +1,10 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
-import ListBuildings from '../components/ListBuildings';
-import AddBuilding from '../components/AddBuilding';
+import ListLocations from '../components/ListLocations';
 
 /** A simple static component to render some text for the landing page. */
-class AddBuildings extends React.Component {
+class OldAddViewLocations extends React.Component {
   render() {
 
     const style = {
@@ -21,20 +20,21 @@ class AddBuildings extends React.Component {
     };
 
     return (
-        <Grid container style={bodyStyle} divided='vertically'>
+        <Grid container style={bodyStyle} divided='vertically' textAlign='center' verticalAlign='middle'>
           <AdminOptions/>
 
-          <Grid.Row columns={2}>
-            <Grid.Column>
-              <AddBuilding/>
-            </Grid.Column>
-            <Grid.Column>
-              <ListBuildings/>
-            </Grid.Column>
+          <Grid.Row>
+            <Header as="h1" style={style}>
+              Locations
+            </Header>
+            <ListLocations/>
+          </Grid.Row>
+          <Grid.Row>
+
           </Grid.Row>
         </Grid>
     );
   }
 }
 
-export default AddBuildings;
+export default OldAddViewLocations;

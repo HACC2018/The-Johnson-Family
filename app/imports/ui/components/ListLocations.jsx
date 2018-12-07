@@ -20,7 +20,6 @@ class ListLocations extends React.Component {
           <Header as="h2" textAlign="center">List Locations</Header>
           <List divided verticalAlign='middle'>
             <List.Item>
-              {console.log(this.props.locations)}
               {this.props.locations.map((loc, index) => <Location key={index} loc={loc}/>)}
             </List.Item>
           </List>
