@@ -1,7 +1,10 @@
 import React from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import AdminOptions from '../components/AdminOptions';
+import AddLocations from '../components/AddLocations';
 import ListLocations from '../components/ListLocations';
+import AddBag from '../components/AddBag';
+import ListBag from '../components/ListBag';
 
 /** A simple static component to render some text for the landing page. */
 class AddViewLocations extends React.Component {
@@ -9,30 +12,32 @@ class AddViewLocations extends React.Component {
 
     const style = {
       margin: '0px',
-      paddingTop: '40px',
-      paddingBottom: '40px',
-      textDecoration: 'underline',
-    };
-
-    const bodyStyle = {
       paddingTop: '30px',
       paddingBottom: '500px',
     };
 
+    const bodyStyle = {
+      paddingTop: '30px',
+      paddingBottom: '30px',
+    };
+
     return (
-        <Grid container style={bodyStyle} divided='vertically' textAlign='center' verticalAlign='middle'>
+        <div>
+        <Grid container style={bodyStyle} divided='vertically' verticalAlign='middle'>
           <AdminOptions/>
 
-          <Grid.Row>
-            <Header as="h1" style={style}>
-              Locations
-            </Header>
-            <ListLocations/>
-          </Grid.Row>
-          <Grid.Row>
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                <AddLocations/>
+              </Grid.Column>
+              <Grid.Column>
+                <ListLocations/>
+              </Grid.Column>
+            </Grid.Row>
 
-          </Grid.Row>
+
         </Grid>
+        </div>
     );
   }
 }
