@@ -269,7 +269,11 @@ function getClosestParentId(id, reqCategoryIds, categories) {
     return p_id;
   }
   return getClosestParentId(p_id, reqCategoryIds, categories);
+}
 
+export function getParentName(p_id, categories){
+  const parent = categories.find(pCat => pCat._id === p_id);
+  return parent ? parent.name : "None";
 }
 
 // This function is to help format data for graph modules
