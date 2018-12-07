@@ -25,7 +25,7 @@ class ListCategories extends React.Component {
               {this.props.categories.map((category, index) => <CategoryItem
                   key={index}
                   category={category}
-                  parent={db.getParentName(category.p_id, this.props.categories)}
+                  parent={db.getParentName(category.parent_id, this.props.categories)}
               />)}
             </List.Item>
           </List>

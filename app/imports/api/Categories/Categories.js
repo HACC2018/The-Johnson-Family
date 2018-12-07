@@ -9,7 +9,10 @@ const Categories = new Mongo.Collection('Categories');
 const CategoriesSchema = new SimpleSchema({
   name: String,
   parent_id: String,
-  level: SimpleSchema.Integer,
+  level: {
+    type: SimpleSchema.Integer,
+    optional: true,
+  },
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
