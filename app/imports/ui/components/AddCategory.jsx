@@ -41,7 +41,7 @@ class AddCategory extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     const catOps = this.props.categories.map(c => ({ label: c.name, value: c._id }));
-    catOps.push({ label: 'None (Creates new root category)', value: 0 });
+    catOps.unshift({ label: 'None (Creates new root category)', value: 0 });
     return (
         <Grid container centered>
           <Grid.Column>

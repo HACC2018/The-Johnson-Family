@@ -19,6 +19,7 @@ import PendingAudits from '../pages/PendingAudits';
 import AddViewLocations from '../pages/AddViewLocations';
 import EditLocations from '../pages/EditLocations';
 import EditBuilding from '../pages/EditBuilding';
+import EditCategory from '../pages/EditCategory';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
 import glentestpage from '../pages/glentestpage';
@@ -46,6 +47,7 @@ class App extends React.Component {
               <Route path="/samtestpage" component={samtestpage}/>
               <Route path="/glentestpage" component={glentestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
+              <ProtectedRoute path="/editcategory/:_id" component={EditCategory}/>
               <ProtectedRoute path="/editlocations/:_id" component={EditLocations}/>
               <ProtectedRoute path="/editbuilding/:_id" component={EditBuilding}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>

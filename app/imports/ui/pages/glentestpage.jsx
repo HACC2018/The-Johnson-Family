@@ -5,9 +5,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { TrashBags } from '../../api/TrashBags/TrashBags';
 import * as db from '../../api/Wrapper/Wrapper';
-import TransitionLine from '../components/line';
-import CompositionDoughnut from '../components/doughnut';
-import ComparisonBar from '../components/bar';
+// import TransitionLine from '../components/line';
+// import CompositionDoughnut from '../components/doughnut';
+// import ComparisonBar from '../components/bar';
 
 class glentestpage extends React.Component {
 
@@ -121,27 +121,27 @@ class glentestpage extends React.Component {
             <List.Item content={`Bags in database: ${bagArray.length}`}/>
             {/* {bagArray.map((building) => <List.Item key={building._id} content={building.weight}/>)} */}
           </List>
-          <CompositionDoughnut
-              data={
-                db.buildCompositionData(
-                    this.props.bags,
-                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                    ['weight'],
-                )
-              }
-              field={'weight'}
-          />
-          <ComparisonBar
-              data={
-                db.buildCompositionData(
-                    this.props.bags,
-                    _.pluck(db.getCollection(db.constants.codes.categories), '_id'),
-                    ['weight'],
-                )
-              }
-              field={'weight'}
-          />
-           <TransitionLine data={db.formatTransitionData()}/>
+          {/*<CompositionDoughnut*/}
+              {/*data={*/}
+                {/*db.buildCompositionData(*/}
+                    {/*this.props.bags,*/}
+                    {/*_.pluck(db.getCollection(db.constants.codes.categories), '_id'),*/}
+                    {/*['weight'],*/}
+                {/*)*/}
+              {/*}*/}
+              {/*field={'weight'}*/}
+          {/*/>*/}
+          {/*<ComparisonBar*/}
+              {/*data={*/}
+                {/*db.buildCompositionData(*/}
+                    {/*this.props.bags,*/}
+                    {/*_.pluck(db.getCollection(db.constants.codes.categories), '_id'),*/}
+                    {/*['weight'],*/}
+                {/*)*/}
+              {/*}*/}
+              {/*field={'weight'}*/}
+          {/*/>*/}
+           {/*<TransitionLine data={db.formatTransitionData()}/>*/}
           <p>X</p>
         </Container>
     );
