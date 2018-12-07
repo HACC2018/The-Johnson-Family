@@ -63,7 +63,6 @@ export function addNewCategory(name, parent_id) {
       1
       : categories.find(category => category._id === parent_id).level + 1;
 
-  console.log(`addNewCategory: level: ${level}`);
   return Categories.insert({ name: name, parent_id: parent_id, level: level });
 }
 
@@ -179,7 +178,7 @@ export function editTrashBag(
     volume: volume,
     count: count,
     notes: notes,
-  }});
+  } });
   return true;
 }
 
@@ -262,7 +261,6 @@ function getClosestParentId(id, reqCategoryIds, categories) {
   if (p_id === '0') {
     const rootCategories = _.filter(categories, c => c.parent_id === '0');
     const otherCategory = rootCategories.find(c => c.name === 'other')._id;
-    console.log(`p_id = 0: other._id: ${otherCategory}`);
     return otherCategory;
   }
   if (p_id in reqCategoryIds) {
@@ -271,20 +269,6 @@ function getClosestParentId(id, reqCategoryIds, categories) {
   return getClosestParentId(p_id, reqCategoryIds, categories);
 
 }
-
-// This function is to help format data for graph modules
-// export function splitData(inputData, field, isIncludeDate = false) {
-//   const data = inputData;
-//   const splitDataObj = {};
-//   splitDataObj.labels = [];
-//   splitDataObj.data = [];
-//   if (isIncludeDate) { splitDataObj['']; }
-//   for (const datum of data) {
-//     splitDataObj.labels.push(datum.label);
-//     splitDataObj.data.push(datum[field]);
-//   }
-//   return splitDataObj;
-// }
 
 /**
  * Returns earliest event date in the database by default.
@@ -317,7 +301,6 @@ export function getLatestDate(eventsArr = getCollection(constants.codes.events))
  * @param bagArray
  * @param reqCategoryIds
  * @param fields
- * @param isIncludeDate
  */
 export function buildCompositionData(bagArray, reqCategoryIds, fields) {
   // Refactor relic:
@@ -355,8 +338,6 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields) {
       data[id][field] = 0;
     });
   });
-  console.log('buildCompositionData: data before going through bagArray:');
-  console.log(data);
 
   if (bagArray.length < 1) return;
   bagArray.forEach(function (bag) {
@@ -369,9 +350,6 @@ export function buildCompositionData(bagArray, reqCategoryIds, fields) {
       data[id][field] += bag[field];
     });
   });
-
-  console.log('data after bagArray:');
-  console.log(data);
 
   if (isIncludeDate) {
     Object.keys(data).forEach(function (key) {
@@ -450,8 +428,7 @@ export function formatTransitionData(
     default:
       throw 'formatTransitionData: illegal value for collectionOption';
   }
-  console.log('dated');
-  console.log(dated);
+
   dated.forEach(function (doc) {
     // if (returnArray.find( dataPoint => dataPoint.x === toNoonDate(doc.date)) === undefined) {
       const graphObj = { x: toNoonDate(doc.date), y: 0 };
@@ -459,42 +436,18 @@ export function formatTransitionData(
     if (!(existingPoint === undefined)) { graphObj.y = existingPoint.y; }
     // }
 
-    // dated.forEach(function (sameDate) {
-      console.log(`doc[fieldName]: ${doc[fieldName]} + graphObj.y: ${graphObj.y} = ${doc[fieldName] + graphObj.y}`);
-      console.log((diffDays(doc.date, graphObj.x)));
-      console.log(!(diffDays(doc.date, graphObj.x)));
       if (!(diffDays(doc.date, graphObj.x))) { graphObj.y = isLength ? 1 : doc[fieldName]; }
-    // });
-    console.log('formatTransitionData: graphObj, existingPoint');
-    console.log(graphObj);
-
-
-    console.log(existingPoint);
 
     if (existingPoint === undefined) {
       returnArray.push(graphObj);
-      console.log('formatTransitionData: graphObj pushed');
     } else {
       existingPoint.y += graphObj.y;
-      console.log('formatTransitionData: graphObj summed');
     }
   });
 
-  // returnArray.sort((a, b) => ((a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)));
+  returnArray.sort((a, b) => ((a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)));
   return returnArray;
 }
-
-// export function formatBarData(inputData) {
-//   let formattedData = {};
-//   let formattedData.labels = [];
-//   let formattedData.data = [];
-//   const collections = getCollection(constants.codes.categories);
-//   inputData.forEach(
-//       (category_id) => {
-//         formattedData.labels.push(collections.find())
-//       }
-//   )
-// }
 
 /** Returns random number between min and max (default 1, 100)
  *

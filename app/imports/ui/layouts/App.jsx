@@ -16,23 +16,20 @@ import Signout from '../pages/Signout';
 import Dashboard from '../pages/Dashboard';
 import AdminPage from '../pages/AdminPage';
 import PendingAudits from '../pages/PendingAudits';
-import SubmitData from '../pages/SubmitData';
+import AddViewLocations from '../pages/AddViewLocations';
 import EditLocations from '../pages/EditLocations';
+import EditBuilding from '../pages/EditBuilding';
 import giantestpage from '../pages/giantestpage';
 import samtestpage from '../pages/samtestpage';
 import glentestpage from '../pages/glentestpage';
 import View from '../pages/View';
 import AddCategories from '../pages/AddCategories';
-import AddViewLocations from '../pages/AddViewLocations';
 import VerifyForms from '../pages/VerifyForms';
 import ViewStudies from '../pages/ViewStudies';
 import AddBuildings from '../pages/AddBuildings';
 import ViewMembers from '../pages/ViewMembers';
 import ViewBags from '../pages/ViewBags';
 import SubmitFormContainer from '../pages/SubmitFormContainer';
-
-// import AddLocations from '../pages/AddLocations';
-// import ListLocations from '../pages/ListLocations';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -49,12 +46,12 @@ class App extends React.Component {
               <Route path="/samtestpage" component={samtestpage}/>
               <Route path="/glentestpage" component={glentestpage}/>
               <ProtectedRoute path="/pending" component={PendingAudits}/>
-              {/*<ProtectedRoute path="/submitdata" component={SubmitData}/>*/}
-              <ProtectedRoute path="/editlocations" component={EditLocations}/>
+              <ProtectedRoute path="/editlocations/:_id" component={EditLocations}/>
+              <ProtectedRoute path="/editbuilding/:_id" component={EditBuilding}/>
               <ProtectedRoute path="/admin" component={AdminPage}/>
               <ProtectedRoute path="/view" component={View}/>
               <ProtectedRoute path="/addcategories" component={AddCategories}/>
-              <ProtectedRoute path="/addviewlocations" component={SubmitData}/>
+              <ProtectedRoute path="/addviewlocations" component={AddViewLocations}/>
               <ProtectedRoute path="/verifyforms" component={VerifyForms}/>
               <ProtectedRoute path="/viewstudies" component={ViewStudies}/>
               <ProtectedRoute path="/addbuildings" component={AddBuildings}/>

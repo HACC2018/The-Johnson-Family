@@ -2,23 +2,23 @@ import React from 'react';
 import { Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { Bert } from 'meteor/themeteorchef:bert';
 import SubmitField from 'uniforms-semantic/SubmitField';
-import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import { AutoField } from 'uniforms-semantic';
-import { Locations, LocationsSchema } from '../../api/Locations/Locations';
+import { Buildings, BuildingsSchema } from '/imports/api/Buildings/Buildings';
+import { Locations } from '../../api/Locations/Locations';
 import AdminOptions from '../components/AdminOptions';
-import ListLocations from '../components/ListLocations';
+import ListBuildings from '../components/ListBuildings';
 
 /** A simple static component to render some text for the landing page. */
-class EditLocations extends React.Component {
+class EditBuildings extends React.Component {
   /** On successful submit, insert the data. */
   submit(data) {
-    const { name, street, city, state, zip_code, _id } = data;
-    Locations.update(_id, { $set: { name, street, city, state, zip_code } }, (error) => (error ?
+    const { name, location_id, _id } = data;
+    Buildings.update(_id, { $set: { name, location_id } }, (error) => (error ?
         Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
         Bert.alert({ type: 'success', message: 'Update succeeded' })));
   }
@@ -42,16 +42,19 @@ class EditLocations extends React.Component {
             <Grid.Row columns={2}>
               <Grid.Column>
                 <Header as="h1">
-                  Edit Location
+                  Edit Building
                 </Header>
 
-                <AutoForm schema={LocationsSchema} onSubmit={this.submit} model={this.props.doc}>
+                <AutoForm schema={BuildingsSchema} onSubmit={this.submit} model={this.props.doc}>
                   <Segment>
                     <AutoField name='name'/>
-                    <AutoField name='street'/>
-                    <AutoField name='city'/>
-                    <AutoField name='state'/>
-                    <AutoField name='zip_code'/>
+                    <AutoField
+                        name={'location_id'}
+                        options=
+                            {
+                              this.props.locs.map(loc => ({ label: loc.name, value: loc._id }))
+                            }
+                    />
                     <SubmitField value='Submit'/>
                     <ErrorsField/>
                   </Segment>
@@ -59,7 +62,7 @@ class EditLocations extends React.Component {
               </Grid.Column>
 
               <Grid.Column>
-                <ListLocations/>
+                <ListBuildings/>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -67,9 +70,10 @@ class EditLocations extends React.Component {
     }
 }
 
-/** Require the presence of a Location document in the props object. Uniforms adds 'model' to the props, which we use. */
-EditLocations.propTypes = {
+/** Require the presence of a Location document in the props object. */
+EditBuildings.propTypes = {
   doc: PropTypes.object,
+  locs: PropTypes.array.isRequired,
   model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
 };
@@ -79,9 +83,11 @@ export default withTracker(({ match }) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id;
   // Get access to Location documents.
-  const subscription = Meteor.subscribe('Locations');
+  const s1 = Meteor.subscribe('Buildings');
+  const s2 = Meteor.subscribe('Locations');
   return {
-    doc: Locations.findOne(documentId),
-    ready: subscription.ready(),
+    doc: Buildings.findOne(documentId),
+    locs: Locations.find({}).fetch(),
+    ready: s1.ready() && s2.ready(),
   };
-})(EditLocations);
+})(EditBuildings);

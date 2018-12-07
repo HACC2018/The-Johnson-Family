@@ -19,10 +19,9 @@ class ListBuildings extends React.Component {
   renderPage() {
     return (
         <Container>
-          <Header as="h2" textAlign="center">List Locations</Header>
+          <Header as="h2" textAlign="center">List Buildings</Header>
           <List divided verticalAlign='middle'>
             <List.Item>
-              {console.log(this.props.buildings)}
               {this.props.buildings.map((building, index) => <Building
                       key={index}
                       building={building}
