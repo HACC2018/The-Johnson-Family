@@ -15,7 +15,7 @@ class ListForm extends React.Component {
           <Header as="h2" textAlign="center">List Forms</Header>
           <List divided verticalAlign='middle'>
             <List.Item>
-              {this.props.form.map((form, index) => <FormItem key={index} form={form}/>)}
+              {this.props.forms.map((form, index) => <FormItem key={index} form={form}/>)}
             </List.Item>
           </List>
         </Container>
