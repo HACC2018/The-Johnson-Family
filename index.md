@@ -67,7 +67,7 @@ First, install Meteor.
  If all goes well, the application will appear at http://localhost:3000. 
 
 
- # Community Feedback
+# Community Feedback
  
  "The landing page looks nice and modern. Gives me a good summary of what the app does."
  
